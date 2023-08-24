@@ -1,0 +1,94 @@
+@import url('./variables.css');
+
+html,
+body {
+	height: 100%;
+}
+
+html {
+    box-sizing: border-box;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 62.5%;
+    font-weight: 500;
+    color: var(--deep-space-sparkle);
+} 
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+    
+*, ::after, ::before {
+    box-sizing: inherit;
+}
+    
+body {
+    overflow: hidden;
+
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+
+    font-size: 2.4rem;
+    line-height: 3.6rem;
+
+    background-color: var(--light-steel-blue);
+}
+    
+h1, h2, h3, h4, h5, h6, p, span, button, ul, li {
+    margin: 0;
+    padding: 0;
+
+    font-size: inherit;
+    font-weight: 400;
+    line-height: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+}
+    
+a {
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+}
+    
+ul, ol {
+    list-style-type: none;
+}
+    
+img {
+    max-width: 100%;
+    height: auto;
+	vertical-align: middle;
+}
+    
+p, b, span, time, ul, li {
+    margin: 0;
+    padding: 0;
+
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+}
+    
+button {
+    cursor: pointer;
+	font-family: inherit;
+	background-color: transparent;
+	border: none;
+}
+
+/* #root {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--light-steel-blue);
+    overflow: hidden;
+} */
+
+          
+
+

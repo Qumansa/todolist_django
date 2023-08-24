@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-display: swap;
+    src: url('../assets/fonts/RobotoRegular.woff2');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-display: swap;
+    src: url('../assets/fonts/RobotoMedium.woff2');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-display: swap;
+    src: url('../assets/fonts/RobotoBold.woff2');
+}
+    
