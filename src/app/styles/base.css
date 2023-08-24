@@ -2,7 +2,7 @@
 
 html,
 body {
-	height: 100%;
+    height: 100%;
 }
 
 html {
@@ -12,18 +12,20 @@ html {
     font-size: 62.5%;
     font-weight: 500;
     color: var(--deep-space-sparkle);
-} 
+}
 
 @media (prefers-reduced-motion: no-preference) {
-	html {
-		scroll-behavior: smooth;
-	}
+    html {
+        scroll-behavior: smooth;
+    }
 }
-    
-*, ::after, ::before {
+
+*,
+::after,
+::before {
     box-sizing: inherit;
 }
-    
+
 body {
     overflow: hidden;
 
@@ -36,8 +38,18 @@ body {
 
     background-color: var(--light-steel-blue);
 }
-    
-h1, h2, h3, h4, h5, h6, p, span, button, ul, li {
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+button,
+ul,
+li {
     margin: 0;
     padding: 0;
 
@@ -47,24 +59,30 @@ h1, h2, h3, h4, h5, h6, p, span, button, ul, li {
     color: inherit;
     letter-spacing: inherit;
 }
-    
+
 a {
     display: inline-block;
     color: inherit;
     text-decoration: none;
 }
-    
-ul, ol {
+
+ul,
+ol {
     list-style-type: none;
 }
-    
+
 img {
     max-width: 100%;
     height: auto;
-	vertical-align: middle;
+    vertical-align: middle;
 }
-    
-p, b, span, time, ul, li {
+
+p,
+b,
+span,
+time,
+ul,
+li {
     margin: 0;
     padding: 0;
 
@@ -74,12 +92,12 @@ p, b, span, time, ul, li {
     color: inherit;
     letter-spacing: inherit;
 }
-    
+
 button {
     cursor: pointer;
-	font-family: inherit;
-	background-color: transparent;
-	border: none;
+    font-family: inherit;
+    background-color: transparent;
+    border: none;
 }
 
 /* #root {
@@ -88,7 +106,3 @@ button {
     background-color: var(--light-steel-blue);
     overflow: hidden;
 } */
-
-          
-
-
