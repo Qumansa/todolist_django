@@ -47,14 +47,16 @@ h5,
 h6,
 p,
 span,
-button,
 ul,
-li {
+li,
+button,
+input {
     margin: 0;
     padding: 0;
 
+    font-family: inherit;
     font-size: inherit;
-    font-weight: 400;
+    font-weight: inherit;
     line-height: inherit;
     color: inherit;
     letter-spacing: inherit;
@@ -75,22 +77,6 @@ img {
     max-width: 100%;
     height: auto;
     vertical-align: middle;
-}
-
-p,
-b,
-span,
-time,
-ul,
-li {
-    margin: 0;
-    padding: 0;
-
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    color: inherit;
-    letter-spacing: inherit;
 }
 
 button {

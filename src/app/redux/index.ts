@@ -1,9 +1,12 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 
+import filter from "./slices/filter";
+
 export const store = configureStore({
 	reducer: {
-		// counter: counterReducer,
+		filter,
 	},
+    // devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type AppDispatch = typeof store.dispatch;

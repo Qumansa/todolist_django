@@ -1,5 +1,24 @@
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+
+import { Layout } from './layout';
+import { Home } from './pages';
+
 import './styles/main.css';
 
 export const App = () => {
-	return <div>App</div>;
+	const router = createBrowserRouter(
+		createRoutesFromElements(
+			<>
+				<Route
+					path="/"
+					element={<Layout />}>
+					<Route
+						index
+						element={<Home />}
+					/>
+				</Route>
+			</>
+		)
+	);
+	return <RouterProvider router={router} />;
 };

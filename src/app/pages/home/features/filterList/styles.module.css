@@ -1,0 +1,5 @@
+.filter {
+    display: flex;
+    column-gap: 3rem;
+    align-items: center;
+}

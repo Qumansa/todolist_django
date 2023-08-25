@@ -1,0 +1,10 @@
+.header {
+    padding-top: 5rem;
+}
+
+.header__title {
+    font-size: 7.8rem;
+    font-weight: 500;
+    line-height: 11.7rem;
+    text-align: center;
+}
