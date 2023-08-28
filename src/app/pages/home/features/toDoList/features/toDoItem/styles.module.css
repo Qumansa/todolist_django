@@ -1,0 +1,66 @@
+@import url('../../../../../../styles/variables.css');
+
+.toDoList__item {
+    display: flex;
+    column-gap: 3rem;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1.5rem 0;
+}
+
+.toDoList__item:not(:first-child) {
+    border-top: 1px solid var(--little-boy-blue);
+}
+
+.toDoList__task {
+    display: flex;
+    column-gap: 1.5rem;
+    align-items: center;
+    width: 100%;
+}
+
+.toDoList__description {
+    width: 100%;
+    word-break: break-all;
+}
+
+.toDoList__buttons {
+    display: flex;
+    column-gap: 3rem;
+    height: 3rem;
+}
+
+.toDoList__button {
+    will-change: transform;
+    width: 3rem;
+    height: 3rem;
+    transition: transform 0.2s;
+}
+
+@media (width >=992px) {
+    .toDoList__button:hover {
+        transform: scale(1.1);
+    }
+
+    .toDoList__button:active {
+        opacity: 0.5;
+    }
+}
+
+.toDoList__button_active .toDoList__buttonImg_favourite path {
+    fill: var(--little-boy-blue);
+}
+
+.toDoList__buttonImg {
+    width: 3rem;
+    height: 3rem;
+}
+
+.toDoList__buttonImg_favourite {
+    stroke: #000;
+}
+
+.toDoList__buttonImg_favourite path {
+    fill: var(--eggshell);
+}
