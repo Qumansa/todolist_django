@@ -1,11 +1,9 @@
-import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from 'uuid';
 
 import { filterSliceState } from "./types";
 
-const filterAdapter = createEntityAdapter();
-
-const initialState: filterSliceState = filterAdapter.getInitialState({
+const initialState: filterSliceState = {
     filters: [
         {
             id: uuidv4(),
@@ -25,7 +23,7 @@ const initialState: filterSliceState = filterAdapter.getInitialState({
         },
     ],
     activeFilter: 'All'
-});
+};
 
 const filterSlice = createSlice({
     name: 'filter',

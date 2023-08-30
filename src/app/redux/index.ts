@@ -1,14 +1,16 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 
+import { apiSlice } from './slices/api';
 import filter from "./slices/filter";
 import search from "./slices/search";
 
 export const store = configureStore({
 	reducer: {
+		[apiSlice.reducerPath]: apiSlice.reducer,
 		filter,
 		search
 	},
-    // devTools: process.env.NODE_ENV !== 'production',
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware) 
 });
 
 export type AppDispatch = typeof store.dispatch;

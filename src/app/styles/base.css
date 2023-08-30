@@ -27,16 +27,9 @@ html {
 }
 
 body {
-    overflow: hidden;
-
-    width: 100%;
-    min-height: 100vh;
     margin: 0;
-
     font-size: 2.4rem;
     line-height: 3.6rem;
-
-    background-color: var(--light-steel-blue);
 }
 
 h1,
@@ -86,9 +79,9 @@ button {
     border: none;
 }
 
-/* #root {
+#root {
+    overflow: hidden;
     width: 100%;
     min-height: 100vh;
     background-color: var(--light-steel-blue);
-    overflow: hidden;
-} */
+}

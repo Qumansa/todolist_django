@@ -1,8 +1,9 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '../../../../../../redux/api/todosApi';
+import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '../../../../../../redux/slices/api';
 
 import { ToDoItemProps } from './types';
 
+import global from '../../../../../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) => {
@@ -14,21 +15,21 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 
 	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
 
-	const btnActiveClass = favourite ? 'toDoList__button_active' : '';
+	const btnActiveClass = favourite ? `${styles.toDoList__button_active}` : '';
 
 	useEffect(() => {
 		inputRef?.current && inputRef?.current.focus();
 	}, [beingEdited]);
 
 	const onEdit = () => {
-		setBeingEdited((beingEdited) => (beingEdited = !beingEdited));
+		setBeingEdited((prev) => !prev);
 	};
 
 	const onClose = () => {
-		setBeingEdited(!beingEdited);
+		setBeingEdited(false);
 	};
 
-	const onSave = (id: number, currentDescription: string) => {
+	const onSave = (id: string, currentDescription: string) => {
 		const data = {
 			id,
 			description: currentDescription,
@@ -38,11 +39,11 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 		onClose();
 	};
 
-	const onDelete = (id: number) => {
+	const onDelete = (id: string) => {
 		deleteToDoItem(id);
 	};
 
-	const onToggle = (id: number, favourite: boolean) => {
+	const onToggle = (id: string, favourite: boolean) => {
 		const data = {
 			id,
 			favourite: !favourite,
@@ -58,7 +59,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 				{beingEdited ? (
 					<input
 						type="text"
-						className={styles.input}
+						className={global.input}
 						value={currentDescription}
 						ref={inputRef}
 						onChange={(e) => setCurrentDescription(e.target.value)}
@@ -68,12 +69,12 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 					// Обернуть в тег button
 					<span
 						className={styles.toDoList__description}
-						onDoubleClick={() => onEdit()}>
+						onDoubleClick={onEdit}>
 						{description}
 					</span>
 				)}
 			</div>
-			<ul className="to-do-list__buttons">
+			<ul className={styles.toDoList__buttons}>
 				{beingEdited ? (
 					<>
 						<li>
@@ -119,7 +120,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 						<button
 							className={`to-do-list__button ${btnActiveClass}`}
 							aria-label="Edit"
-							onClick={() => onEdit()}>
+							onClick={onEdit}>
 							<svg
 								className={styles.toDoList__buttonImg}
 								version="1.1"

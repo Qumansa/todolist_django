@@ -1,12 +1,10 @@
-import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { searchSliceState } from "./types";
 
-const searchAdapter = createEntityAdapter();
-
-const initialState: searchSliceState = searchAdapter.getInitialState({
+const initialState: searchSliceState = {
     searchValue: ''
-});
+};
 
 const searchSlice = createSlice({
     name: 'search',

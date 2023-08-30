@@ -1,25 +1,23 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-// import { useCreateToDoItemMutation } from '../../api/todosApi';
+import { useCreateToDoItemMutation } from '../../../../redux/slices/api';
 
 import global from '../../../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Form = () => {
 	const [task, setTask] = useState('');
-	// const [createToDoItem] = useCreateToDoItemMutation();
+	const [createToDoItem] = useCreateToDoItemMutation();
 
 	const onSubmitHandler = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const newToDoItem = {
+		createToDoItem({
 			id: uuidv4(),
 			description: task,
 			favourite: false,
-		};
-
-		// createToDoItem(newToDoItem).unwrap();
+		});
 
 		setTask('');
 	};

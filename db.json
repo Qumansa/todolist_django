@@ -1,0 +1,29 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "description": "Get groceries",
+      "favourite": false
+    },
+    {
+      "id": "2",
+      "description": "Do the laundry",
+      "favourite": false
+    },
+    {
+      "id": "3",
+      "description": "Put away Christmas decorations",
+      "favourite": false
+    },
+    {
+      "id": "9500ad7c-1245-40de-9b62-060761298d9c",
+      "description": "2222",
+      "favourite": false
+    },
+    {
+      "id": "4fa29574-04c8-4682-b527-58b8f33a1218",
+      "description": "111",
+      "favourite": false
+    }
+  ]
+}

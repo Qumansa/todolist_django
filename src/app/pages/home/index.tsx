@@ -1,6 +1,7 @@
 import { FilterList } from './features/filterList';
 import { Form } from './features/form';
 import { Search } from './features/search';
+import { ToDoList } from './features/toDoList';
 
 import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
@@ -14,7 +15,7 @@ export const Home = () => {
 					<Form />
 					<FilterList />
 					<Search />
-					{/* <ToDoList /> */}
+					<ToDoList />
 				</div>
 			</div>
 		</section>

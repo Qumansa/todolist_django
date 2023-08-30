@@ -1,17 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IToDoItem } from './types';
 
-export const todosApi = createApi({
-	reducerPath: 'todosApi',
+export const apiSlice = createApi({
+	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
-		baseUrl: '/',
+		baseUrl: 'http://localhost:3001/',
 	}),
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
-		getToDoList: builder.query({
+		getToDoList: builder.query<IToDoItem[], void>({
 			query: () => '/todos',
 			providesTags: ['Todos'],
 		}),
-		createToDoItem: builder.mutation({
+		createToDoItem: builder.mutation<IToDoItem, IToDoItem>({
 			query: (toDoItem) => ({
 				url: '/todos',
 				method: 'POST',
@@ -19,6 +20,7 @@ export const todosApi = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
+		// добавить типизацию
 		updateToDoItem: builder.mutation({
 			query(data) {
 				const { id } = data;
@@ -31,6 +33,7 @@ export const todosApi = createApi({
 			},
 			invalidatesTags: ['Todos'],
 		}),
+		// добавить типизацию
 		deleteToDoItem: builder.mutation({
 			query: (id) => ({
 				url: `/todos/${id}`,
@@ -42,4 +45,4 @@ export const todosApi = createApi({
 });
 
 export const { useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
-	todosApi;
+	apiSlice;

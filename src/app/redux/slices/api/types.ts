@@ -1,6 +1,5 @@
-export interface ToDoItemProps {
+export interface IToDoItem {
     id: string;
-    index: number;
     description: string; 
     favourite: boolean;
 }
