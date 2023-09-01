@@ -1,39 +1,74 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useCreateToDoItemMutation } from '../../../../redux/slices/api';
+
+import { ErrorMessage } from '../../../../components/errorMessage';
+import { Spinner } from '../../../../components/spinner';
 
 import global from '../../../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Form = () => {
-	const [task, setTask] = useState('');
-	const [createToDoItem] = useCreateToDoItemMutation();
+	const [createToDoItem, { isLoading, isError, isSuccess }] = useCreateToDoItemMutation();
+	const [toDoItemDescription, setToDoItemDescription] = useState('');
+	const [isShortDescription, setIsShortDescription] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
+	const timerRef = useRef<number | undefined>(undefined);
 
-	const onSubmitHandler = (e: React.FormEvent) => {
+	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		createToDoItem({
-			id: uuidv4(),
-			description: task,
-			favourite: false,
-		});
+		if (isVisible) return;
 
-		setTask('');
+		if (toDoItemDescription.length === 0) {
+			setIsShortDescription(true);
+		} else {
+			await createToDoItem({
+				id: uuidv4(),
+				description: toDoItemDescription,
+				favourite: false,
+			});
+
+			setIsVisible(true);
+			setIsShortDescription(false);
+			setToDoItemDescription('');
+		}
 	};
+
+	useEffect(() => {
+		if (!isVisible) return;
+
+		timerRef.current = setTimeout(() => {
+			setIsVisible(false);
+		}, 3500);
+
+		return () => clearTimeout(timerRef.current);
+	}, [isVisible]);
 
 	return (
 		<form
 			className={styles.form}
-			onSubmit={onSubmitHandler}>
-			<input
-				className={global.input}
-				type="text"
-				name="task-name"
-				value={task}
-				placeholder="Type in a new task"
-				onChange={(e) => setTask(e.target.value)}
-			/>
+			onSubmit={onSubmit}>
+			<div className={styles.inputWrapper}>
+				<input
+					className={global.input}
+					type="text"
+					name="to-do-item-name"
+					value={toDoItemDescription}
+					placeholder="Type in a new task"
+					onChange={(e) => setToDoItemDescription(e.target.value)}
+				/>
+				{isLoading && <Spinner withModifier={'spinner_small'} />}
+				{isVisible && isError && <ErrorMessage withClassname={`${styles.result}`} />}
+				{isVisible && isShortDescription && (
+					<ErrorMessage
+						message="The description is too short!"
+						withClassname={`${styles.result}`}
+					/>
+				)}
+				{isVisible && isSuccess && <span className={styles.result}>The task is successfully saved!</span>}
+			</div>
 			<button
 				className={`${global.button} ${global.button_lightSteelBlue}`}
 				type="submit">

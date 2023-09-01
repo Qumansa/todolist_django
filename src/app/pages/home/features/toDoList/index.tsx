@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useAppSelector } from '../../../../redux/hooks';
 import { useGetToDoListQuery } from '../../../../redux/slices/api';
 import { selectActiveFilter } from '../../../../redux/slices/filter/selectors';
@@ -11,7 +13,6 @@ import { IToDoItem } from './types';
 
 export const ToDoList = () => {
 	const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();
-
 	const searchValue = useAppSelector(selectSearchValue);
 	const activeFilter = useAppSelector(selectActiveFilter);
 
@@ -22,7 +23,6 @@ export const ToDoList = () => {
 					toDoItem.description.toLowerCase().includes(searchValue.trim().toLowerCase())
 			  );
 
-	// возможно обернуть в useMemo()
 	const filterToDoList = (toDoList: IToDoItem[]) => {
 		switch (activeFilter) {
 			case 'All':
@@ -42,14 +42,17 @@ export const ToDoList = () => {
 		}
 	};
 
-	const filteredToDoList = filterToDoList(searchTask(toDoList, searchValue));
+	const filteredToDoList = useMemo(
+		() => filterToDoList(searchTask(toDoList, searchValue)),
+		[toDoList, searchValue, activeFilter]
+	);
 
-	return isError ? (
-		<ErrorMessage />
-	) : isLoading ? (
+	return isLoading ? (
 		<Spinner />
+	) : isError ? (
+		<ErrorMessage />
 	) : filteredToDoList.length === 0 ? (
-		<span>There are no tasks yet!</span>
+		<ErrorMessage message="There are no tasks yet!" />
 	) : (
 		<ul className="to-do-list__list">
 			{filteredToDoList.map(({ id, ...props }: IToDoItem, index: number) => (

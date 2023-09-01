@@ -20,21 +20,15 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
-		// добавить типизацию
-		updateToDoItem: builder.mutation({
-			query(data) {
-				const { id } = data;
-
-				return {
-					url: `/todos/${id}`,
-					method: 'PATCH',
-					body: data,
-				};
-			},
+		updateToDoItem: builder.mutation<IToDoItem, Partial<IToDoItem>>({
+			query: (data) => ({
+				url: `/todos/${data.id}`,
+				method: 'PATCH111',
+				body: data,
+			}),
 			invalidatesTags: ['Todos'],
 		}),
-		// добавить типизацию
-		deleteToDoItem: builder.mutation({
+		deleteToDoItem: builder.mutation<IToDoItem, string>({
 			query: (id) => ({
 				url: `/todos/${id}`,
 				method: 'DELETE',

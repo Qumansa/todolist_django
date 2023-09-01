@@ -3,35 +3,62 @@
 .spinner {
     position: relative;
 
-    width: 50px;
-    height: 50px;
+    width: 5rem;
+    height: 5rem;
 
-    border: 8px solid var(--little-boy-blue);
+    border: 0.8rem solid var(--little-boy-blue);
     border-radius: 50%;
 
-    animation: spinneranim 2s infinite linear;
+    animation: spinner-anim 2s infinite linear;
+}
+
+/* добавить адаптив на мобилке */
+
+.spinner_small {
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.7rem;
+}
+
+.spinner_extrasmall {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-width: 0.6rem;
 }
 
 .spinner::before {
     content: '';
 
     position: absolute;
-    top: -7px;
-    left: 14px;
+    top: -0.7rem;
+    left: 1.4rem;
 
-    width: 6px;
-    height: 6px;
+    width: 0.6rem;
+    height: 0.6rem;
 
     background-color: var(--eggshell);
     border-radius: 50%;
 }
 
-.spinner-wrapper {
+/* добавить адаптив на мобилке */
+
+.spinner_small::before {
+    top: -0.6rem;
+}
+
+.spinner_extrasmall::before {
+    top: -0.5rem;
+    left: 1.3rem;
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.spinnerWrapper {
     display: flex;
     justify-content: center;
 }
 
-@keyframes spinneranim {
+@keyframes spinner-anim {
     100% {
         transform: rotate(360deg);
     }
@@ -39,12 +66,12 @@
 
 @media (width <=1439px) {
     .spinner {
-        width: 40px;
-        height: 40px;
-        border: 6px solid var(--little-boy-blue);
+        width: 4rem;
+        height: 4rem;
+        border: 0.6rem solid var(--little-boy-blue);
     }
 
     .spinner::before {
-        top: -6px;
+        top: -0.6rem;
     }
 }

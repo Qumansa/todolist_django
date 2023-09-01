@@ -1,5 +1,9 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
+
 import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '../../../../../../redux/slices/api';
+
+import { ErrorMessage } from '../../../../../../components/errorMessage';
+import { Spinner } from '../../../../../../components/spinner';
 
 import { ToDoItemProps } from './types';
 
@@ -7,50 +11,80 @@ import global from '../../../../../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) => {
+	const [updateToDoItem, { isLoading: isUpdateLoading, isError: isUpdateError }] = useUpdateToDoItemMutation();
+	const [deleteToDoItem, { isLoading: isDeleteLoading, isError: isDeleteError }] = useDeleteToDoItemMutation();
 	const [beingEdited, setBeingEdited] = useState(false);
 	const [currentDescription, setCurrentDescription] = useState(description);
-
-	const [updateToDoItem] = useUpdateToDoItemMutation();
-	const [deleteToDoItem] = useDeleteToDoItemMutation();
-
+	const [isVisible, setIsVisible] = useState(false);
+	const timerRef = useRef<number | undefined>(undefined);
 	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
-
 	const btnActiveClass = favourite ? `${styles.toDoList__button_active}` : '';
+
+	const onEdit = () => {
+		if (isVisible) return;
+
+		setBeingEdited((prev) => !prev);
+	};
+
+	const onClose = () => {
+		setCurrentDescription(description);
+		setBeingEdited(false);
+	};
+
+	const onSave = async (id: string, currentDescription: string) => {
+		if (isVisible) return;
+
+		if (description !== currentDescription) {
+			const result = await updateToDoItem({
+				id,
+				description: currentDescription,
+			});
+
+			if ('error' in result) {
+				setIsVisible(true);
+				setCurrentDescription(description);
+			}
+		}
+
+		setBeingEdited(false);
+	};
+
+	const onDelete = async (id: string) => {
+		if (isVisible) return;
+
+		const result = await deleteToDoItem(id);
+
+		if ('error' in result) {
+			setIsVisible(true);
+		}
+	};
+
+	const onToggle = async (id: string, favourite: boolean) => {
+		if (isVisible) return;
+
+		const result = await updateToDoItem({
+			id,
+			favourite: !favourite,
+		});
+
+		if ('error' in result) {
+			setIsVisible(true);
+		}
+	};
 
 	useEffect(() => {
 		inputRef?.current && inputRef?.current.focus();
 	}, [beingEdited]);
 
-	const onEdit = () => {
-		setBeingEdited((prev) => !prev);
-	};
+	useEffect(() => {
+		if (!isVisible) return;
 
-	const onClose = () => {
-		setBeingEdited(false);
-	};
+		timerRef.current = setTimeout(() => {
+			setIsVisible(false);
+		}, 4000);
 
-	const onSave = (id: string, currentDescription: string) => {
-		const data = {
-			id,
-			description: currentDescription,
-		};
-
-		updateToDoItem(data);
-		onClose();
-	};
-
-	const onDelete = (id: string) => {
-		deleteToDoItem(id);
-	};
-
-	const onToggle = (id: string, favourite: boolean) => {
-		const data = {
-			id,
-			favourite: !favourite,
-		};
-
-		updateToDoItem(data);
-	};
+		return () => clearTimeout(timerRef.current);
+	}, [isVisible]);
 
 	return (
 		<li className={styles.toDoList__item}>
@@ -66,12 +100,19 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 						onKeyDown={(e) => e.key === 'Enter' && onSave(id, currentDescription)}
 					/>
 				) : (
-					// Обернуть в тег button
-					<span
-						className={styles.toDoList__description}
-						onDoubleClick={onEdit}>
-						{description}
-					</span>
+					<>
+						<div className={styles.toDoList__descriptionWrapper}>
+							<button
+								className={styles.toDoList__description}
+								onDoubleClick={onEdit}>
+								{description}
+							</button>
+							{isVisible && (isUpdateError || isDeleteError) && (
+								<ErrorMessage withClassname={`${styles.toDoList__descriptionNote}`} />
+							)}
+						</div>
+						{(isUpdateLoading || isDeleteLoading) && <Spinner withModifier={'spinner_extrasmall'} />}
+					</>
 				)}
 			</div>
 			<ul className={styles.toDoList__buttons}>
@@ -118,7 +159,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 				) : (
 					<li>
 						<button
-							className={`to-do-list__button ${btnActiveClass}`}
+							className={`${styles.toDoList__button} ${btnActiveClass}`}
 							aria-label="Edit"
 							onClick={onEdit}>
 							<svg

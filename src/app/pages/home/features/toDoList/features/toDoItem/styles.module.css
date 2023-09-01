@@ -21,8 +21,42 @@
 }
 
 .toDoList__description {
+    cursor: unset;
+    user-select: text;
+
     width: 100%;
+
+    text-align: left;
     word-break: break-all;
+}
+
+.toDoList__descriptionWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.toDoList__descriptionNote {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    animation: fade-to-left 4s linear forwards;
+}
+
+@keyframes fade-to-left {
+    65% {
+        transform: translateX(0%);
+    }
+
+    75% {
+        transform: translateX(5%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
 }
 
 .toDoList__buttons {
