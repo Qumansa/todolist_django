@@ -42,6 +42,7 @@ export const ToDoList = () => {
 		}
 	};
 
+	// const filteredToDoList = filterToDoList(searchTask(toDoList, searchValue));
 	const filteredToDoList = useMemo(
 		() => filterToDoList(searchTask(toDoList, searchValue)),
 		[toDoList, searchValue, activeFilter]
@@ -51,8 +52,10 @@ export const ToDoList = () => {
 		<Spinner />
 	) : isError ? (
 		<ErrorMessage />
-	) : filteredToDoList.length === 0 ? (
+	) : toDoList.length === 0 ? (
 		<ErrorMessage message="There are no tasks yet!" />
+	) : filteredToDoList.length === 0 ? (
+		<ErrorMessage message="No tasks found!" />
 	) : (
 		<ul className="to-do-list__list">
 			{filteredToDoList.map(({ id, ...props }: IToDoItem, index: number) => (

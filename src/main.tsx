@@ -10,7 +10,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 			<App />
 		</Provider>
 	</React.StrictMode>
-	// <Provider store={store}>
-	// 	<App />
-	// </Provider>
 );

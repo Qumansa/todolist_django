@@ -6,18 +6,16 @@ import { ToDoList } from './features/toDoList';
 import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
 
-export const Home = () => {
-	return (
-		<section className={`${global.section}`}>
-			<div className={global.container}>
-				<h2 className={global.srOnly}>Tasks</h2>
-				<div className={styles.toDoList__wrapper}>
-					<Form />
-					<FilterList />
-					<Search />
-					<ToDoList />
-				</div>
+export const Home = () => (
+	<section className={`${global.section}`}>
+		<div className={global.container}>
+			<h2 className={global.srOnly}>Tasks</h2>
+			<div className={styles.toDoList__wrapper}>
+				<Form />
+				<FilterList />
+				<Search />
+				<ToDoList />
 			</div>
-		</section>
-	);
-};
+		</div>
+	</section>
+);

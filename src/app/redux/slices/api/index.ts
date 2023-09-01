@@ -23,7 +23,7 @@ export const apiSlice = createApi({
 		updateToDoItem: builder.mutation<IToDoItem, Partial<IToDoItem>>({
 			query: (data) => ({
 				url: `/todos/${data.id}`,
-				method: 'PATCH111',
+				method: 'PATCH',
 				body: data,
 			}),
 			invalidatesTags: ['Todos'],
