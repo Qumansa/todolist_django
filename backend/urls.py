@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
+from main.views import TaskAPIUpdateDelete, TaskAPIView
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index)
+    path('', views.index),
+    path('api/todos/', TaskAPIView.as_view()),
+    path('api/todos/<int:pk>/', TaskAPIUpdateDelete.as_view()),
 ]

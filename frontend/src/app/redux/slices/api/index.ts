@@ -4,17 +4,17 @@ import { IToDoItem } from './types';
 export const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'http://localhost:3001/',
+		baseUrl: 'api/',
 	}),
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
 		getToDoList: builder.query<IToDoItem[], void>({
-			query: () => '/todos',
+			query: () => '/todos/',
 			providesTags: ['Todos'],
 		}),
 		createToDoItem: builder.mutation<IToDoItem, IToDoItem>({
 			query: (toDoItem) => ({
-				url: '/todos',
+				url: '/todos/',
 				method: 'POST',
 				body: toDoItem,
 			}),
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
 		}),
 		updateToDoItem: builder.mutation<IToDoItem, Partial<IToDoItem>>({
 			query: (data) => ({
-				url: `/todos/${data.id}`,
+				url: `/todos/${data.id}/`,
 				method: 'PATCH',
 				body: data,
 			}),
@@ -30,7 +30,7 @@ export const apiSlice = createApi({
 		}),
 		deleteToDoItem: builder.mutation<IToDoItem, string>({
 			query: (id) => ({
-				url: `/todos/${id}`,
+				url: `/todos/${id}/`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['Todos'],
