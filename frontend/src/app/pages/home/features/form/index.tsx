@@ -59,6 +59,8 @@ export const Form = () => {
 					value={toDoItemDescription}
 					placeholder="Type in a new task"
 					onChange={(e) => setToDoItemDescription(e.target.value)}
+					minLength={1}
+					maxLength={255}
 				/>
 				{isLoading && <Spinner withModifier={'spinner_small'} />}
 				{isVisible && isError && <ErrorMessage withClassname={`${styles.result}`} />}

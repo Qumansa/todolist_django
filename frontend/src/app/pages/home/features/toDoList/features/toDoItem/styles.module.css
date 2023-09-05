@@ -3,7 +3,6 @@
 .toDoList__item {
     display: flex;
     column-gap: 3rem;
-    align-items: center;
     justify-content: space-between;
 
     padding: 1.5rem 0;
@@ -16,7 +15,6 @@
 .toDoList__task {
     display: flex;
     column-gap: 1.5rem;
-    align-items: center;
     width: 100%;
 }
 

@@ -15,6 +15,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 	const [deleteToDoItem, { isLoading: isDeleteLoading, isError: isDeleteError }] = useDeleteToDoItemMutation();
 	const [beingEdited, setBeingEdited] = useState(false);
 	const [currentDescription, setCurrentDescription] = useState(description);
+	const [isShortDescription, setIsShortDescription] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const timerRef = useRef<number | undefined>(undefined);
 	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
@@ -34,7 +35,11 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 	const handleSave = async (id: string, currentDescription: string) => {
 		if (isVisible) return;
 
-		if (description !== currentDescription) {
+		if (currentDescription.length === 0) {
+			setIsVisible(true);
+			setIsShortDescription(true);
+			setCurrentDescription(description);
+		} else if (description !== currentDescription) {
 			const result = await updateToDoItem({
 				id,
 				description: currentDescription,
@@ -44,6 +49,8 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 				setIsVisible(true);
 				setCurrentDescription(description);
 			}
+
+			setIsShortDescription(false);
 		}
 
 		setBeingEdited(false);
@@ -98,6 +105,8 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 						ref={inputRef}
 						onChange={(e) => setCurrentDescription(e.target.value)}
 						onKeyDown={(e) => e.key === 'Enter' && handleSave(id, currentDescription)}
+						minLength={1}
+						maxLength={255}
 					/>
 				) : (
 					<>
@@ -107,8 +116,14 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 								onDoubleClick={handleEdit}>
 								{description}
 							</button>
+							{isVisible && isShortDescription && (
+								<ErrorMessage
+									message="The description is too short!"
+									withClassname={styles.toDoList__descriptionNote}
+								/>
+							)}
 							{isVisible && (isUpdateError || isDeleteError) && (
-								<ErrorMessage withClassname={`${styles.toDoList__descriptionNote}`} />
+								<ErrorMessage withClassname={styles.toDoList__descriptionNote} />
 							)}
 						</div>
 						{(isUpdateLoading || isDeleteLoading) && <Spinner withModifier={'spinner_extrasmall'} />}
