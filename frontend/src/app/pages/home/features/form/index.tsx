@@ -30,10 +30,11 @@ export const Form = () => {
 				favourite: false,
 			});
 
-			setIsVisible(true);
 			setIsShortDescription(false);
-			setToDoItemDescription('');
 		}
+
+		setIsVisible(true);
+		setToDoItemDescription('');
 	};
 
 	useEffect(() => {

@@ -4,7 +4,8 @@ import { IToDoItem } from './types';
 export const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'api/',
+		baseUrl: 'http://127.0.0.1:8000/api/',
+		// baseUrl: 'api/',
 	}),
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
