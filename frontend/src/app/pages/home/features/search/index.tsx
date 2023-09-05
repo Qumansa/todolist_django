@@ -8,7 +8,7 @@ export const Search = () => {
 	const dispatch = useAppDispatch();
 	const searchValue = useAppSelector(selectSearchValue);
 
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch(searchChanged(e.target.value));
 	};
 
@@ -18,7 +18,7 @@ export const Search = () => {
 			className={`${global.input} ${global.input_search}`}
 			placeholder="Search a task"
 			value={searchValue}
-			onChange={onChange}
+			onChange={handleChange}
 		/>
 	);
 };

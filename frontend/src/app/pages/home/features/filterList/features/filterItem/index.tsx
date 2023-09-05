@@ -11,7 +11,7 @@ export const FilterItem = ({ name }: FilterItemProps) => {
 	const dispatch = useAppDispatch();
 	const activeFilter = useAppSelector(selectActiveFilter);
 
-	const onFilterChange = () => {
+	const handleFilterChange = () => {
 		dispatch(filterChanged(name));
 	};
 
@@ -23,7 +23,7 @@ export const FilterItem = ({ name }: FilterItemProps) => {
                     ${global.button_lightSteelBlue} 
                     ${name === activeFilter ? global.button_lightSteelBlue_active : ''}
                 `}
-				onClick={onFilterChange}>
+				onClick={handleFilterChange}>
 				{name}
 			</button>
 		</li>

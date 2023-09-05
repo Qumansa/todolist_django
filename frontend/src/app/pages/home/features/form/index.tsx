@@ -70,11 +70,7 @@ export const Form = () => {
 				)}
 				{isVisible && isSuccess && <span className={styles.result}>The task is successfully saved!</span>}
 			</div>
-			<button
-				className={`${global.button} ${global.button_lightSteelBlue}`}
-				type="submit">
-				Add
-			</button>
+			<button className={`${global.button} ${global.button_lightSteelBlue}`}>Add</button>
 		</form>
 	);
 };

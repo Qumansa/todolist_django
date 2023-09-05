@@ -20,18 +20,18 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
 	const btnActiveClass = favourite ? `${styles.toDoList__button_active}` : '';
 
-	const onEdit = () => {
+	const handleEdit = () => {
 		if (isVisible) return;
 
 		setBeingEdited((prev) => !prev);
 	};
 
-	const onClose = () => {
+	const handleClose = () => {
 		setCurrentDescription(description);
 		setBeingEdited(false);
 	};
 
-	const onSave = async (id: string, currentDescription: string) => {
+	const handleSave = async (id: string, currentDescription: string) => {
 		if (isVisible) return;
 
 		if (description !== currentDescription) {
@@ -49,7 +49,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 		setBeingEdited(false);
 	};
 
-	const onDelete = async (id: string) => {
+	const handleDelete = async (id: string) => {
 		if (isVisible) return;
 
 		const result = await deleteToDoItem(id);
@@ -59,7 +59,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 		}
 	};
 
-	const onToggle = async (id: string, favourite: boolean) => {
+	const handleToggle = async (id: string, favourite: boolean) => {
 		if (isVisible) return;
 
 		const result = await updateToDoItem({
@@ -97,14 +97,14 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 						value={currentDescription}
 						ref={inputRef}
 						onChange={(e) => setCurrentDescription(e.target.value)}
-						onKeyDown={(e) => e.key === 'Enter' && onSave(id, currentDescription)}
+						onKeyDown={(e) => e.key === 'Enter' && handleSave(id, currentDescription)}
 					/>
 				) : (
 					<>
 						<div className={styles.toDoList__descriptionWrapper}>
 							<button
 								className={styles.toDoList__description}
-								onDoubleClick={onEdit}>
+								onDoubleClick={handleEdit}>
 								{description}
 							</button>
 							{isVisible && (isUpdateError || isDeleteError) && (
@@ -122,7 +122,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 							<button
 								className={styles.toDoList__button}
 								aria-label="Save"
-								onClick={() => onSave(id, currentDescription)}>
+								onClick={() => handleSave(id, currentDescription)}>
 								<svg
 									className={styles.toDoList__buttonImg}
 									version="1.1"
@@ -140,7 +140,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 							<button
 								className={styles.toDoList__button}
 								aria-label="Close"
-								onClick={onClose}>
+								onClick={handleClose}>
 								<svg
 									className={styles.toDoList__buttonImg}
 									width="24px"
@@ -161,7 +161,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 						<button
 							className={`${styles.toDoList__button} ${btnActiveClass}`}
 							aria-label="Edit"
-							onClick={onEdit}>
+							onClick={handleEdit}>
 							<svg
 								className={styles.toDoList__buttonImg}
 								version="1.1"
@@ -197,7 +197,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 					<button
 						className={`${styles.toDoList__button} ${btnActiveClass}`}
 						aria-label="Favourite"
-						onClick={() => onToggle(id, favourite)}>
+						onClick={() => handleToggle(id, favourite)}>
 						<svg
 							className={`${styles.toDoList__buttonImg} ${styles.toDoList__buttonImg_favourite}`}
 							viewBox="-1 0 18 15"
@@ -213,7 +213,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 					<button
 						className={styles.toDoList__button}
 						aria-label="Delete"
-						onClick={() => onDelete(id)}>
+						onClick={() => handleDelete(id)}>
 						<svg
 							className={styles.toDoList__buttonImg}
 							xmlns="http://www.w3.org/2000/svg"
