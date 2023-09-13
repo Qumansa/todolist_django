@@ -1,7 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 import { Layout } from './layout';
-import { Home, Login, Page404, SignUp, Tasks } from './pages';
+import { Home, Login, Page404, Settings, SignUp, Tasks } from './pages';
 
 import './styles/main.css';
 
@@ -18,6 +18,10 @@ export const App = () => {
 				<Route
 					path="/login"
 					element={<Login />}
+				/>
+				<Route
+					path="/settings"
+					element={<Settings />}
 				/>
 				<Route
 					path="/signup"
