@@ -1,0 +1,14 @@
+@import url('../../styles/variables.css');
+
+.toDoList__wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    padding: 5rem 3rem;
+
+    background-color: var(--eggshell);
+    border-radius: 2rem;
+    box-shadow: .5rem .5rem 1.3rem 0 rgb(0 0 0 / 50%);
+}

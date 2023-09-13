@@ -16,7 +16,7 @@ export const Form = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const timerRef = useRef<number | undefined>(undefined);
 
-	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (isVisible) return;
@@ -50,7 +50,7 @@ export const Form = () => {
 	return (
 		<form
 			className={styles.form}
-			onSubmit={onSubmit}>
+			onSubmit={handleSubmit}>
 			<div className={styles.inputWrapper}>
 				<input
 					className={global.input}

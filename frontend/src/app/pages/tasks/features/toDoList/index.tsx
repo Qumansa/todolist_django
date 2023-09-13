@@ -28,7 +28,7 @@ export const ToDoList = () => {
 			case 'All':
 				return toDoList;
 			case 'Favourite':
-				return toDoList.filter((filter) => filter.favourite);
+				return toDoList.filter((toDoItem) => toDoItem.favourite);
 			case 'A...z':
 				return [...toDoList].sort((a, b) =>
 					a.description.toLowerCase() < b.description.toLowerCase() ? -1 : 1
@@ -42,7 +42,6 @@ export const ToDoList = () => {
 		}
 	};
 
-	// const filteredToDoList = filterToDoList(searchTask(toDoList, searchValue));
 	const filteredToDoList = useMemo(
 		() => filterToDoList(searchTask(toDoList, searchValue)),
 		[toDoList, searchValue, activeFilter]
