@@ -33,7 +33,7 @@
     padding: .5rem 1.5rem;
 
     border-radius: .5rem;
-    box-shadow: .5rem .5rem .5rem 0 rgb(0 0 0 / 20%);
+    box-shadow: var(--default-box-shadow);
 
     transition: transform 0.2s, background-color 0.2s;
 }

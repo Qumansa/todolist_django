@@ -1,5 +1,10 @@
 .header {
-    padding-top: 5rem;
+    padding-top: 1.5rem;
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
 }
 
 .header__title {
@@ -7,4 +12,21 @@
     font-weight: 500;
     line-height: 11.7rem;
     text-align: center;
+}
+
+.header__userName {
+    margin-left: auto;
+    font-size: 3rem;
+    line-height: 4.5rem;
+}
+
+.header__userImgLink {
+    margin-left: 2rem;
+}
+
+.header__userImg {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 50%;
 }
