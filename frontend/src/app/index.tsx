@@ -1,7 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 import { Layout } from './layout';
-import { Home, Login, SignUp, Tasks } from './pages';
+import { Home, Login, Page404, SignUp, Tasks } from './pages';
 
 import './styles/main.css';
 
@@ -26,6 +26,10 @@ export const App = () => {
 				<Route
 					path="/tasks"
 					element={<Tasks />}
+				/>
+				<Route
+					path="*"
+					element={<Page404 />}
 				/>
 			</Route>
 		)
