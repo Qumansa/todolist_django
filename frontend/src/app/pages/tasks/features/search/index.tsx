@@ -15,7 +15,7 @@ export const Search = () => {
 	return (
 		<input
 			type="text"
-			className={`${global.input} ${global.input_search}`}
+			className={`${global.input} ${global.input_width50}`}
 			placeholder="Search a task"
 			value={searchValue}
 			onChange={handleChange}

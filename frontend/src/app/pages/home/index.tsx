@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 export const Home = () => {
 	return (
 		<section className={global.section}>
-			<div className={global.container}>
+			<div className={`${global.container} ${global.container_withBackground}`}>
 				<p className={styles.home__descr}>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur natus maiores quam impedit
 					velit eum nihil beatae voluptates, maxime voluptatum vel quas aperiam possimus dolores, iusto amet

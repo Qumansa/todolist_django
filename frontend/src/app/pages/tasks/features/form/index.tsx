@@ -53,7 +53,7 @@ export const Form = () => {
 			onSubmit={handleSubmit}>
 			<div className={styles.inputWrapper}>
 				<input
-					className={global.input}
+					className={`${global.input} ${global.input_width100}`}
 					type="text"
 					name="to-do-item-name"
 					value={toDoItemDescription}

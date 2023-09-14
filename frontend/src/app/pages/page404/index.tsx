@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 export const Page404 = () => (
 	<section className={global.section}>
-		<div className={`${styles.page404__container} ${global.container}`}>
+		<div className={`${styles.page404__container} ${global.container} ${global.container_withBackground}`}>
 			<svg
 				className={styles.page404__img}
 				width="400"
