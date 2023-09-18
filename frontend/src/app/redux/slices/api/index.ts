@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IToDoItem } from './types';
+import { IToDoItem, IUser } from './types';
 
 export const apiSlice = createApi({
 	reducerPath: 'api',
@@ -36,9 +36,16 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
+		createUser: builder.mutation<IUser, IUser>({
+			query: (toDoItem) => ({
+				url: '/user/',
+				method: 'POST',
+				body: toDoItem,
+			}),
+		}),
 	}),
 });
 
-export const { useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
+export const { useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation, useCreateUserMutation } =
 	apiSlice;
 	

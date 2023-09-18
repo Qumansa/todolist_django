@@ -17,12 +17,16 @@ export const Login = () => {
 					}}
 					validationSchema={Yup.object({
 						name: Yup.string()
-							.min(3, 'Must be between 3 and 20 characters')
-							.max(20, 'Must be between 3 and 20 characters')
+							.matches(
+								/^[a-zA-Z][a-zA-Z0-9-_]{2,20}$/,
+								'3 to 20 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.'
+							)
 							.required('This field is required'),
 						password: Yup.string()
-							.min(6, 'Must be between 6 and 20 characters')
-							.max(20, 'Must be between 6 and 20 characters')
+							.matches(
+								/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
+								'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
+							)
 							.required('This field is required'),
 					})}
 					onSubmit={(values, { setSubmitting }) => {
@@ -44,7 +48,8 @@ export const Login = () => {
 							type="password"
 						/>
 						<button
-							className={`${styles.login__submit} ${global.button} ${global.button_deepSpaceSparkle}`}>
+							className={`${styles.login__submit} ${global.button} ${global.button_deepSpaceSparkle}`}
+							type="submit">
 							Submit
 						</button>
 					</Form>

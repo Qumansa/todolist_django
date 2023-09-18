@@ -1,7 +1,7 @@
-export interface InputProps {
+export interface InputFileProps {
     label: string;
     name: string;
-    type: string;
     placeholder?: string;
     classNameForInput?: string;
+    // setFieldValue: (field: string, value: any) => void
 }

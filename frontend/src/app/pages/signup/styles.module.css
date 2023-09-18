@@ -1,0 +1,23 @@
+.signup__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup__form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 40rem;
+    margin: 0 auto;
+}
+
+.signup__submit {
+    margin-top: 2rem;
+}

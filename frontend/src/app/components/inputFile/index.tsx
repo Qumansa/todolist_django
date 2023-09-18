@@ -2,11 +2,11 @@ import { useField } from 'formik';
 
 import { ErrorMessage } from '../errorMessage';
 
-import { InputProps } from './types';
+import { InputFileProps } from './types';
 
 import global from '../../styles/global.module.css';
 
-export const Input = ({ label, classNameForInput, ...props }: InputProps) => {
+export const InputFile = ({ label, classNameForInput, ...props }: InputFileProps) => {
 	const [field, meta, helpers] = useField(props.name);
 
 	return (
@@ -16,6 +16,10 @@ export const Input = ({ label, classNameForInput, ...props }: InputProps) => {
 				className={`${global.input} ${classNameForInput ? classNameForInput : ''}`}
 				{...props}
 				{...field}
+				type="file"
+				// value={undefined}
+				// onChange={(e) => setFieldValue(field.name, e.currentTarget.files?.[0])}
+				onChange={(e) => helpers.setValue(e.currentTarget.files?.[0])}
 			/>
 			{meta.touched && meta.error && (
 				<ErrorMessage
