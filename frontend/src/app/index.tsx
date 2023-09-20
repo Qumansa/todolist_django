@@ -3,6 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Layout } from './layout';
 import { Home, Login, Page404, Settings, SignUp, Tasks } from './pages';
 
+import { RequireAuth } from './components/requireAuth';
 import './styles/main.css';
 
 export const App = () => {
@@ -28,13 +29,16 @@ export const App = () => {
 					element={<SignUp />}
 				/>
 				<Route
-					path="/tasks"
-					element={<Tasks />}
-				/>
-				<Route
 					path="*"
 					element={<Page404 />}
 				/>
+
+				<Route element={<RequireAuth />}>
+					<Route
+						path="/tasks"
+						element={<Tasks />}
+					/>
+				</Route>
 			</Route>
 		)
 	);

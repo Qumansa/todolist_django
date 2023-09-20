@@ -1,4 +1,5 @@
 import { useField } from 'formik';
+import { useEffect, useRef } from 'react';
 
 import { ErrorMessage } from '../errorMessage';
 
@@ -6,8 +7,13 @@ import { InputProps } from './types';
 
 import global from '../../styles/global.module.css';
 
-export const Input = ({ label, classNameForInput, ...props }: InputProps) => {
-	const [field, meta, helpers] = useField(props.name);
+export const Input = ({ label, classNameForInput, focusOnPageLoad, ...props }: InputProps) => {
+	const [field, meta] = useField(props.name);
+	const userNameRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		focusOnPageLoad && userNameRef.current && userNameRef.current.focus();
+	}, []);
 
 	return (
 		<label className={global.label}>
@@ -16,6 +22,7 @@ export const Input = ({ label, classNameForInput, ...props }: InputProps) => {
 				className={`${global.input} ${classNameForInput ? classNameForInput : ''}`}
 				{...props}
 				{...field}
+				ref={userNameRef}
 			/>
 			{meta.touched && meta.error && (
 				<ErrorMessage

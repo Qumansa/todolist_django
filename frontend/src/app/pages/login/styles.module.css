@@ -1,3 +1,11 @@
+.login__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
 .login__form {
     display: flex;
     flex-direction: column;

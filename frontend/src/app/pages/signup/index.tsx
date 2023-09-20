@@ -15,7 +15,7 @@ import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const SignUp = () => {
-	const [createUser, { isUninitialized, isLoading, isError, isSuccess }] = useCreateUserMutation();
+	const [createUser, { isLoading, isError, isSuccess }] = useCreateUserMutation();
 
 	const handleSubmit = () => {
 		// createUser({
@@ -29,7 +29,7 @@ export const SignUp = () => {
 	return (
 		<section className={global.section}>
 			<div className={`${styles.signup__container} ${global.container} ${global.container_withBackground}`}>
-				{isUninitialized && (
+				{!isSuccess && (
 					<Formik
 						initialValues={{
 							name: '',
@@ -79,6 +79,7 @@ export const SignUp = () => {
 								name="name"
 								type="text"
 								placeholder="John Doe"
+								focusOnPageLoad
 							/>
 							<Input
 								label="Password*"
