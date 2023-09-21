@@ -12,9 +12,10 @@ const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://127.0.0.1:8000/api/',
 	// baseUrl: 'api/',
-	credentials: 'include', // при любом запросе к апи, если у нас уже есть http-only cookie, в которых хранится refresh-token, то отправляем его на сервер
+	credentials: 'include', // при любом запросе к апи, если у нас уже есть http-only cookie, в которых хранится refresh-token, то отправляем его на сервер,
 	prepareHeaders(headers, {getState}) { // при любом запросе к апи отправляем токен (скорее всего access-токен), если он есть
 		const token = (getState() as RootState).auth.token;
+		
 		if (token) {
 			headers.set("authorization", `Bearer ${token}`);
 		}
@@ -35,13 +36,24 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 			const release = await mutex.acquire();
 			try {
 				// попытка получения нового access-токена путем отправки refresh-токена
-				const refreshResult = await baseQuery('/refreshToken', api, extraOptions);
+				const refreshResult = await baseQuery(
+					{
+						url: '/token/refresh/', 
+						method: 'POST'
+					}, 
+					api, 
+					extraOptions
+				);
+				console.log(refreshResult);
 		
 				if (refreshResult?.data) {
 					// сохранение нового access-токена
 					// возможно, ниже можно передать метод setCredentials на методы setUser и setToken
 					const user = (api.getState() as RootState).auth.user;
-					api.dispatch(setCredentials({...refreshResult.data, user}));
+					api.dispatch(setCredentials({
+						user,
+						token: refreshResult.data, 
+					}));
 					// повтор первоначального запроса
 					result = await baseQuery(args, api, extraOptions)
 				} else {
@@ -64,9 +76,16 @@ export const apiSlice = createApi({
 	baseQuery: baseQueryWithReauth,
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
+		signUp: builder.mutation({
+            query: (userData) => ({
+                url: '/auth/signup/',
+                method: 'POST',
+                body: userData,
+            }),
+        }),
 		logIn: builder.mutation({
             query: (credentials) => ({
-                url: 'auth',
+                url: '/token/',
                 method: 'POST',
                 body: credentials
             }),
@@ -98,16 +117,9 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
-		createUser: builder.mutation<IUser, IUser>({
-			query: (toDoItem) => ({
-				url: '/user/',
-				method: 'POST',
-				body: toDoItem,
-			}),
-		}),
 	}),
 });
 
-export const { useLogInMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation, useCreateUserMutation } =
+export const { useSignUpMutation, useLogInMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
 	apiSlice;
 	

@@ -17,7 +17,8 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 	const [currentDescription, setCurrentDescription] = useState(description);
 	const [isShortDescription, setIsShortDescription] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	const timerRef = useRef<number | undefined>(undefined);
+	// исправить тип
+	const timerRef = useRef<any | undefined>(undefined);
 	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
 	const btnActiveClass = favourite ? `${styles.toDoList__button_active}` : '';
 

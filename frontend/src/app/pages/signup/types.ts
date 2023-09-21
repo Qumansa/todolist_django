@@ -4,3 +4,9 @@ export interface File {
     type: string;
     [key: string]: any;
 }
+
+export interface ISignUpData {
+    username: string;
+    password: string;
+    image?: any;
+}

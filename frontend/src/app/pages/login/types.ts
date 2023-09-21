@@ -1,12 +1,9 @@
-// export interface ILogInData {
-//     loginData: {
-//         name: string,
-//         password: string,
-//     },
-//     resetForm: () => void;
-// }
-
 export interface ILogInData {
-    name: string,
+    username: string,
     password: string,
+}
+
+export interface ITokens {
+    access: string;
+    refresh: string;
 }

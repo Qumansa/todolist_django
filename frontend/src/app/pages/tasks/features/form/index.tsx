@@ -14,7 +14,8 @@ export const Form = () => {
 	const [toDoItemDescription, setToDoItemDescription] = useState('');
 	const [isShortDescription, setIsShortDescription] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	const timerRef = useRef<number | undefined>(undefined);
+	// исправить тип
+	const timerRef = useRef<any | undefined>(undefined);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

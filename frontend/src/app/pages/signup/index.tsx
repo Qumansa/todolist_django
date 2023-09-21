@@ -2,28 +2,28 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useCreateUserMutation } from '../../redux/slices/api';
+import { useSignUpMutation } from '../../redux/slices/api';
+import { setUser } from '../../redux/slices/auth';
 
 import { ErrorMessage } from '../../components/errorMessage';
 import { Input } from '../../components/input';
 import { InputFile } from '../../components/inputFile';
 import { Spinner } from '../../components/spinner';
 
-import { File } from './types';
+import { File, ISignUpData } from './types';
 
 import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const SignUp = () => {
-	const [createUser, { isLoading, isError, isSuccess }] = useCreateUserMutation();
+	const [signUp, { isLoading, isError, isSuccess }] = useSignUpMutation();
 
-	const handleSubmit = () => {
-		// createUser({
-		// 	name: `123`,
-		// 	password: `123`,
-		// 	confirmPassword: `123`,
-		// 	image: `123`,
-		// });
+	const handleSubmit = ({ username, password, image }: ISignUpData, resetForm: () => void) => {
+		signUp({ username, password, image })
+			.unwrap()
+			.then(() => {
+				resetForm();
+			});
 	};
 
 	return (
@@ -32,13 +32,13 @@ export const SignUp = () => {
 				{!isSuccess && (
 					<Formik
 						initialValues={{
-							name: '',
+							username: '',
 							password: '',
 							confirmPassword: '',
 							image: '',
 						}}
 						validationSchema={Yup.object().shape({
-							name: Yup.string()
+							username: Yup.string()
 								.matches(
 									/^[a-zA-Z][a-zA-Z0-9-_]{2,20}$/,
 									'3 to 20 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.'
@@ -66,17 +66,11 @@ export const SignUp = () => {
 								)
 								.notRequired(),
 						})}
-						// onSubmit={(values, { setSubmitting }) => {
-						// 	setTimeout(() => {
-						// 		alert(JSON.stringify(values, null, 2));
-						// 		setSubmitting(false);
-						// 	}, 400);
-						// }}>
-						onSubmit={handleSubmit}>
+						onSubmit={(signupData, { resetForm }) => handleSubmit(signupData, resetForm)}>
 						<Form className={styles.signup__form}>
 							<Input
 								label="Username*"
-								name="name"
+								name="username"
 								type="text"
 								placeholder="John Doe"
 								focusOnPageLoad

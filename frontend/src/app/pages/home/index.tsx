@@ -25,6 +25,11 @@ export const Home = () => {
 						to={`/signup`}>
 						Sign up
 					</Link>
+					<Link
+						className={`${global.button} ${global.button_deepSpaceSparkle} ${global.textCenter}`}
+						to={`/tasks`}>
+						Tasks
+					</Link>
 				</div>
 			</div>
 		</section>

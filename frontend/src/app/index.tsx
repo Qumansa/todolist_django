@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 import { Layout } from './layout';
 import { Home, Login, Page404, Settings, SignUp, Tasks } from './pages';
@@ -7,7 +7,8 @@ import { RequireAuth } from './components/requireAuth';
 import './styles/main.css';
 
 export const App = () => {
-	const router = createBrowserRouter(
+	// поменять обратно на  createBrowserRouter
+	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route
 				path="/"

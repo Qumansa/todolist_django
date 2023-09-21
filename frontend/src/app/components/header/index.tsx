@@ -2,10 +2,15 @@ import { Link } from 'react-router-dom';
 
 import UserImg from './assets/img/mockup-user-picture.jpg';
 
+import { useAppSelector } from '../../redux/hooks';
+import { selectUser } from '../../redux/slices/auth/selectors';
+
 import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Header = () => {
+	const user = useAppSelector(selectUser);
+
 	return (
 		<header className={styles.header}>
 			<div className={`${styles.header__container} ${global.container}`}>
@@ -22,17 +27,18 @@ export const Header = () => {
 						</g>
 					</svg>
 				</Link>
-				<span className={styles.header__userName}>John Doe</span>
+				<span className={styles.header__userName}>{user?.username || 'Not logged in'}</span>
 				<Link
 					className={styles.header__userImgLink}
 					to={`/settings`}>
 					<img
 						className={styles.header__userImg}
 						src={UserImg}
+						width={50}
+						height={50}
 						alt="Profile Picture"
 					/>
 				</Link>
-				{/* <h1 className={styles.header__title}>To-Do List</h1> */}
 			</div>
 		</header>
 	);
