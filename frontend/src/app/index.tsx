@@ -22,10 +22,6 @@ export const App = () => {
 					element={<Login />}
 				/>
 				<Route
-					path="/settings"
-					element={<Settings />}
-				/>
-				<Route
 					path="/signup"
 					element={<SignUp />}
 				/>
@@ -34,12 +30,16 @@ export const App = () => {
 					element={<Page404 />}
 				/>
 
-				<Route element={<RequireAuth />}>
-					<Route
-						path="/tasks"
-						element={<Tasks />}
-					/>
-				</Route>
+				{/* <Route element={<RequireAuth />}> */}
+				<Route
+					path="/tasks"
+					element={<Tasks />}
+				/>
+				<Route
+					path="/settings"
+					element={<Settings />}
+				/>
+				{/* </Route> */}
 			</Route>
 		)
 	);

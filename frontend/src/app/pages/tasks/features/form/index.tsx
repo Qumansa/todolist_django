@@ -63,12 +63,12 @@ export const Form = () => {
 					minLength={1}
 					maxLength={255}
 				/>
-				{isLoading && <Spinner withModifier={'spinner_small'} />}
-				{isVisible && isError && <ErrorMessage withClassname={`${styles.result}`} />}
+				{isLoading && <Spinner withModifier="spinner_small" />}
+				{isVisible && isError && <ErrorMessage withClassname={styles.result} />}
 				{isVisible && isShortDescription && (
 					<ErrorMessage
 						message="The description is too short!"
-						withClassname={`${styles.result}`}
+						withClassname={styles.result}
 					/>
 				)}
 				{isVisible && isSuccess && <span className={styles.result}>The task is successfully saved!</span>}

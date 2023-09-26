@@ -3,11 +3,11 @@ import { useAppDispatch, useAppSelector } from '../../../../../../redux/hooks';
 import { filterChanged } from '../../../../../../redux/slices/filter';
 import { selectActiveFilter } from '../../../../../../redux/slices/filter/selectors';
 
-import { FilterItemProps } from './types';
+import { Props } from './types';
 
 import global from '../../../../../../styles/global.module.css';
 
-export const FilterItem = ({ name }: FilterItemProps) => {
+export const FilterItem = ({ name }: Props) => {
 	const dispatch = useAppDispatch();
 	const activeFilter = useAppSelector(selectActiveFilter);
 

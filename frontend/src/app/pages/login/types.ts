@@ -1,9 +1,8 @@
-export interface ILogInData {
-    username: string,
-    password: string,
-}
+import { User } from "../../types";
 
-export interface ITokens {
+export type LogInData = Pick<User, 'username' | 'password'>;
+
+export interface Tokens {
     access: string;
     refresh: string;
 }

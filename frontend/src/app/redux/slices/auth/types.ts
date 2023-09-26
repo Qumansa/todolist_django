@@ -1,4 +1,6 @@
+import { User } from "../../../types";
+
 export interface authSliceState {
-    user: any;
+    user: User | null;
     token: string | null;
 }

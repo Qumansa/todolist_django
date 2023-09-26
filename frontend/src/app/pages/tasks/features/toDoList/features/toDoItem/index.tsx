@@ -2,15 +2,17 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 
 import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '../../../../../../redux/slices/api';
 
+import { useSetIsVisibleToFalseAfterDelay } from '../../../../../../hooks/useSetIsVisibleToFalseAfterDelay';
+
 import { ErrorMessage } from '../../../../../../components/errorMessage';
 import { Spinner } from '../../../../../../components/spinner';
 
-import { ToDoItemProps } from './types';
+import { Props } from './types';
 
 import global from '../../../../../../styles/global.module.css';
 import styles from './styles.module.css';
 
-export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) => {
+export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 	const [updateToDoItem, { isLoading: isUpdateLoading, isError: isUpdateError }] = useUpdateToDoItemMutation();
 	const [deleteToDoItem, { isLoading: isDeleteLoading, isError: isDeleteError }] = useDeleteToDoItemMutation();
 	const [beingEdited, setBeingEdited] = useState(false);
@@ -81,18 +83,10 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 	};
 
 	useEffect(() => {
-		inputRef?.current && inputRef?.current.focus();
+		inputRef?.current?.focus();
 	}, [beingEdited]);
 
-	useEffect(() => {
-		if (!isVisible) return;
-
-		timerRef.current = setTimeout(() => {
-			setIsVisible(false);
-		}, 4000);
-
-		return () => clearTimeout(timerRef.current);
-	}, [isVisible]);
+	useSetIsVisibleToFalseAfterDelay({ isVisible, setIsVisible, timerRef, timerDuration: 4000 });
 
 	return (
 		<li className={styles.toDoList__item}>
@@ -127,7 +121,7 @@ export const ToDoItem = ({ id, index, description, favourite }: ToDoItemProps) =
 								<ErrorMessage withClassname={styles.toDoList__descriptionNote} />
 							)}
 						</div>
-						{(isUpdateLoading || isDeleteLoading) && <Spinner withModifier={'spinner_extrasmall'} />}
+						{(isUpdateLoading || isDeleteLoading) && <Spinner withModifier="spinner_extrasmall" />}
 					</>
 				)}
 			</div>

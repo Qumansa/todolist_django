@@ -1,9 +1,7 @@
-export type FilterType = {
-    id: string;
-    name: string;
-}
-
 export interface filterSliceState {
-    filters: FilterType[],
-    activeFilter: string
+    filters: {
+        id: string;
+        name: string;
+    }[];
+    activeFilter: string;
 }

@@ -1,6 +1,6 @@
-import { ErrorMessageProps } from './types';
+import { Props } from './types';
 
 export const ErrorMessage = ({
 	message = 'An expected error has occured! Please try again later.',
 	withClassname,
-}: ErrorMessageProps) => <span className={`${withClassname ? withClassname : ''} `}>{message}</span>;
+}: Props) => <span className={withClassname ? withClassname : ''}>{message}</span>;

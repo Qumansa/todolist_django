@@ -10,7 +10,7 @@ import { Input } from '../../components/input';
 import { InputFile } from '../../components/inputFile';
 import { Spinner } from '../../components/spinner';
 
-import { File, ISignUpData } from './types';
+import { File, User } from '../../types';
 
 import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
@@ -18,7 +18,7 @@ import styles from './styles.module.css';
 export const SignUp = () => {
 	const [signUp, { isLoading, isError, isSuccess }] = useSignUpMutation();
 
-	const handleSubmit = ({ username, password, image }: ISignUpData, resetForm: () => void) => {
+	const handleSubmit = ({ username, password, image }: User, resetForm: () => void) => {
 		signUp({ username, password, image })
 			.unwrap()
 			.then(() => {

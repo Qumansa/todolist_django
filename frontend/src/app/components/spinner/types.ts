@@ -1,3 +1,3 @@
-export interface SpinnerProps {
+export interface Props {
     withModifier?: string;
 }

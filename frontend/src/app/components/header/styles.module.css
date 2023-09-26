@@ -20,6 +20,12 @@
     line-height: 4.5rem;
 }
 
+.header__tasks {
+    font-size: 3rem;
+    line-height: 4.5rem;
+    text-decoration: underline;
+}
+
 .header__userImgLink {
     margin-left: 2rem;
 }

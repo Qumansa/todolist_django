@@ -1,4 +1,4 @@
-export interface ErrorMessageProps {
+export interface Props {
     message?: string;
     withClassname?: string;
 }

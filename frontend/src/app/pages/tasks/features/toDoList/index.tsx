@@ -9,7 +9,7 @@ import { ErrorMessage } from '../../../../components/errorMessage';
 import { Spinner } from '../../../../components/spinner';
 import { ToDoItem } from './features/toDoItem';
 
-import { IToDoItem } from './types';
+import { IToDoItem } from '../../../../types';
 
 export const ToDoList = () => {
 	const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();

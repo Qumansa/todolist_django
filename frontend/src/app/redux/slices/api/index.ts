@@ -5,7 +5,7 @@ import { Mutex } from 'async-mutex';
 import { logOut, setCredentials } from '../auth';
 
 import type { RootState } from '../..';
-import { IToDoItem, IUser } from './types';
+import { IToDoItem } from '../../../types';
 
 const mutex = new Mutex();
 
@@ -77,17 +77,31 @@ export const apiSlice = createApi({
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
 		signUp: builder.mutation({
-            query: (userData) => ({
+            query: (data) => ({
                 url: '/auth/signup/',
                 method: 'POST',
-                body: userData,
+                body: data,
             }),
         }),
 		logIn: builder.mutation({
-            query: (credentials) => ({
+            query: (data) => ({
                 url: '/token/',
                 method: 'POST',
-                body: credentials
+                body: data
+            }),
+        }),
+		changeUserPassword: builder.mutation({
+            query: (data) => ({
+                url: '/changepassword/',
+                method: 'POST',
+                body: data
+            }),
+        }),
+		changeUserImage: builder.mutation({
+            query: (data) => ({
+                url: '/changeimage/',
+                method: 'POST',
+                body: data
             }),
         }),
 		getToDoList: builder.query<IToDoItem[], void>({
@@ -95,10 +109,10 @@ export const apiSlice = createApi({
 			providesTags: ['Todos'],
 		}),
 		createToDoItem: builder.mutation<IToDoItem, IToDoItem>({
-			query: (toDoItem) => ({
+			query: (data) => ({
 				url: '/todos/',
 				method: 'POST',
-				body: toDoItem,
+				body: data,
 			}),
 			invalidatesTags: ['Todos'],
 		}),
@@ -120,6 +134,6 @@ export const apiSlice = createApi({
 	}),
 });
 
-export const { useSignUpMutation, useLogInMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
+export const { useSignUpMutation, useLogInMutation, useChangeUserPasswordMutation, useChangeUserImageMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
 	apiSlice;
 	

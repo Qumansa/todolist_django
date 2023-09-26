@@ -1,8 +1,8 @@
-import { SpinnerProps } from './types';
+import { Props } from './types';
 
 import styles from './styles.module.css';
 
-export const Spinner = ({ withModifier }: SpinnerProps) => (
+export const Spinner = ({ withModifier }: Props) => (
 	<div className={styles.spinnerWrapper}>
 		<div
 			className={`

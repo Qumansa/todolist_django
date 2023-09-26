@@ -3,11 +3,11 @@ import { useEffect, useRef } from 'react';
 
 import { ErrorMessage } from '../errorMessage';
 
-import { InputProps } from './types';
+import { Props } from './types';
 
 import global from '../../styles/global.module.css';
 
-export const Input = ({ label, classNameForInput, focusOnPageLoad, ...props }: InputProps) => {
+export const Input = ({ label, classNameForInput, focusOnPageLoad, ...props }: Props) => {
 	const [field, meta] = useField(props.name);
 	const userNameRef = useRef<HTMLInputElement>(null);
 

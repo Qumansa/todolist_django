@@ -1,3 +1,3 @@
-export interface FilterItemProps {
+export interface Props {
 	name: string;
 }

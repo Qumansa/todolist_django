@@ -1,6 +1,5 @@
-export interface ToDoItemProps {
-    id: string;
+import { IToDoItem } from "../../../../../../types";
+
+export interface Props extends IToDoItem {
     index: number;
-    description: string; 
-    favourite: boolean;
 }

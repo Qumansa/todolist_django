@@ -14,7 +14,7 @@ export const Header = () => {
 	return (
 		<header className={styles.header}>
 			<div className={`${styles.header__container} ${global.container}`}>
-				<Link to={`/`}>
+				<Link to={'/'}>
 					<svg
 						width="85px"
 						height="85px"
@@ -27,10 +27,16 @@ export const Header = () => {
 						</g>
 					</svg>
 				</Link>
-				<span className={styles.header__userName}>{user?.username || 'Not logged in'}</span>
+				<span className={styles.header__userName}>{user?.name || 'Not logged in'},&nbsp;</span>
+				<Link
+					className={styles.header__tasks}
+					to={'/tasks'}>
+					{/* сделать проверку на количество заданий и выводить в зависимости от этого нужное окончание */}0
+					tasks
+				</Link>
 				<Link
 					className={styles.header__userImgLink}
-					to={`/settings`}>
+					to={'/settings'}>
 					<img
 						className={styles.header__userImg}
 						src={UserImg}

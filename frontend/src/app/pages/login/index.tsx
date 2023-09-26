@@ -10,7 +10,7 @@ import { ErrorMessage } from '../../components/errorMessage';
 import { Input } from '../../components/input';
 import { Spinner } from '../../components/spinner';
 
-import { ILogInData, ITokens } from './types';
+import { LogInData, Tokens } from './types';
 
 import global from '../../styles/global.module.css';
 import styles from './styles.module.css';
@@ -20,11 +20,10 @@ export const Login = () => {
 	const dispatch = useAppDispatch();
 	const [logIn, { error, isLoading }] = useLogInMutation();
 
-	const handleSubmit = ({ username, password }: ILogInData, resetForm: () => void) => {
+	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
 			.unwrap()
-			.then((result: ITokens) => {
-				console.log(result);
+			.then((result: Tokens) => {
 				dispatch(
 					setCredentials({
 						user: {

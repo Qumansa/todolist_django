@@ -1,9 +1,8 @@
-export interface InputProps {
-    label: string;
-    name: string;
+import { InputProps } from "../../types";
+
+export interface Props extends InputProps {
     type: string;
     autoComplete?: string;
     placeholder?: string;
-    classNameForInput?: string;
     focusOnPageLoad?: boolean;
 }
