@@ -1,4 +1,4 @@
-import { Timer } from "../../types";
+import { Timer } from "@types";
 
 export interface Props {
     isVisible: boolean;

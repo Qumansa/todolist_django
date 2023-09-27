@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useCreateToDoItemMutation } from '../../../../redux/slices/api';
+import { useCreateToDoItemMutation } from '@redux/slices/api';
 
-import { ErrorMessage } from '../../../../components/errorMessage';
-import { Spinner } from '../../../../components/spinner';
+import { ErrorMessage } from '@components/errorMessage';
+import { Spinner } from '@components/spinner';
 
-import global from '../../../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Form = () => {

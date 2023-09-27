@@ -1,15 +1,15 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 
-import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '../../../../../../redux/slices/api';
+import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '@redux/slices/api';
 
-import { useSetIsVisibleToFalseAfterDelay } from '../../../../../../hooks/useSetIsVisibleToFalseAfterDelay';
+import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseAfterDelay';
 
-import { ErrorMessage } from '../../../../../../components/errorMessage';
-import { Spinner } from '../../../../../../components/spinner';
+import { ErrorMessage } from '@components/errorMessage';
+import { Spinner } from '@components/spinner';
 
 import { Props } from './types';
 
-import global from '../../../../../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const ToDoItem = ({ id, index, description, favourite }: Props) => {

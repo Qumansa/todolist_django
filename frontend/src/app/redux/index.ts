@@ -12,7 +12,7 @@ export const store = configureStore({
 		filter,
 		search
 	},
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware) 
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

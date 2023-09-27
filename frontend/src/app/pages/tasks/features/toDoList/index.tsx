@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 
-import { useAppSelector } from '../../../../redux/hooks';
-import { useGetToDoListQuery } from '../../../../redux/slices/api';
-import { selectActiveFilter } from '../../../../redux/slices/filter/selectors';
-import { selectSearchValue } from '../../../../redux/slices/search/selectors';
+import { useAppSelector } from '@redux/hooks';
+import { useGetToDoListQuery } from '@redux/slices/api';
+import { selectActiveFilter } from '@redux/slices/filter/selectors';
+import { selectSearchValue } from '@redux/slices/search/selectors';
 
-import { ErrorMessage } from '../../../../components/errorMessage';
-import { Spinner } from '../../../../components/spinner';
+import { ErrorMessage } from '@components/errorMessage';
+import { Spinner } from '@components/spinner';
 import { ToDoItem } from './features/toDoItem';
 
-import { IToDoItem } from '../../../../types';
+import { IToDoItem } from '@types';
 
 export const ToDoList = () => {
 	const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();

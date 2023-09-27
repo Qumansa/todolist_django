@@ -1,15 +1,21 @@
 import { Link } from 'react-router-dom';
 
+import { useAppSelector } from '@redux/hooks';
+import { useGetToDoListQuery } from '@redux/slices/api';
+import { selectUser } from '@redux/slices/auth/selectors';
+
+import { ErrorMessage } from '@components/errorMessage';
+import { Spinner } from '@components/spinner';
+
 import UserImg from './assets/img/mockup-user-picture.jpg';
 
-import { useAppSelector } from '../../redux/hooks';
-import { selectUser } from '../../redux/slices/auth/selectors';
-
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Header = () => {
 	const user = useAppSelector(selectUser);
+	// возможно, нужно делать один запрос и сохранять количество заданий в стейте
+	const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();
 
 	return (
 		<header className={styles.header}>
@@ -27,13 +33,21 @@ export const Header = () => {
 						</g>
 					</svg>
 				</Link>
-				<span className={styles.header__userName}>{user?.name || 'Not logged in'},&nbsp;</span>
-				<Link
-					className={styles.header__tasks}
-					to={'/tasks'}>
-					{/* сделать проверку на количество заданий и выводить в зависимости от этого нужное окончание */}0
-					tasks
-				</Link>
+				<span className={styles.header__userName}>{user?.username || 'Not logged in'},&nbsp;</span>
+				<div className={styles.header__tasksWrapper}>
+					<Link
+						to={'/tasks'}
+						className={styles.header__tasks}>
+						{toDoList.length} {toDoList.length === 1 ? 'task' : 'tasks'}
+					</Link>
+					{/* {isLoading && <Spinner withModifier="spinner_extrasmall" />} */}
+					{isError && (
+						<ErrorMessage
+							withClassname={styles.header__tasksError}
+							message="Could not load amount of tasks."
+						/>
+					)}
+				</div>
 				<Link
 					className={styles.header__userImgLink}
 					to={'/settings'}>

@@ -1,10 +1,10 @@
 import { useField } from 'formik';
 
-import { ErrorMessage } from '../errorMessage';
+import { ErrorMessage } from '@components/errorMessage';
 
-import { InputProps } from '../../types';
+import { InputProps } from '@types';
 
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 
 export const InputFile = ({ label, classNameForInput, ...props }: InputProps) => {
 	const [field, meta, helpers] = useField(props.name);

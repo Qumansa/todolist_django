@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Page404 = () => (

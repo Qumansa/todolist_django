@@ -1,8 +1,8 @@
 .page404__container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 2rem;
+    align-items: center;
 }
 
 .page404__img {

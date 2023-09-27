@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
-import { searchChanged } from '../../../../redux/slices/search';
-import { selectSearchValue } from '../../../../redux/slices/search/selectors';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { searchChanged } from '@redux/slices/search';
+import { selectSearchValue } from '@redux/slices/search/selectors';
 
-import global from '../../../../styles/global.module.css';
+import global from '@styles/global.module.css';
 
 export const Search = () => {
 	const dispatch = useAppDispatch();

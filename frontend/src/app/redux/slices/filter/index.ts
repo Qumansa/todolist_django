@@ -42,3 +42,5 @@ export default reducer;
 export const {
     filterChanged,
 } = actions;
+
+console.log(filterSlice)

@@ -2,22 +2,22 @@ import { Form, Formik } from 'formik';
 import { useRef, useState } from 'react';
 import * as Yup from 'yup';
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { useChangeUserImageMutation, useChangeUserPasswordMutation } from '../../redux/slices/api';
-import { logOut } from '../../redux/slices/auth';
-import { selectUser } from '../../redux/slices/auth/selectors';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useChangeUserImageMutation, useChangeUserPasswordMutation } from '@redux/slices/api';
+import { logOut } from '@redux/slices/auth';
+import { selectUser } from '@redux/slices/auth/selectors';
 
-import { useSetIsVisibleToFalseAfterDelay } from '../../hooks/useSetIsVisibleToFalseAfterDelay';
+import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseAfterDelay';
 
-import { ErrorMessage } from '../../components/errorMessage';
-import { Input } from '../../components/input';
-import { InputFile } from '../../components/inputFile';
-import { Spinner } from '../../components/spinner';
+import { ErrorMessage } from '@components/errorMessage';
+import { Input } from '@components/input';
+import { InputFile } from '@components/inputFile';
+import { Spinner } from '@components/spinner';
 
-import { File } from '../../types';
+import { File } from '@types';
 import { PasswordData } from './types';
 
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Settings = () => {

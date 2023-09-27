@@ -1,5 +1,5 @@
-import { useAppSelector } from '../../../../redux/hooks';
-import { selectFilters } from '../../../../redux/slices/filter/selectors';
+import { useAppSelector } from '@redux/hooks';
+import { selectFilters } from '@redux/slices/filter/selectors';
 
 import { FilterItem } from './features/filterItem';
 

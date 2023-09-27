@@ -2,17 +2,17 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useSignUpMutation } from '../../redux/slices/api';
-import { setUser } from '../../redux/slices/auth';
+import { useSignUpMutation } from '@redux/slices/api';
+import { setUser } from '@redux/slices/auth';
 
-import { ErrorMessage } from '../../components/errorMessage';
-import { Input } from '../../components/input';
-import { InputFile } from '../../components/inputFile';
-import { Spinner } from '../../components/spinner';
+import { ErrorMessage } from '@components/errorMessage';
+import { Input } from '@components/input';
+import { InputFile } from '@components/inputFile';
+import { Spinner } from '@components/spinner';
 
-import { File, User } from '../../types';
+import { File, User } from '@types';
 
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const SignUp = () => {

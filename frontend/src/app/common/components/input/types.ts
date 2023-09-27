@@ -1,4 +1,4 @@
-import { InputProps } from "../../types";
+import { InputProps } from "@types";
 
 export interface Props extends InputProps {
     type: string;

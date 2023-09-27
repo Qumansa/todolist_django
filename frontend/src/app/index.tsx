@@ -3,7 +3,8 @@ import { createHashRouter, createRoutesFromElements, Route, RouterProvider } fro
 import { Layout } from './layout';
 import { Home, Login, Page404, Settings, SignUp, Tasks } from './pages';
 
-import { RequireAuth } from './components/requireAuth';
+import { RequireAuth } from '@components/requireAuth';
+
 import './styles/main.css';
 
 export const App = () => {

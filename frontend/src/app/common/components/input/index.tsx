@@ -1,11 +1,11 @@
 import { useField } from 'formik';
 import { useEffect, useRef } from 'react';
 
-import { ErrorMessage } from '../errorMessage';
+import { ErrorMessage } from '@components/errorMessage';
 
 import { Props } from './types';
 
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 
 export const Input = ({ label, classNameForInput, focusOnPageLoad, ...props }: Props) => {
 	const [field, meta] = useField(props.name);

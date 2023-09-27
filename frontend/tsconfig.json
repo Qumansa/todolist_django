@@ -14,7 +14,15 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": ["src/app/common/components/*"],
+			"@styles/*": ["src/app/styles/*"],
+			"@redux/*": ["src/app/redux/*"],
+			"@hooks/*": ["src/app/common/hooks/*"],
+			"@types": ["src/app/common/types.ts"],
+		}
 	},
 	"include": ["src"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+	"references": [{ "path": "./tsconfig.node.json" }],
 }

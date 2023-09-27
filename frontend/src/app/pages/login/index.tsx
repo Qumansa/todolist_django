@@ -2,17 +2,17 @@ import { Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useAppDispatch } from '../../redux/hooks';
-import { useLogInMutation } from '../../redux/slices/api';
-import { setCredentials } from '../../redux/slices/auth';
+import { useAppDispatch } from '@redux/hooks';
+import { useLogInMutation } from '@redux/slices/api';
+import { setCredentials } from '@redux/slices/auth';
 
-import { ErrorMessage } from '../../components/errorMessage';
-import { Input } from '../../components/input';
-import { Spinner } from '../../components/spinner';
+import { ErrorMessage } from '@components/errorMessage';
+import { Input } from '@components/input';
+import { Spinner } from '@components/spinner';
 
 import { LogInData, Tokens } from './types';
 
-import global from '../../styles/global.module.css';
+import global from '@styles/global.module.css';
 import styles from './styles.module.css';
 
 export const Login = () => {

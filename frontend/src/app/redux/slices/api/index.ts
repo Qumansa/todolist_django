@@ -4,8 +4,8 @@ import { Mutex } from 'async-mutex';
 
 import { logOut, setCredentials } from '../auth';
 
+import { IToDoItem } from '@types';
 import type { RootState } from '../..';
-import { IToDoItem } from '../../../types';
 
 const mutex = new Mutex();
 
@@ -44,7 +44,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 					api, 
 					extraOptions
 				);
-				console.log(refreshResult);
+				// console.log(refreshResult);
 		
 				if (refreshResult?.data) {
 					// сохранение нового access-токена
