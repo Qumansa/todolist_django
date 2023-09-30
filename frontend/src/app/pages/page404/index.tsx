@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Page404 = () => (
-	<section className={global.section}>
-		<div className={`${styles.page404__container} ${global.container} ${global.container_withBackground}`}>
+	<section className={common.section}>
+		<div className={`${styles.page404__container} ${common.container} ${common.container_withBackground}`}>
 			<svg
 				className={styles.page404__img}
 				width="400"
@@ -37,7 +37,7 @@ export const Page404 = () => (
 			</svg>
 			<h2 className={styles.page404__text}>Page not found!</h2>
 			<Link
-				className={`${global.button} ${global.button_deepSpaceSparkle}`}
+				className={`${common.button} ${common.button_deepSpaceSparkle}`}
 				to={`/`}>
 				Back to Homepage
 			</Link>

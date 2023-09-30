@@ -12,7 +12,7 @@ import { Spinner } from '@components/spinner';
 
 import { LogInData, Tokens } from './types';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Login = () => {
@@ -38,8 +38,8 @@ export const Login = () => {
 	};
 
 	return (
-		<section className={global.section}>
-			<div className={`${styles.login__container} ${global.container} ${global.container_withBackground}`}>
+		<section className={common.section}>
+			<div className={`${styles.login__container} ${common.container} ${common.container_withBackground}`}>
 				<Formik
 					initialValues={{
 						username: '',
@@ -75,7 +75,7 @@ export const Login = () => {
 							type="password"
 						/>
 						<button
-							className={`${styles.login__submit} ${global.button} ${global.button_deepSpaceSparkle}`}
+							className={`${styles.login__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 							type="submit">
 							Submit
 						</button>

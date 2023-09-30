@@ -1,5 +1,9 @@
-.settings__wrapper {
+.settings__container {
     overflow: hidden;
+}
+
+.settings__wrapper {
+    /* overflow: hidden; */
     display: flex;
     flex-direction: column;
     gap: 2.5rem;

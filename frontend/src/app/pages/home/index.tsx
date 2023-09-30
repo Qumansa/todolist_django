@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Home = () => {
 	return (
-		<section className={global.section}>
-			<div className={`${global.container} ${global.container_withBackground}`}>
+		<section className={common.section}>
+			<div className={`${common.container} ${common.container_withBackground}`}>
 				<p className={styles.home__descr}>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur natus maiores quam impedit
 					velit eum nihil beatae voluptates, maxime voluptatum vel quas aperiam possimus dolores, iusto amet
@@ -16,17 +16,17 @@ export const Home = () => {
 				</p>
 				<div className={styles.home__linksWrapper}>
 					<Link
-						className={`${global.button} ${global.button_deepSpaceSparkle} ${global.textCenter}`}
+						className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
 						to={`/login`}>
 						Sign in
 					</Link>
 					<Link
-						className={`${global.button} ${global.button_deepSpaceSparkle} ${global.textCenter}`}
+						className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
 						to={`/signup`}>
 						Sign up
 					</Link>
 					<Link
-						className={`${global.button} ${global.button_deepSpaceSparkle} ${global.textCenter}`}
+						className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
 						to={`/tasks`}>
 						Tasks
 					</Link>

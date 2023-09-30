@@ -21,9 +21,10 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@components': path.resolve(__dirname, './src/app/common/components'),
-			'@styles': path.resolve(__dirname, './src/app/styles'),
-			'@redux': path.resolve(__dirname, './src/app/redux'),
+			'@common': path.resolve(__dirname, './src/app/common'),
 			'@hooks': path.resolve(__dirname, './src/app/common/hooks'),
+			'@redux': path.resolve(__dirname, './src/app/redux'),
+			'@styles': path.resolve(__dirname, './src/app/styles'),
 			'@types': path.resolve(__dirname, './src/app/common/types.ts'),
 		}
 	}

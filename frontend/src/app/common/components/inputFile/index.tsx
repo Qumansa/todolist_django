@@ -4,16 +4,16 @@ import { ErrorMessage } from '@components/errorMessage';
 
 import { InputProps } from '@types';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 
 export const InputFile = ({ label, classNameForInput, ...props }: InputProps) => {
 	const [field, meta, helpers] = useField(props.name);
 
 	return (
-		<label className={global.label}>
+		<label className={common.label}>
 			{label}
 			<input
-				className={`${global.input} ${classNameForInput ? classNameForInput : ''}`}
+				className={`${common.input} ${classNameForInput ? classNameForInput : ''}`}
 				{...props}
 				{...field}
 				type="file"
@@ -23,7 +23,7 @@ export const InputFile = ({ label, classNameForInput, ...props }: InputProps) =>
 			{meta.touched && meta.error && (
 				<ErrorMessage
 					message={meta.error}
-					withClassname={global.input__error}
+					withClassname={common.input__error}
 				/>
 			)}
 		</label>

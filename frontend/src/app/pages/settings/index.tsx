@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
@@ -14,10 +14,10 @@ import { Input } from '@components/input';
 import { InputFile } from '@components/inputFile';
 import { Spinner } from '@components/spinner';
 
-import { File } from '@types';
+import { File, Timer } from '@types';
 import { PasswordData } from './types';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Settings = () => {
@@ -34,8 +34,7 @@ export const Settings = () => {
 	const [passwordBeingEdited, setPasswordBeingEdited] = useState(false);
 	const [imageBeingEdited, setImageBeingEdited] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	// исправить тип
-	const timerRef = useRef<number | null>(null);
+	const timerRef = useRef<Timer>(null);
 
 	// выбрать один вариант, как делать запросы на сервер и обрабатывать ошибки, и применять только его
 	// 1) .unwrap.then.catch.finally
@@ -90,21 +89,21 @@ export const Settings = () => {
 	useSetIsVisibleToFalseAfterDelay({ isVisible, setIsVisible, timerRef, timerDuration: 3500 });
 
 	return (
-		<section className={global.section}>
-			<div className={`${global.container} ${global.container_withBackground}`}>
-				<h2 className={global.section__title}>Account settings</h2>
+		<section className={common.section}>
+			<div className={`${styles.settings__container} ${common.container} ${common.container_withBackground}`}>
+				<h2 className={common.section__title}>Account settings</h2>
 				<div className={styles.settings__wrapper}>
 					<p className={styles.settings__username}>Username: {user?.username || 'Not logged in'}</p>
 
 					{!passwordBeingEdited && !imageBeingEdited && (
 						<>
 							<button
-								className={`${global.button} ${global.button_lightSteelBlue}`}
+								className={`${common.button} ${common.button_lightSteelBlue}`}
 								onClick={toggleViewOfChangePassword}>
 								Change password
 							</button>
 							<button
-								className={`${global.button} ${global.button_lightSteelBlue}`}
+								className={`${common.button} ${common.button_lightSteelBlue}`}
 								onClick={toggleViewOfChangeImage}>
 								Change profile image
 							</button>
@@ -140,12 +139,12 @@ export const Settings = () => {
 								/>
 								<div className={styles.buttonsWrapper}>
 									<button
-										className={`${styles.submit} ${global.button} ${global.button_deepSpaceSparkle}`}
+										className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 										type="submit">
 										Submit
 									</button>
 									<button
-										className={`${styles.submit} ${global.button} ${global.button_lightSteelBlue}`}
+										className={`${styles.submit} ${common.button} ${common.button_lightSteelBlue}`}
 										onClick={handleReturn}>
 										Return
 									</button>
@@ -185,16 +184,16 @@ export const Settings = () => {
 								<InputFile
 									label="Profile image*"
 									name="image"
-									classNameForInput={global.input_small}
+									classNameForInput={common.input_small}
 								/>
 								<div className={styles.buttonsWrapper}>
 									<button
-										className={`${styles.submit} ${global.button} ${global.button_deepSpaceSparkle}`}
+										className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 										type="submit">
 										Submit
 									</button>
 									<button
-										className={`${styles.submit} ${global.button} ${global.button_lightSteelBlue}`}
+										className={`${styles.submit} ${common.button} ${common.button_lightSteelBlue}`}
 										onClick={handleReturn}>
 										Return
 									</button>
@@ -209,7 +208,7 @@ export const Settings = () => {
 					)}
 
 					<button
-						className={`${styles.logOut} ${global.button} ${global.button_deepSpaceSparkle}`}
+						className={`${styles.logOut} ${common.button} ${common.button_deepSpaceSparkle}`}
 						onClick={handleLogOut}>
 						Log out
 					</button>

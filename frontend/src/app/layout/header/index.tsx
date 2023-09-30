@@ -9,9 +9,10 @@ import { Spinner } from '@components/spinner';
 
 import UserImg from './assets/img/mockup-user-picture.jpg';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
+// возможно, в хедере в правой части, если пользователь не авторизован, сделать вывод кнопок "sign up/sign in"
 export const Header = () => {
 	const user = useAppSelector(selectUser);
 	// возможно, нужно делать один запрос и сохранять количество заданий в стейте
@@ -19,7 +20,7 @@ export const Header = () => {
 
 	return (
 		<header className={styles.header}>
-			<div className={`${styles.header__container} ${global.container}`}>
+			<div className={`${styles.header__container} ${common.container}`}>
 				<Link to={'/'}>
 					<svg
 						width="85px"

@@ -7,9 +7,10 @@ import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseA
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
 
+import { Timer } from '@types';
 import { Props } from './types';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const ToDoItem = ({ id, index, description, favourite }: Props) => {
@@ -19,8 +20,7 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 	const [currentDescription, setCurrentDescription] = useState(description);
 	const [isShortDescription, setIsShortDescription] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	// исправить тип
-	const timerRef = useRef<any | undefined>(undefined);
+	const timerRef = useRef<Timer>(null);
 	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
 	const btnActiveClass = favourite ? `${styles.toDoList__button_active}` : '';
 
@@ -95,7 +95,7 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 				{beingEdited ? (
 					<input
 						type="text"
-						className={global.input}
+						className={common.input}
 						value={currentDescription}
 						ref={inputRef}
 						onChange={(e) => setCurrentDescription(e.target.value)}

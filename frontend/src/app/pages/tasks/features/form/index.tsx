@@ -6,7 +6,7 @@ import { useCreateToDoItemMutation } from '@redux/slices/api';
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Form = () => {
@@ -54,7 +54,7 @@ export const Form = () => {
 			onSubmit={handleSubmit}>
 			<div className={styles.inputWrapper}>
 				<input
-					className={`${global.input} ${global.input_width100}`}
+					className={`${common.input} ${common.input_width100}`}
 					type="text"
 					name="to-do-item-name"
 					value={toDoItemDescription}
@@ -73,7 +73,7 @@ export const Form = () => {
 				)}
 				{isVisible && isSuccess && <span className={styles.result}>The task is successfully saved!</span>}
 			</div>
-			<button className={`${global.button} ${global.button_lightSteelBlue}`}>Add</button>
+			<button className={`${common.button} ${common.button_lightSteelBlue}`}>Add</button>
 		</form>
 	);
 };

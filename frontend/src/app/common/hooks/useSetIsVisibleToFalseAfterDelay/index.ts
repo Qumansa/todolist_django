@@ -3,7 +3,7 @@ import { Props } from "./types";
 
 export const useSetIsVisibleToFalseAfterDelay = ({isVisible, setIsVisible, timerRef, timerDuration}: Props) => {
     useEffect(() => {
-		if (!isVisible || timerRef.current === null) return;
+		if (!isVisible) return;
 
 		timerRef.current = window.setTimeout(() => {
 			setIsVisible(false);

@@ -12,7 +12,7 @@ import { Spinner } from '@components/spinner';
 
 import { File, User } from '@types';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const SignUp = () => {
@@ -27,8 +27,8 @@ export const SignUp = () => {
 	};
 
 	return (
-		<section className={global.section}>
-			<div className={`${styles.signup__container} ${global.container} ${global.container_withBackground}`}>
+		<section className={common.section}>
+			<div className={`${styles.signup__container} ${common.container} ${common.container_withBackground}`}>
 				{!isSuccess && (
 					<Formik
 						initialValues={{
@@ -88,10 +88,10 @@ export const SignUp = () => {
 							<InputFile
 								label="Profile image"
 								name="image"
-								classNameForInput={global.input_small}
+								classNameForInput={common.input_small}
 							/>
 							<button
-								className={`${styles.signup__submit} ${global.button} ${global.button_deepSpaceSparkle}`}
+								className={`${styles.signup__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 								type="submit">
 								Submit
 							</button>
@@ -105,7 +105,7 @@ export const SignUp = () => {
 						<p className={styles.signup__success}>Account successfully created!</p>
 						<Link
 							to="/login"
-							className={`${global.button} ${global.button_deepSpaceSparkle} ${global.textCenter}`}>
+							className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}>
 							Log in
 						</Link>
 					</>

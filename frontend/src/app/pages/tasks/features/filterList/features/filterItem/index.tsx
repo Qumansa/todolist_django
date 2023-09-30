@@ -4,7 +4,7 @@ import { selectActiveFilter } from '@redux/slices/filter/selectors';
 
 import { Props } from './types';
 
-import global from '@styles/global.module.css';
+import common from '@common/common.module.css';
 
 export const FilterItem = ({ name }: Props) => {
 	const dispatch = useAppDispatch();
@@ -18,9 +18,9 @@ export const FilterItem = ({ name }: Props) => {
 		<li>
 			<button
 				className={`
-                    ${global.button} 
-                    ${global.button_lightSteelBlue} 
-                    ${name === activeFilter ? global.button_lightSteelBlue_active : ''}
+                    ${common.button} 
+                    ${common.button_lightSteelBlue} 
+                    ${name === activeFilter ? common.button_lightSteelBlue_active : ''}
                 `}
 				onClick={handleFilterChange}>
 				{name}
