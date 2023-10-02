@@ -1,4 +1,4 @@
-from django.contrib import admin
+# from django.contrib import admin
 from django.urls import path, include
 # from rest_framework_simplejwt.views import (
 #     TokenObtainPairView,
@@ -7,11 +7,11 @@ from django.urls import path, include
 # )
 
 
-from main.views import RegisterApi, LogoutAPIView, TaskAPIUpdateDelete, TaskAPIView
+from main.views import TaskAPIUpdateDelete, TaskAPIView
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('', views.index),
     path('api/todos/', TaskAPIView.as_view()),
     path('api/todos/<int:pk>/', TaskAPIUpdateDelete.as_view()),

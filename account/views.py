@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import render
 
 from account import serializers, models
@@ -11,7 +12,7 @@ def get_user_tokens(user):
     refresh = tokens.RefreshToken.for_user(user)
     return{
         "refresh_token": str(refresh),
-        "access_token": str(refresh.access_tokem)
+        "access_token": str(refresh.access_token)
     }
 
 @rest_decorators.api_view(["POST"])
@@ -29,14 +30,6 @@ def loginView(request):
         tokens = get_user_tokens(user)
         res = response.Response()
         res.set_cookie(
-            key = settings.SIMPLE_JWT['AUTH_COOKIE'],
-            value = tokens["access_token"],
-            expires = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
-            samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-        )
-        res.set_cookie(
             key = settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
             value = tokens["refresh_token"],
             expires = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'],
@@ -44,8 +37,8 @@ def loginView(request):
             httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
             samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
         )
-
-        res.data = tokens
+        # res.data = tokens
+        res.data = {"access_token": tokens["access_token"]}
         res["X-CSRFToken"] = csrf.get_token(request)
         return res
 
@@ -55,20 +48,64 @@ def loginView(request):
 @rest_decorators.api_view(["POST"])
 @rest_decorators.permission_classes([])
 def registerView(request):
-    serializers = serializers.RegistrationSerializer(data=request.data)
-    serializers.is_valid(raise_exception=True)
+    serializer = serializers.RegistrationSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
 
-    user = serializers.save()
+    user = serializer.save()
 
     if user is not None:
         return response.Response("Regisered")
     return rest_exceptions.AuthenticationFailed("Invalid credentials")
 
-def registerView(request):
-    pass
-
-def resreshTokenView(request):
-    pass
-
+@rest_decorators.api_view(["POST"])
+@rest_decorators.permission_classes([rest_permissions.IsAuthenticated])
 def logoutView(request):
-    pass
+    try:
+        refreshToken = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+        token = tokens.RefreshToken(refreshToken)
+        token.blacklist()
+
+        res = response.Response()
+        res.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
+        res.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+        res.delete_cookie("X-CSRFToken")
+        res.delete_cookie("csrftoken")
+        return res
+    except:
+        raise rest_exceptions.ParseError("Invalid token")
+
+class CookieTokenRefreshSerializer(jwt_serializers.TokenRefreshSerializer):
+    refresh = None
+
+    def validate(self, attrs):
+        attrs['refresh'] = self.context['request'].COOKIES.get('refresh')
+        if attrs['refresh']:
+            return super().validate(attrs)
+        else:
+            return jwt_exceptions.InvalidToken('No valid token found in cookie \'refresh\'')
+
+class CookieTokenRefreshView(jwt_views.TokenRefreshView):
+    serializer_class = CookieTokenRefreshSerializer
+    def finalize_response(self, request, response, *args, **kwargs):
+        if response.data.get("refresh"):
+            response.set_cookie(
+                key = settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
+                value = response.data['refresh'],
+                expires = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'],
+                secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+                httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+                samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+            )
+            del response.data["refresh"]
+        response["X-CSRFToken"] = request.COOKIES.get("csrftoken")
+        return super().finalize_response(request, response, *args, **kwargs)
+
+@rest_decorators.api_view(["GET"])
+@rest_decorators.permission_classes([rest_permissions.IsAuthenticated])
+def user(requset):
+    try:
+        user = models.Account.objects.get(id=requset.user.id)
+    except models.Account.DoesNotExist:
+        return response.Response(status_code=404)
+    serializer = serializers.AccountSerializer(user)
+    return response.Response(serializer.data)

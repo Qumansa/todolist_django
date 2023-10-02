@@ -27,13 +27,13 @@ SECRET_KEY = 'django-insecure-i6%q(*6^2@x1f&z1%k-=7$hz7561e5sjm%l8&w+#5d14a8fo)h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.2']
+ALLOWED_HOSTS = ['127.0.0.2', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -136,11 +136,11 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type("application/javascript", ".js", True)
 
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.2:5173']
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.2:5173']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000']
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = "None"
@@ -151,6 +151,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
+        'account.authenticate.CustomAuthentication',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -222,7 +223,7 @@ SIMPLE_JWT = {
     'AUTH_COOKIE_SECURE': False,
     'AUTH_COOKIE_HTTP_ONLY': True,
     'AUTH_COOKIE_PATH': '/',
-    'AUTH_COOKIE_SAMSITE': 'None',
+    'AUTH_COOKIE_SAMESITE': 'None',
 }
 
-# AUTH_USER_MODEL = 'account.Account'
+AUTH_USER_MODEL = 'account.Account'
