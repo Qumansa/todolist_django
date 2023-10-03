@@ -38,56 +38,58 @@ export const Login = () => {
 	};
 
 	return (
-		<section className={common.section}>
-			<div className={`${styles.login__container} ${common.container} ${common.container_withBackground}`}>
-				<Formik
-					initialValues={{
-						username: '',
-						password: '',
-					}}
-					validationSchema={Yup.object({
-						username: Yup.string()
-							.matches(
-								/^[a-zA-Z][a-zA-Z0-9-_]{2,20}$/,
-								'3 to 20 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.'
-							)
-							.required('This field is required'),
-						password: Yup.string()
-							.matches(
-								/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
-								'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
-							)
-							.required('This field is required'),
-					})}
-					onSubmit={(loginData, { resetForm }) => handleSubmit(loginData, resetForm)}>
-					<Form className={styles.login__form}>
-						<Input
-							label="Username*"
-							name="username"
-							type="text"
-							placeholder="John Doe"
-							autoComplete="on"
-							focusOnPageLoad
-						/>
-						<Input
-							label="Password*"
-							name="password"
-							type="password"
-						/>
-						<button
-							className={`${styles.login__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
-							type="submit">
-							Submit
-						</button>
-					</Form>
-				</Formik>
-				{isLoading && <Spinner />}
-				{error && 'status' in error && error.status === 401 ? (
-					<ErrorMessage message="Username and password don't match" />
-				) : error && ('status' && 'error') in error ? (
-					<ErrorMessage message={JSON.stringify(error.data)} />
-				) : null}
-			</div>
+		<section
+			className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
+			<Formik
+				initialValues={{
+					username: '',
+					password: '',
+				}}
+				validationSchema={Yup.object({
+					username: Yup.string()
+						.matches(
+							/^[a-zA-Z][a-zA-Z0-9-_]{2,20}$/,
+							'3 to 20 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.'
+						)
+						.required('This field is required'),
+					password: Yup.string()
+						.matches(
+							/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
+							'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
+						)
+						.required('This field is required'),
+				})}
+				onSubmit={(loginData, { resetForm }) => handleSubmit(loginData, resetForm)}>
+				<Form className={styles.login__form}>
+					<Input
+						label="Username*"
+						name="username"
+						type="text"
+						placeholder="John Doe"
+						autoComplete="on"
+						focusOnPageLoad
+					/>
+					<Input
+						label="Password*"
+						name="password"
+						type="password"
+					/>
+					{/* поменять тексты всех кнопок на сайте 
+					для регистрации на "Create an account", 
+					а для логина на "Log in" */}
+					<button
+						className={`${styles.login__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+						type="submit">
+						Submit
+					</button>
+				</Form>
+			</Formik>
+			{isLoading && <Spinner />}
+			{error && 'status' in error && error.status === 401 ? (
+				<ErrorMessage message="Username and password don't match" />
+			) : error && ('status' && 'error') in error ? (
+				<ErrorMessage message={JSON.stringify(error.data)} />
+			) : null}
 		</section>
 	);
 };
