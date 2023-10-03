@@ -22,5 +22,6 @@ export interface File {
 export interface InputProps {
     label: string;
     name: string;
+    optional?: true;
     classNameForInput?: string;
 }

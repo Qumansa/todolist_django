@@ -62,7 +62,7 @@ export const Login = () => {
 				onSubmit={(loginData, { resetForm }) => handleSubmit(loginData, resetForm)}>
 				<Form className={styles.login__form}>
 					<Input
-						label="Username*"
+						label="Username"
 						name="username"
 						type="text"
 						placeholder="John Doe"
@@ -70,17 +70,14 @@ export const Login = () => {
 						focusOnPageLoad
 					/>
 					<Input
-						label="Password*"
+						label="Password"
 						name="password"
 						type="password"
 					/>
-					{/* поменять тексты всех кнопок на сайте 
-					для регистрации на "Create an account", 
-					а для логина на "Log in" */}
 					<button
 						className={`${styles.login__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 						type="submit">
-						Submit
+						Log in
 					</button>
 				</Form>
 			</Formik>

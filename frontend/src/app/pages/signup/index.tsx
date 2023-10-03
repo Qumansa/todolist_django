@@ -68,33 +68,33 @@ export const SignUp = () => {
 					})}
 					onSubmit={(signupData, { resetForm }) => handleSubmit(signupData, resetForm)}>
 					<Form className={styles.signup__form}>
-						{/* При создании инпутов исходить из того, что по умолчанию все инпуты обязательны для заполнения, и нужно отмечать только те, которые опциональны, а не наоборот: отмечать астериском обязательные и не отмечать необязательные */}
 						<Input
-							label="Username*"
+							label="Username"
 							name="username"
 							type="text"
 							placeholder="John Doe"
 							focusOnPageLoad
 						/>
 						<Input
-							label="Password*"
+							label="Password"
 							name="password"
 							type="password"
 						/>
 						<Input
-							label="Confirm password*"
+							label="Confirm password"
 							name="confirmPassword"
 							type="password"
 						/>
 						<InputFile
 							label="Profile image"
 							name="image"
+							optional
 							classNameForInput={common.input_small}
 						/>
 						<button
 							className={`${styles.signup__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 							type="submit">
-							Submit
+							Create an account
 						</button>
 					</Form>
 				</Formik>

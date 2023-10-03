@@ -7,7 +7,7 @@ import { Props } from './types';
 
 import common from '@common/common.module.css';
 
-export const Input = ({ label, classNameForInput, focusOnPageLoad, ...props }: Props) => {
+export const Input = ({ label, classNameForInput, optional, focusOnPageLoad, ...props }: Props) => {
 	const [field, meta] = useField(props.name);
 	const userNameRef = useRef<HTMLInputElement>(null);
 
@@ -18,6 +18,7 @@ export const Input = ({ label, classNameForInput, focusOnPageLoad, ...props }: P
 	return (
 		<label className={common.label}>
 			{label}
+			{optional && <span className={common.italic}>&nbsp;(optional)</span>}
 			<input
 				className={`${common.input} ${classNameForInput ? classNameForInput : ''}`}
 				{...props}

@@ -22,8 +22,8 @@ export const Header = () => {
 		<header className={`${styles.header} ${common.container}`}>
 			<Link to={'/'}>
 				<svg
-					width="85px"
-					height="85px"
+					width={85}
+					height={85}
 					viewBox="0 0 400 400.00001"
 					version="1.1">
 					<g transform="translate(0,-652.36216)">

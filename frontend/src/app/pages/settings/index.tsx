@@ -128,12 +128,12 @@ export const Settings = () => {
 						onSubmit={(passwordData, { resetForm }) => handleChangePassword(passwordData, resetForm)}>
 						<Form className={styles.form}>
 							<Input
-								label="New password*"
+								label="New password"
 								name="password"
 								type="password"
 							/>
 							<Input
-								label="Confirm password*"
+								label="Confirm password"
 								name="confirmPassword"
 								type="password"
 							/>
@@ -182,7 +182,7 @@ export const Settings = () => {
 						onSubmit={(imageData, { resetForm }) => handleChangeImage(imageData, resetForm)}>
 						<Form className={styles.form}>
 							<InputFile
-								label="Profile image*"
+								label="Profile image"
 								name="image"
 								classNameForInput={common.input_small}
 							/>

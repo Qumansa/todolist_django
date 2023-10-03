@@ -126,3 +126,7 @@
 .textCenter {
     text-align: center;
 }
+
+.italic {
+    font-style: italic;
+}
