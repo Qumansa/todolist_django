@@ -23,7 +23,8 @@ export const SignUp = () => {
 			.unwrap()
 			.then(() => {
 				resetForm();
-			});
+			})
+			.catch((error) => console.log(error));
 	};
 
 	return (

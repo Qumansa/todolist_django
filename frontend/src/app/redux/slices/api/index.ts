@@ -2,7 +2,7 @@ import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/qu
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Mutex } from 'async-mutex';
 
-import { logOut, setCredentials } from '../auth';
+import { logOut, setCredentials, setToken } from '../auth';
 
 import { IToDoItem } from '@types';
 import type { RootState } from '../..';
@@ -38,22 +38,18 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 				// попытка получения нового access-токена путем отправки refresh-токена
 				const refreshResult = await baseQuery(
 					{
-						url: '/token/refresh/', 
+						url: '/auth/refresh-token/', 
 						method: 'POST'
 					}, 
 					api, 
 					extraOptions
 				);
-				// console.log(refreshResult);
 		
-				if (refreshResult?.data) {
-					// сохранение нового access-токена
-					// возможно, ниже можно передать метод setCredentials на методы setUser и setToken
-					const user = (api.getState() as RootState).auth.user;
-					api.dispatch(setCredentials({
-						user,
-						token: refreshResult.data, 
-					}));
+				if (refreshResult?.data 
+					&& typeof refreshResult.data === 'object' 
+					&& 'access' in refreshResult.data 
+					&& typeof refreshResult.data.access === 'string') {
+					api.dispatch(setToken(refreshResult.data.access));
 					// повтор первоначального запроса
 					result = await baseQuery(args, api, extraOptions)
 				} else {
@@ -78,14 +74,14 @@ export const apiSlice = createApi({
 	endpoints: (builder) => ({
 		signUp: builder.mutation({
             query: (data) => ({
-                url: '/auth/signup/',
+                url: '/auth/register/',
                 method: 'POST',
                 body: data,
             }),
         }),
 		logIn: builder.mutation({
             query: (data) => ({
-                url: '/token/',
+                url: '/auth/login/',
                 method: 'POST',
                 body: data
             }),

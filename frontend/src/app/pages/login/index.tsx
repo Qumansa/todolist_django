@@ -10,7 +10,7 @@ import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
 import { Spinner } from '@components/spinner';
 
-import { LogInData, Tokens } from './types';
+import { LogInData, Token } from './types';
 
 import common from '@common/common.module.css';
 import styles from './styles.module.css';
@@ -23,13 +23,13 @@ export const Login = () => {
 	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
 			.unwrap()
-			.then((result: Tokens) => {
+			.then((result: Token) => {
 				dispatch(
 					setCredentials({
 						user: {
 							username,
 						},
-						token: result.access,
+						token: result.access_token,
 					})
 				);
 				resetForm();

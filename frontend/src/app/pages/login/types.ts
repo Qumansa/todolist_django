@@ -2,7 +2,6 @@ import { User } from "@types";
 
 export type LogInData = Pick<User, 'username' | 'password'>;
 
-export interface Tokens {
-    access: string;
-    refresh: string;
+export interface Token {
+    access_token: string;
 }

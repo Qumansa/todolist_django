@@ -136,14 +136,15 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type("application/javascript", ".js", True)
 
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000']
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000', 'http://localhost:5173']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000', 'http://localhost:5173']
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_PATH = '/;HttpOnly'
 
@@ -161,11 +162,11 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS_ORIGIN_ALLOW_ALL = False
-# CORS_ALLOW_CREDENTIALS = True
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:5173',
-# ]
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
+]
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -220,7 +221,7 @@ SIMPLE_JWT = {
     'AUTH_COOKIE': 'access',
     'AUTH_COOKIE_REFRESH': 'refresh',
     'AUTH_COOKIE_DOMAIN': None,
-    'AUTH_COOKIE_SECURE': False,
+    'AUTH_COOKIE_SECURE': True,
     'AUTH_COOKIE_HTTP_ONLY': True,
     'AUTH_COOKIE_PATH': '/',
     'AUTH_COOKIE_SAMESITE': 'None',

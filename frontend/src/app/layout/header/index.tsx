@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 export const Header = () => {
 	const user = useAppSelector(selectUser);
 	// возможно, нужно делать один запрос и сохранять количество заданий в стейте
-	const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();
+	// const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();
 
 	return (
 		<header className={`${styles.header} ${common.container}`}>
@@ -33,21 +33,21 @@ export const Header = () => {
 					</g>
 				</svg>
 			</Link>
-			<span className={styles.header__userName}>{user?.username || 'Not logged in'},&nbsp;</span>
+			{/* <span className={styles.header__userName}>{user?.username || 'Not logged in'},&nbsp;</span>
 			<div className={styles.header__tasksWrapper}>
 				<Link
 					to={'/tasks'}
 					className={styles.header__tasks}>
 					{toDoList.length} {toDoList.length === 1 ? 'task' : 'tasks'}
 				</Link>
-				{/* {isLoading && <Spinner withModifier="spinner_extrasmall" />} */}
+				{isLoading && <Spinner withModifier="spinner_extrasmall" />}
 				{isError && (
 					<ErrorMessage
 						withClassname={styles.header__tasksError}
 						message="Could not load amount of tasks."
 					/>
 				)}
-			</div>
+			</div> 
 			<Link
 				className={styles.header__userImgLink}
 				to={'/settings'}>
@@ -58,7 +58,7 @@ export const Header = () => {
 					height={50}
 					alt="Profile Picture"
 				/>
-			</Link>
+			</Link> */}
 		</header>
 	);
 };
