@@ -2,9 +2,9 @@ import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/qu
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Mutex } from 'async-mutex';
 
-import { logOut, setCredentials, setToken } from '../auth';
+import { logOutFromState, setToken } from '../auth';
 
-import { IToDoItem } from '@types';
+import { IToDoItem, User } from '@types';
 import type { RootState } from '../..';
 
 const mutex = new Mutex();
@@ -16,9 +16,7 @@ const baseQuery = fetchBaseQuery({
 	prepareHeaders(headers, {getState}) { // при любом запросе к апи отправляем токен (скорее всего access-токен), если он есть
 		const token = (getState() as RootState).auth.token;
 		
-		if (token) {
-			headers.set("authorization", `Bearer ${token}`);
-		}
+		token && headers.set("authorization", `Bearer ${token}`); 
 
 		return headers;
 	}
@@ -53,7 +51,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 					// повтор первоначального запроса
 					result = await baseQuery(args, api, extraOptions)
 				} else {
-					api.dispatch(logOut());
+					api.dispatch(logOutFromState());
 				}
 			} finally {
 				release();
@@ -70,8 +68,10 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: baseQueryWithReauth,
-	tagTypes: ['Todos'],
+	tagTypes: ['User', 'Todos'],
 	endpoints: (builder) => ({
+		// <ReturnValueHere, ArgumentTypeHere> If there is no argument, use void
+		// переписать все типы
 		signUp: builder.mutation({
             query: (data) => ({
                 url: '/auth/register/',
@@ -85,7 +85,19 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body: data
             }),
+			invalidatesTags: ['User', 'Todos'],
         }),
+		logOut: builder.mutation<void, void>({
+            query: () => ({
+                url: '/auth/logout/',
+                method: 'POST',
+            }),
+			invalidatesTags: ['User', 'Todos'],
+        }),
+		getUser: builder.query<User, void>({
+			query: () => '/auth/user/',
+			providesTags: ['User'],
+		}),
 		changeUserPassword: builder.mutation({
             query: (data) => ({
                 url: '/changepassword/',
@@ -130,6 +142,6 @@ export const apiSlice = createApi({
 	}),
 });
 
-export const { useSignUpMutation, useLogInMutation, useChangeUserPasswordMutation, useChangeUserImageMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
+export const { useSignUpMutation, useLogInMutation, useGetUserQuery, useLogOutMutation, useChangeUserPasswordMutation, useChangeUserImageMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
 	apiSlice;
 	

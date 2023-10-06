@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useSignUpMutation } from '@redux/slices/api';
-import { setUser } from '@redux/slices/auth';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
@@ -24,6 +23,7 @@ export const SignUp = () => {
 			.then(() => {
 				resetForm();
 			})
+			// обработать ошибку
 			.catch((error) => console.log(error));
 	};
 

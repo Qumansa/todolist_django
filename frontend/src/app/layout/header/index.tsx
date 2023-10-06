@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '@redux/hooks';
-import { useGetToDoListQuery } from '@redux/slices/api';
-import { selectUser } from '@redux/slices/auth/selectors';
+import { useGetToDoListQuery, useGetUserQuery } from '@redux/slices/api';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
@@ -14,9 +13,15 @@ import styles from './styles.module.css';
 
 // возможно, в хедере в правой части, если пользователь не авторизован, сделать вывод кнопок "sign up/sign in"
 export const Header = () => {
-	const user = useAppSelector(selectUser);
 	// возможно, нужно делать один запрос и сохранять количество заданий в стейте
-	// const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();
+	const {
+		data: toDoList = [],
+		isLoading: isLoadingToDoList,
+		isError: isErrorToDoList,
+		error: errorToDoList,
+	} = useGetToDoListQuery();
+	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, error: errorUser } = useGetUserQuery();
+	console.log('Делаем запросы в хедере', toDoList, user);
 
 	return (
 		<header className={`${styles.header} ${common.container}`}>
@@ -33,21 +38,21 @@ export const Header = () => {
 					</g>
 				</svg>
 			</Link>
-			{/* <span className={styles.header__userName}>{user?.username || 'Not logged in'},&nbsp;</span>
+			<span className={styles.header__userName}>{user?.username || 'Not logged in'},&nbsp;</span>
 			<div className={styles.header__tasksWrapper}>
 				<Link
 					to={'/tasks'}
 					className={styles.header__tasks}>
 					{toDoList.length} {toDoList.length === 1 ? 'task' : 'tasks'}
 				</Link>
-				{isLoading && <Spinner withModifier="spinner_extrasmall" />}
-				{isError && (
+				{isLoadingToDoList && <Spinner withModifier="spinner_extrasmall" />}
+				{isErrorToDoList && 'status' in errorToDoList && errorToDoList.status !== 401 ? (
 					<ErrorMessage
 						withClassname={styles.header__tasksError}
 						message="Could not load amount of tasks."
 					/>
-				)}
-			</div> 
+				) : null}
+			</div>
 			<Link
 				className={styles.header__userImgLink}
 				to={'/settings'}>
@@ -58,7 +63,7 @@ export const Header = () => {
 					height={50}
 					alt="Profile Picture"
 				/>
-			</Link> */}
+			</Link>
 		</header>
 	);
 };

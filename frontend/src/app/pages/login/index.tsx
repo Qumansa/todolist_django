@@ -1,10 +1,11 @@
 import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useAppDispatch } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { useLogInMutation } from '@redux/slices/api';
-import { setCredentials } from '@redux/slices/auth';
+import { setToken } from '@redux/slices/auth';
+import { selectToken } from '@redux/slices/auth/selectors';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
@@ -16,28 +17,38 @@ import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Login = () => {
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const token = useAppSelector(selectToken);
+	const navigate = useNavigate();
+	const location = useLocation();
 	const [logIn, { error, isLoading }] = useLogInMutation();
 
 	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
 			.unwrap()
 			.then((result: Token) => {
-				dispatch(
-					setCredentials({
-						user: {
-							username,
-						},
-						token: result.access_token,
-					})
-				);
+				dispatch(setToken(result.access_token));
 				resetForm();
 				navigate('/tasks');
 			});
 	};
 
-	return (
+	// возможно, вместо
+	// 	<Navigate
+	// 		to="/tasks"
+	// 		state={{ from: location }}
+	// 		replace
+	// 	/>
+	// можно просто использовать
+	// 	navigate('/tasks');
+	// нужно посмотреть в документации
+	return token ? (
+		<Navigate
+			to="/tasks"
+			state={{ from: location }}
+			replace
+		/>
+	) : (
 		<section
 			className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
 			<Formik

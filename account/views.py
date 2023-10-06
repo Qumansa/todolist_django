@@ -66,10 +66,10 @@ def logoutView(request):
         token.blacklist()
 
         res = response.Response()
-        res.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
-        res.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
-        res.delete_cookie("X-CSRFToken")
-        res.delete_cookie("csrftoken")
+        res.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'], samesite='none')
+        res.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'], samesite='none')
+        res.delete_cookie("X-CSRFToken", samesite='none')
+        res.delete_cookie("csrftoken", samesite='none')
         return res
     except:
         raise rest_exceptions.ParseError("Invalid token")

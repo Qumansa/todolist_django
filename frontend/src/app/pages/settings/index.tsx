@@ -3,9 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
-import { useChangeUserImageMutation, useChangeUserPasswordMutation } from '@redux/slices/api';
-import { logOut } from '@redux/slices/auth';
-import { selectUser } from '@redux/slices/auth/selectors';
+import {
+	useChangeUserImageMutation,
+	useChangeUserPasswordMutation,
+	useGetUserQuery,
+	useLogOutMutation,
+} from '@redux/slices/api';
+import { logOutFromState } from '@redux/slices/auth';
 
 import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseAfterDelay';
 
@@ -21,8 +25,9 @@ import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Settings = () => {
-	const dispatch = useAppDispatch();
-	const user = useAppSelector(selectUser);
+	// возможно, нужно делать один запрос и сохранять количество заданий в стейте, потому что повторный запрос делается в хедере
+	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, error: errorUser } = useGetUserQuery();
+	const [logOut, { isLoading: isLoadingLogOut, isError: isErrorLogOut }] = useLogOutMutation();
 	const [
 		changeUserPassword,
 		{ isLoading: isLoadingChangePassword, isError: isErrorChangePassword, isSuccess: isSuccessChangePassword },
@@ -35,6 +40,7 @@ export const Settings = () => {
 	const [imageBeingEdited, setImageBeingEdited] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const timerRef = useRef<Timer>(null);
+	const dispatch = useAppDispatch();
 
 	// выбрать один вариант, как делать запросы на сервер и обрабатывать ошибки, и применять только его
 	// 1) .unwrap.then.catch.finally
@@ -83,7 +89,13 @@ export const Settings = () => {
 	};
 
 	const handleLogOut = () => {
-		dispatch(logOut());
+		logOut()
+			.unwrap()
+			.then(() => {
+				dispatch(logOutFromState());
+			})
+			// обработать ошибку
+			.catch((error) => console.log(error));
 	};
 
 	useSetIsVisibleToFalseAfterDelay({ isVisible, setIsVisible, timerRef, timerDuration: 3500 });
@@ -207,6 +219,7 @@ export const Settings = () => {
 					<p className={styles.result}>Profile image successfully changed!</p>
 				)}
 
+				{/* // добавить spinner и обработку ошибок */}
 				<button
 					className={`${styles.logOut} ${common.button} ${common.button_deepSpaceSparkle}`}
 					onClick={handleLogOut}>

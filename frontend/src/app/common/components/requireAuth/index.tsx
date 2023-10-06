@@ -11,7 +11,7 @@ export const RequireAuth = () => {
 		<Outlet />
 	) : (
 		<Navigate
-			to="login"
+			to="/login"
 			state={{ from: location }}
 			replace
 		/>

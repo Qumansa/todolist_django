@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 
+import { useAppSelector } from '@redux/hooks';
+import { selectToken } from '@redux/slices/auth/selectors';
+
 import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Home = () => {
+	const token = useAppSelector(selectToken);
+
 	return (
 		<section className={`${common.section} ${common.container} ${common.container_withBackground}`}>
 			<p className={styles.home__descr}>
@@ -14,21 +19,24 @@ export const Home = () => {
 				officiis repudiandae eaque quasi facere aliquid illum.
 			</p>
 			<div className={styles.home__linksWrapper}>
-				<Link
-					className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
-					to={`/login`}>
-					Log in
-				</Link>
+				{token ? (
+					<Link
+						className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
+						to={`/tasks`}>
+						Tasks
+					</Link>
+				) : (
+					<Link
+						className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
+						to={`/login`}>
+						Log in
+					</Link>
+				)}
 				<Link
 					className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
 					to={`/signup`}>
 					Create an account
 				</Link>
-				{/* <Link
-					className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}
-					to={`/tasks`}>
-					Tasks
-				</Link> */}
 			</div>
 		</section>
 	);

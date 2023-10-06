@@ -31,16 +31,16 @@ export const App = () => {
 					element={<Page404 />}
 				/>
 
-				{/* <Route element={<RequireAuth />}> */}
-				<Route
-					path="/tasks"
-					element={<Tasks />}
-				/>
-				<Route
-					path="/settings"
-					element={<Settings />}
-				/>
-				{/* </Route> */}
+				<Route element={<RequireAuth />}>
+					<Route
+						path="/tasks"
+						element={<Tasks />}
+					/>
+					<Route
+						path="/settings"
+						element={<Settings />}
+					/>
+				</Route>
 			</Route>
 		)
 	);
