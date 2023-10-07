@@ -11,8 +11,14 @@
     text-align: center;
 }
 
-.header__userName {
+.header__user {
+    display: flex;
+    align-items: center;
     margin-left: auto;
+}
+
+.header__userName {
+    margin-left: 1rem;
     font-size: 3rem;
     line-height: 4.5rem;
 }
@@ -36,12 +42,12 @@
 }
 
 .header__userImgLink {
+    width: 100%;
+    max-width: 5rem;
+    max-height: 5rem;
     margin-left: 2rem;
 }
 
 .header__userImg {
-    width: 5rem;
-    height: 5rem;
-    object-fit: cover;
     border-radius: 50%;
 }

@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { useSetIsVisibleToFalseAfterDelay } from '@common/hooks/useSetIsVisibleToFalseAfterDelay';
 import { useCreateToDoItemMutation } from '@redux/slices/api';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
+
+import { Timer } from '@common/types';
 
 import common from '@common/common.module.css';
 import styles from './styles.module.css';
@@ -14,8 +17,7 @@ export const Form = () => {
 	const [toDoItemDescription, setToDoItemDescription] = useState('');
 	const [isShortDescription, setIsShortDescription] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	// исправить тип
-	const timerRef = useRef<any | undefined>(undefined);
+	const timerRef = useRef<Timer>(null);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -38,15 +40,7 @@ export const Form = () => {
 		setToDoItemDescription('');
 	};
 
-	useEffect(() => {
-		if (!isVisible) return;
-
-		timerRef.current = setTimeout(() => {
-			setIsVisible(false);
-		}, 3500);
-
-		return () => clearTimeout(timerRef.current);
-	}, [isVisible]);
+	useSetIsVisibleToFalseAfterDelay({ isVisible, setIsVisible, timerRef, timerDuration: 3500 });
 
 	return (
 		<form

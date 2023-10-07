@@ -1,15 +1,15 @@
 import { Form, Formik } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import * as Yup from 'yup';
 
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch } from '@redux/hooks';
 import {
 	useChangeUserImageMutation,
 	useChangeUserPasswordMutation,
 	useGetUserQuery,
 	useLogOutMutation,
 } from '@redux/slices/api';
-import { logOutFromState } from '@redux/slices/auth';
+import { removeToken } from '@redux/slices/auth';
 
 import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseAfterDelay';
 
@@ -26,8 +26,7 @@ import styles from './styles.module.css';
 
 export const Settings = () => {
 	// возможно, нужно делать один запрос и сохранять количество заданий в стейте, потому что повторный запрос делается в хедере
-	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, error: errorUser } = useGetUserQuery();
-	const [logOut, { isLoading: isLoadingLogOut, isError: isErrorLogOut }] = useLogOutMutation();
+	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, isSuccess: isSuccessUser } = useGetUserQuery();
 	const [
 		changeUserPassword,
 		{ isLoading: isLoadingChangePassword, isError: isErrorChangePassword, isSuccess: isSuccessChangePassword },
@@ -36,9 +35,10 @@ export const Settings = () => {
 		changeUserImage,
 		{ isLoading: isLoadingChangeImage, isError: isErrorChangeImage, isSuccess: isSuccessChangeImage },
 	] = useChangeUserImageMutation();
+	const [logOut, { isLoading: isLoadingLogOut, isError: isErrorLogOut }] = useLogOutMutation();
 	const [passwordBeingEdited, setPasswordBeingEdited] = useState(false);
 	const [imageBeingEdited, setImageBeingEdited] = useState(false);
-	const [isVisible, setIsVisible] = useState(false);
+	const [isVisible, setIsVisible] = useState(true);
 	const timerRef = useRef<Timer>(null);
 	const dispatch = useAppDispatch();
 
@@ -88,13 +88,12 @@ export const Settings = () => {
 		setImageBeingEdited(true);
 	};
 
-	const handleLogOut = () => {
+	const handleLogOut = async () => {
 		logOut()
 			.unwrap()
 			.then(() => {
-				dispatch(logOutFromState());
+				dispatch(removeToken());
 			})
-			// обработать ошибку
 			.catch((error) => console.log(error));
 	};
 
@@ -105,7 +104,16 @@ export const Settings = () => {
 			className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
 			<h2 className={common.section__title}>Account settings</h2>
 			<div className={styles.settings__wrapper}>
-				<p className={styles.settings__username}>Username: {user?.username || 'Not logged in'}</p>
+				<p className={styles.settings__username}>
+					Username: {(isSuccessUser && user?.username) || 'Not logged in'}
+				</p>
+				{isLoadingUser && <Spinner withModifier="spinner_extrasmall" />}
+				{isVisible && isErrorUser && (
+					<ErrorMessage
+						withClassname={styles.result}
+						message="Could not load username."
+					/>
+				)}
 
 				{!passwordBeingEdited && !imageBeingEdited && (
 					<>
@@ -219,12 +227,13 @@ export const Settings = () => {
 					<p className={styles.result}>Profile image successfully changed!</p>
 				)}
 
-				{/* // добавить spinner и обработку ошибок */}
 				<button
 					className={`${styles.logOut} ${common.button} ${common.button_deepSpaceSparkle}`}
 					onClick={handleLogOut}>
 					Log out
 				</button>
+				{isLoadingLogOut && <Spinner />}
+				{isVisible && isErrorLogOut && <ErrorMessage />}
 			</div>
 		</section>
 	);

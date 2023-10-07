@@ -22,6 +22,7 @@ export const Login = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [logIn, { error, isLoading }] = useLogInMutation();
+	console.log(location);
 
 	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
@@ -29,22 +30,14 @@ export const Login = () => {
 			.then((result: Token) => {
 				dispatch(setToken(result.access_token));
 				resetForm();
-				navigate('/tasks');
+				// navigate('/tasks', { replace: true });
 			});
 	};
+	// location.state?.from?.pathname ? location.state.from.pathname : '/tasks'
 
-	// возможно, вместо
-	// 	<Navigate
-	// 		to="/tasks"
-	// 		state={{ from: location }}
-	// 		replace
-	// 	/>
-	// можно просто использовать
-	// 	navigate('/tasks');
-	// нужно посмотреть в документации
 	return token ? (
 		<Navigate
-			to="/tasks"
+			to={'/tasks'}
 			state={{ from: location }}
 			replace
 		/>

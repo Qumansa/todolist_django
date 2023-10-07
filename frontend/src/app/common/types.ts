@@ -1,8 +1,9 @@
 export type Timer = number | null;
+export type Token = string;
 
 export interface IToDoItem {
     id: string;
-    description: string; 
+    description: string;
     favourite: boolean;
 }
 
