@@ -1,23 +1,23 @@
 @import url('@styles/variables.css');
 
-.toDoList__item {
+.item {
     display: flex;
     column-gap: 3rem;
     justify-content: space-between;
     padding: 1.5rem 0;
 }
 
-.toDoList__item:not(:first-child) {
+.item:not(:first-child) {
     border-top: 1px solid var(--little-boy-blue);
 }
 
-.toDoList__task {
+.task {
     display: flex;
     column-gap: 1.5rem;
     width: 100%;
 }
 
-.toDoList__description {
+.description {
     cursor: unset;
     user-select: text;
 
@@ -27,14 +27,14 @@
     word-break: break-all;
 }
 
-.toDoList__descriptionWrapper {
+.descriptionWrapper {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     width: 100%;
 }
 
-.toDoList__descriptionNote {
+.descriptionNote {
     font-size: 1.6rem;
     line-height: 2.4rem;
     animation: fade-to-left 4s linear forwards;
@@ -56,13 +56,13 @@
     }
 }
 
-.toDoList__buttons {
+.buttons {
     display: flex;
     column-gap: 3rem;
     height: 3rem;
 }
 
-.toDoList__button {
+.button {
     will-change: transform;
     width: 3rem;
     height: 3rem;
@@ -70,28 +70,28 @@
 }
 
 @media (width >=992px) {
-    .toDoList__button:hover {
+    .button:hover {
         transform: scale(1.1);
     }
 
-    .toDoList__button:active {
+    .button:active {
         opacity: 0.5;
     }
 }
 
-.toDoList__button_active .toDoList__buttonImg_favourite path {
+.button_active .buttonImg_favourite path {
     fill: var(--little-boy-blue);
 }
 
-.toDoList__buttonImg {
+.buttonImg {
     width: 3rem;
     height: 3rem;
 }
 
-.toDoList__buttonImg_favourite {
+.buttonImg_favourite {
     stroke: #000;
 }
 
-.toDoList__buttonImg_favourite path {
+.buttonImg_favourite path {
     fill: var(--eggshell);
 }

@@ -5,11 +5,11 @@
     align-items: center;
 }
 
-.page404__img {
+.img {
     box-shadow: var(--default-box-shadow);
 }
 
-.page404__text {
+.text {
     font-size: 3.6rem;
     line-height: 5.2rem;
 }

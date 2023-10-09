@@ -7,9 +7,9 @@ import common from '@common/common.module.css';
 import styles from './styles.module.css';
 
 export const Tasks = () => (
-	<section className={`${common.section} ${common.container}`}>
+	<section className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
 		<h2 className={common.srOnly}>Tasks</h2>
-		<div className={styles.toDoList__wrapper}>
+		<div className={styles.wrapper}>
 			<Form />
 			<FilterList />
 			<Search />

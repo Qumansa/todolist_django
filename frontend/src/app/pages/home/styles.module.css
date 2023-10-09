@@ -1,10 +1,10 @@
-.home__descr {
+.descr {
     text-indent: 4rem;
 }
 
-.home__linksWrapper {
+.linksWrapper {
     display: flex;
-    justify-content: center;
     gap: 5rem;
+    justify-content: center;
     margin-top: 3rem;
 }

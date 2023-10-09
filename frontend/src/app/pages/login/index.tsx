@@ -22,7 +22,6 @@ export const Login = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [logIn, { error, isLoading }] = useLogInMutation();
-	console.log(location);
 
 	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
@@ -64,7 +63,7 @@ export const Login = () => {
 						.required('This field is required'),
 				})}
 				onSubmit={(loginData, { resetForm }) => handleSubmit(loginData, resetForm)}>
-				<Form className={styles.login__form}>
+				<Form className={styles.form}>
 					<Input
 						label="Username"
 						name="username"
@@ -79,7 +78,7 @@ export const Login = () => {
 						type="password"
 					/>
 					<button
-						className={`${styles.login__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+						className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 						type="submit">
 						Log in
 					</button>
@@ -89,7 +88,8 @@ export const Login = () => {
 			{error && 'status' in error && error.status === 401 ? (
 				<ErrorMessage message="Username and password don't match" />
 			) : error && ('status' && 'error') in error ? (
-				<ErrorMessage message={JSON.stringify(error.data)} />
+				// <ErrorMessage message={JSON.stringify(error.data)} />
+				<ErrorMessage />
 			) : null}
 		</section>
 	);

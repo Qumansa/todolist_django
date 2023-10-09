@@ -53,7 +53,7 @@
     height: 0.5rem;
 }
 
-.spinnerWrapper {
+.wrapper {
     display: flex;
     justify-content: center;
 }

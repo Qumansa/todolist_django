@@ -14,7 +14,6 @@ import { RequireAuth } from '@components/requireAuth';
 import './styles/main.css';
 
 export const App = () => {
-	// поменять обратно на  createBrowserRouter
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route

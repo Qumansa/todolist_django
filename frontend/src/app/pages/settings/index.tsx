@@ -29,7 +29,12 @@ export const Settings = () => {
 	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, isSuccess: isSuccessUser } = useGetUserQuery();
 	const [
 		changeUserPassword,
-		{ isLoading: isLoadingChangePassword, isError: isErrorChangePassword, isSuccess: isSuccessChangePassword },
+		{
+			isLoading: isLoadingChangePassword,
+			isError: isErrorChangePassword,
+			error: errorChangePassword,
+			isSuccess: isSuccessChangePassword,
+		},
 	] = useChangeUserPasswordMutation();
 	const [
 		changeUserImage,
@@ -103,12 +108,10 @@ export const Settings = () => {
 		<section
 			className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
 			<h2 className={common.section__title}>Account settings</h2>
-			<div className={styles.settings__wrapper}>
-				<p className={styles.settings__username}>
-					Username: {(isSuccessUser && user?.username) || 'Not logged in'}
-				</p>
+			<div className={styles.wrapper}>
+				<p className={styles.username}>Username: {(isSuccessUser && user?.username) || 'Not logged in'}</p>
 				{isLoadingUser && <Spinner withModifier="spinner_extrasmall" />}
-				{isVisible && isErrorUser && (
+				{isVisible && (
 					<ErrorMessage
 						withClassname={styles.result}
 						message="Could not load username."
@@ -134,7 +137,8 @@ export const Settings = () => {
 					<Formik
 						initialValues={{
 							password: '',
-							confirmPassword: '',
+							newPassword: '',
+							confirmNewPassword: '',
 						}}
 						validationSchema={Yup.object().shape({
 							password: Yup.string()
@@ -143,18 +147,31 @@ export const Settings = () => {
 									'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
 								)
 								.required('This field is required'),
-							confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
+							newPassword: Yup.string()
+								.matches(
+									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
+									'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
+								)
+								.required('This field is required'),
+							confirmNewPassword: Yup.string()
+								.oneOf([Yup.ref('password')], 'Passwords must match')
+								.required('This field is required'),
 						})}
 						onSubmit={(passwordData, { resetForm }) => handleChangePassword(passwordData, resetForm)}>
 						<Form className={styles.form}>
 							<Input
-								label="New password"
+								label="Current password"
 								name="password"
 								type="password"
 							/>
 							<Input
+								label="New password"
+								name="newPassword"
+								type="password"
+							/>
+							<Input
 								label="Confirm password"
-								name="confirmPassword"
+								name="confirmNewPassword"
 								type="password"
 							/>
 							<div className={styles.buttonsWrapper}>
@@ -173,7 +190,23 @@ export const Settings = () => {
 					</Formik>
 				)}
 				{isLoadingChangePassword && <Spinner withModifier="spinner_extrasmall" />}
-				{isVisible && isErrorChangePassword && <ErrorMessage withClassname={styles.result} />}
+				{/* проверить работоспособность */}
+				{isVisible ? (
+					errorChangePassword && 'status' in errorChangePassword && errorChangePassword.status === 401 ? (
+						<ErrorMessage
+							message="Username and password don't match"
+							withClassname={styles.result}
+						/>
+					) : (
+						errorChangePassword &&
+						('status' && 'error') in errorChangePassword && (
+							<ErrorMessage
+								// message={JSON.stringify(errorChangePassword.data)}
+								withClassname={styles.result}
+							/>
+						)
+					)
+				) : null}
 				{isVisible && isSuccessChangePassword && (
 					<p className={styles.result}>Password successfully changed!</p>
 				)}

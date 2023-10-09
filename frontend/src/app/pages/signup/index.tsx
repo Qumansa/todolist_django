@@ -68,7 +68,7 @@ export const SignUp = () => {
 							.notRequired(),
 					})}
 					onSubmit={(signupData, { resetForm }) => handleSubmit(signupData, resetForm)}>
-					<Form className={styles.signup__form}>
+					<Form className={styles.form}>
 						<Input
 							label="Username"
 							name="username"
@@ -93,7 +93,7 @@ export const SignUp = () => {
 							classNameForInput={common.input_small}
 						/>
 						<button
-							className={`${styles.signup__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+							className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 							type="submit">
 							Create an account
 						</button>
