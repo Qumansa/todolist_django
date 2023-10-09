@@ -1,5 +1,5 @@
+import { AddForm } from './features/addForm';
 import { FilterList } from './features/filterList';
-import { Form } from './features/form';
 import { Search } from './features/search';
 import { ToDoList } from './features/toDoList';
 
@@ -10,7 +10,7 @@ export const Tasks = () => (
 	<section className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
 		<h2 className={common.srOnly}>Tasks</h2>
 		<div className={styles.wrapper}>
-			<Form />
+			<AddForm />
 			<FilterList />
 			<Search />
 			<ToDoList />

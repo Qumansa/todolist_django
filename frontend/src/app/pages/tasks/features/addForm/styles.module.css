@@ -1,7 +1,7 @@
 .form {
     display: flex;
     column-gap: 5rem;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
@@ -34,4 +34,8 @@
         transform: translateX(-150%);
         opacity: 0;
     }
+}
+
+.submit {
+    margin-top: 4.2rem;
 }

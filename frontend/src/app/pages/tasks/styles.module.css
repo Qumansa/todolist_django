@@ -2,6 +2,7 @@
 
 .container {
     padding-right: 2rem;
+    padding-left: 2rem;
 }
 
 .wrapper {
@@ -11,4 +12,5 @@
     gap: 3rem;
 
     padding-right: 1rem;
+    padding-left: 1rem;
 }
