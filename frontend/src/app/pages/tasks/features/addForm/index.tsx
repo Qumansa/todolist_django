@@ -46,9 +46,10 @@ export const AddForm = () => {
 			}}
 			validationSchema={Yup.object({
 				description: Yup.string()
-					.min(1, '1 to 255 characters.')
-					.max(255, '1 to 255 characters.')
-					.required('This field is required'),
+					.trim()
+					.min(1, 'The length of the task must be from 1 to 255 characters.')
+					.max(255, 'The length of the task must be from 1 to 255 characters.')
+					.required('This field is required.'),
 			})}
 			onSubmit={(addTaskData, { resetForm }) => handleSubmit(addTaskData, resetForm)}>
 			<Form className={styles.form}>
@@ -57,7 +58,6 @@ export const AddForm = () => {
 						label="Type in a new task"
 						name="description"
 						type="text"
-						classNameForInput={common.input_width100}
 						placeholder="Do the groceries"
 					/>
 					{isLoading && <Spinner withModifier="spinner_small" />}

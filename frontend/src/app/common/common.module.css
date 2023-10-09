@@ -103,14 +103,6 @@
     line-height: 2.4rem;
 }
 
-.input_width100 {
-    width: 100%;
-}
-
-.input_width50 {
-    width: 50%;
-}
-
 .input__error {
     font-size: 1.6rem;
     line-height: 2.4rem;
@@ -121,6 +113,10 @@
     flex-direction: column;
     gap: 0.5rem;
     width: 100%;
+}
+
+.label_width50 {
+    width: 50%;
 }
 
 .textCenter {

@@ -13,12 +13,14 @@ export const Search = () => {
 	};
 
 	return (
-		<input
-			type="text"
-			className={`${common.input} ${common.input_width50}`}
-			placeholder="Search a task"
-			value={searchValue}
-			onChange={handleChange}
-		/>
+		<label className={`${common.label} ${common.label_width50}`}>
+			Search a task
+			<input
+				type="text"
+				className={common.input}
+				value={searchValue}
+				onChange={handleChange}
+			/>
+		</label>
 	);
 };

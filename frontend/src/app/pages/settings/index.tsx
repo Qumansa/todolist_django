@@ -111,7 +111,7 @@ export const Settings = () => {
 			<div className={styles.wrapper}>
 				<p className={styles.username}>Username: {(isSuccessUser && user?.username) || 'Not logged in'}</p>
 				{isLoadingUser && <Spinner withModifier="spinner_extrasmall" />}
-				{isVisible && (
+				{isVisible && isErrorUser && (
 					<ErrorMessage
 						withClassname={styles.result}
 						message="Could not load username."
