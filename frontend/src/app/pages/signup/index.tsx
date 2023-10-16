@@ -73,7 +73,7 @@ export const SignUp = () => {
 							name="username"
 							type="text"
 							placeholder="John Doe"
-							focusOnPageLoad
+							focusOnComponentLoad
 						/>
 						<Input
 							label="Password"

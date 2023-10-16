@@ -7,15 +7,15 @@ import { Props } from './types';
 
 import common from '@styles/common.module.css';
 
-export const Input = ({ label, classNameForInput, optional, focusOnPageLoad, ...props }: Props) => {
+export const Input = ({ label, classNameForInput, optional, focusOnComponentLoad, ...props }: Props) => {
 	const [field, meta] = useField(props.name);
 	const userNameRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
-		focusOnPageLoad && userNameRef.current && userNameRef.current.focus();
+		focusOnComponentLoad && userNameRef.current && userNameRef.current.focus();
 	}, []);
 
-	return (
+	return label ? (
 		<label className={common.label}>
 			{label}
 			{!optional ? ':' : <span className={common.italic}>&nbsp;(optional):</span>}
@@ -32,5 +32,20 @@ export const Input = ({ label, classNameForInput, optional, focusOnPageLoad, ...
 				/>
 			)}
 		</label>
+	) : (
+		<>
+			<input
+				className={`${common.input} ${classNameForInput ? classNameForInput : ''}`}
+				{...props}
+				{...field}
+				ref={userNameRef}
+			/>
+			{meta.touched && meta.error && (
+				<ErrorMessage
+					message={meta.error}
+					withClassname={common.input__error}
+				/>
+			)}
+		</>
 	);
 };

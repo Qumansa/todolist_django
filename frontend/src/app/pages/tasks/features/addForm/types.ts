@@ -1,3 +1,5 @@
+import { IToDoItem } from "@types";
+
 export interface addTaskData {
-    description: string;
+    description: IToDoItem['description'];
 }

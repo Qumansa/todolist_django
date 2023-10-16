@@ -4,5 +4,5 @@ export interface Props extends InputProps {
     type: string;
     autoComplete?: string;
     placeholder?: string;
-    focusOnPageLoad?: boolean;
+    focusOnComponentLoad?: boolean;
 }

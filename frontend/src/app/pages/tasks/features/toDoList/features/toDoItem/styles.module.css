@@ -42,6 +42,23 @@
     animation: fade-to-left 4s linear forwards;
 }
 
+.form {
+    display: flex;
+    gap: 3rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .buttons {
     display: flex;
     column-gap: 3rem;
@@ -86,10 +103,6 @@
     .item {
         flex-direction: column;
         gap: 2rem;
-    }
-
-    .input {
-        width: 100%;
     }
 
     .buttonImg {

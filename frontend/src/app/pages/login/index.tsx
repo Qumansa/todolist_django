@@ -71,7 +71,7 @@ export const Login = () => {
 						type="text"
 						placeholder="John Doe"
 						autoComplete="on"
-						focusOnPageLoad
+						focusOnComponentLoad
 					/>
 					<Input
 						label="Password"
