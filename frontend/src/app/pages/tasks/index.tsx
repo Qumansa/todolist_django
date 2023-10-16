@@ -3,7 +3,7 @@ import { FilterList } from './features/filterList';
 import { Search } from './features/search';
 import { ToDoList } from './features/toDoList';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const Tasks = () => (

@@ -4,7 +4,7 @@ import { selectActiveFilter } from '@redux/slices/filter/selectors';
 
 import { Props } from './types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 
 export const FilterItem = ({ name }: Props) => {
 	const dispatch = useAppDispatch();

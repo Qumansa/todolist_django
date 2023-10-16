@@ -14,3 +14,10 @@
     padding-right: 1rem;
     padding-left: 1rem;
 }
+
+@media (width <=575px) {
+    .container {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+}

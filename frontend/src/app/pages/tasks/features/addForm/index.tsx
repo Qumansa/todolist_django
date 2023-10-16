@@ -3,17 +3,17 @@ import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
-import { useSetIsVisibleToFalseAfterDelay } from '@common/hooks/useSetIsVisibleToFalseAfterDelay';
+import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseAfterDelay';
 import { useCreateToDoItemMutation } from '@redux/slices/api';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
 import { Spinner } from '@components/spinner';
 
-import { Timer } from '@common/types';
+import { Timer } from '@types';
 import { addTaskData } from './types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const AddForm = () => {
@@ -29,6 +29,7 @@ export const AddForm = () => {
 			description: description,
 			favourite: false,
 		})
+			.unwrap()
 			.then(() => {
 				resetForm();
 			})
@@ -51,6 +52,7 @@ export const AddForm = () => {
 					.max(255, 'The length of the task must be from 1 to 255 characters.')
 					.required('This field is required.'),
 			})}
+			validateOnBlur={false}
 			onSubmit={(addTaskData, { resetForm }) => handleSubmit(addTaskData, resetForm)}>
 			<Form className={styles.form}>
 				<div className={styles.inputWrapper}>

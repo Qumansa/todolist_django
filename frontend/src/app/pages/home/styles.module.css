@@ -4,7 +4,20 @@
 
 .linksWrapper {
     display: flex;
-    gap: 5rem;
+    row-gap: 2rem;
+    column-gap: 5rem;
     justify-content: center;
+
     margin-top: 3rem;
+}
+
+@media (width <=575px) {
+    .descr {
+        text-indent: 2rem;
+    }
+
+    .linksWrapper {
+        flex-direction: column;
+        align-items: center;
+    }
 }

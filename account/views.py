@@ -54,7 +54,7 @@ def registerView(request):
     user = serializer.save()
 
     if user is not None:
-        return response.Response("Regisered")
+        return response.Response("Registered")
     return rest_exceptions.AuthenticationFailed("Invalid credentials")
 
 @rest_decorators.api_view(["POST"])

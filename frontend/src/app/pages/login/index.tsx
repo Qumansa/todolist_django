@@ -11,9 +11,9 @@ import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
 import { Spinner } from '@components/spinner';
 
-import { LogInData, Token } from './types';
+import { LogInData, LogInResponse } from '@types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const Login = () => {
@@ -21,12 +21,12 @@ export const Login = () => {
 	const token = useAppSelector(selectToken);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [logIn, { error, isLoading }] = useLogInMutation();
+	const [logIn, { isError, error, isLoading }] = useLogInMutation();
 
 	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
 			.unwrap()
-			.then((result: Token) => {
+			.then((result: LogInResponse) => {
 				dispatch(setToken(result.access_token));
 				resetForm();
 				// navigate('/tasks', { replace: true });
@@ -62,6 +62,7 @@ export const Login = () => {
 						)
 						.required('This field is required'),
 				})}
+				validateOnBlur={false}
 				onSubmit={(loginData, { resetForm }) => handleSubmit(loginData, resetForm)}>
 				<Form className={styles.form}>
 					<Input
@@ -86,11 +87,10 @@ export const Login = () => {
 			</Formik>
 			{isLoading && <Spinner />}
 			{error && 'status' in error && error.status === 401 ? (
-				<ErrorMessage message="Username and password don't match" />
-			) : error && ('status' && 'error') in error ? (
-				// <ErrorMessage message={JSON.stringify(error.data)} />
-				<ErrorMessage />
-			) : null}
+				<ErrorMessage message="Username and password don't match." />
+			) : (
+				isError && <ErrorMessage />
+			)}
 		</section>
 	);
 };

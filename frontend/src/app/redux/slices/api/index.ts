@@ -4,7 +4,7 @@ import { Mutex } from 'async-mutex';
 
 import { removeToken, setToken } from '../auth';
 
-import { IToDoItem, User } from '@types';
+import { CreateToDoItemResponse, DeleteToDoItemResponse, IToDoItem, LogInData, LogInResponse, LogOutResponse, SignUpResponse, UpdateToDoItemResponse, User } from '@types';
 import type { RootState } from '../..';
 
 const mutex = new Mutex();
@@ -70,16 +70,14 @@ export const apiSlice = createApi({
 	baseQuery: baseQueryWithReauth,
 	tagTypes: ['User', 'Todos'],
 	endpoints: (builder) => ({
-		// <ReturnValueHere, ArgumentTypeHere> If there is no argument, use void
-		// переписать все типы
-		signUp: builder.mutation({
+		signUp: builder.mutation<SignUpResponse, User>({
 			query: (data) => ({
 				url: '/auth/register/',
 				method: 'POST',
 				body: data,
 			}),
 		}),
-		logIn: builder.mutation({
+		logIn: builder.mutation<LogInResponse, LogInData>({
 			query: (data) => ({
 				url: '/auth/login/',
 				method: 'POST',
@@ -87,7 +85,7 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['User', 'Todos'],
 		}),
-		logOut: builder.mutation<void, void>({
+		logOut: builder.mutation<LogOutResponse, void>({
 			query: () => ({
 				url: '/auth/logout/',
 				method: 'POST',
@@ -99,6 +97,7 @@ export const apiSlice = createApi({
 			}),
 			providesTags: ['User'],
 		}),
+		// добавить типизацию
 		changeUserPassword: builder.mutation({
 			query: (data) => ({
 				url: '/changepassword/',
@@ -106,6 +105,7 @@ export const apiSlice = createApi({
 				body: data
 			}),
 		}),
+		// добавить типизацию
 		changeUserImage: builder.mutation({
 			query: (data) => ({
 				url: '/changeimage/',
@@ -117,7 +117,7 @@ export const apiSlice = createApi({
 			query: () => '/todos/',
 			providesTags: ['Todos'],
 		}),
-		createToDoItem: builder.mutation<IToDoItem, IToDoItem>({
+		createToDoItem: builder.mutation<CreateToDoItemResponse, IToDoItem>({
 			query: (data) => ({
 				url: '/todos/',
 				method: 'POST',
@@ -125,7 +125,7 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
-		updateToDoItem: builder.mutation<IToDoItem, Partial<IToDoItem>>({
+		updateToDoItem: builder.mutation<UpdateToDoItemResponse, Partial<IToDoItem>>({
 			query: (data) => ({
 				url: `/todos/${data.id}/`,
 				method: 'PATCH',
@@ -133,7 +133,7 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
-		deleteToDoItem: builder.mutation<IToDoItem, string>({
+		deleteToDoItem: builder.mutation<DeleteToDoItemResponse, IToDoItem['id']>({
 			query: (id) => ({
 				url: `/todos/${id}/`,
 				method: 'DELETE',

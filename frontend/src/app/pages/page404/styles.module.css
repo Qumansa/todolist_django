@@ -6,10 +6,8 @@
 }
 
 .img {
+    width: 100%;
+    max-width: 40rem;
+    max-height: 40rem;
     box-shadow: var(--default-box-shadow);
-}
-
-.text {
-    font-size: 3.6rem;
-    line-height: 5.2rem;
 }

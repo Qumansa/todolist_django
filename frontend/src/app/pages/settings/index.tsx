@@ -21,11 +21,10 @@ import { Spinner } from '@components/spinner';
 import { File, Timer } from '@types';
 import { PasswordData } from './types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const Settings = () => {
-	// возможно, нужно делать один запрос и сохранять количество заданий в стейте, потому что повторный запрос делается в хедере
 	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, isSuccess: isSuccessUser } = useGetUserQuery();
 	const [
 		changeUserPassword,
@@ -43,7 +42,7 @@ export const Settings = () => {
 	const [logOut, { isLoading: isLoadingLogOut, isError: isErrorLogOut }] = useLogOutMutation();
 	const [passwordBeingEdited, setPasswordBeingEdited] = useState(false);
 	const [imageBeingEdited, setImageBeingEdited] = useState(false);
-	const [isVisible, setIsVisible] = useState(true);
+	const [isVisible, setIsVisible] = useState(false);
 	const timerRef = useRef<Timer>(null);
 	const dispatch = useAppDispatch();
 
@@ -93,13 +92,12 @@ export const Settings = () => {
 		setImageBeingEdited(true);
 	};
 
-	const handleLogOut = async () => {
+	const handleLogOut = () => {
 		logOut()
 			.unwrap()
 			.then(() => {
 				dispatch(removeToken());
-			})
-			.catch((error) => console.log(error));
+			});
 	};
 
 	useSetIsVisibleToFalseAfterDelay({ isVisible, setIsVisible, timerRef, timerDuration: 3500 });
@@ -107,8 +105,8 @@ export const Settings = () => {
 	return (
 		<section
 			className={`${common.section} ${common.container} ${common.container_withBackground} ${styles.container}`}>
-			<h2 className={common.section__title}>Account settings</h2>
 			<div className={styles.wrapper}>
+				<h2 className={common.section__title}>Account settings</h2>
 				<p className={styles.username}>Username: {(isSuccessUser && user?.username) || 'Not logged in'}</p>
 				{isLoadingUser && <Spinner withModifier="spinner_extrasmall" />}
 				{isVisible && isErrorUser && (
@@ -157,6 +155,7 @@ export const Settings = () => {
 								.oneOf([Yup.ref('password')], 'Passwords must match')
 								.required('This field is required'),
 						})}
+						validateOnBlur={false}
 						onSubmit={(passwordData, { resetForm }) => handleChangePassword(passwordData, resetForm)}>
 						<Form className={styles.form}>
 							<Input
@@ -176,12 +175,12 @@ export const Settings = () => {
 							/>
 							<div className={styles.buttonsWrapper}>
 								<button
-									className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+									className={`${common.button} ${common.button_deepSpaceSparkle}`}
 									type="submit">
 									Submit
 								</button>
 								<button
-									className={`${styles.submit} ${common.button} ${common.button_lightSteelBlue}`}
+									className={`${common.button} ${common.button_lightSteelBlue}`}
 									onClick={handleReturn}>
 									Return
 								</button>
@@ -198,13 +197,12 @@ export const Settings = () => {
 							withClassname={styles.result}
 						/>
 					) : (
-						errorChangePassword &&
-						('status' && 'error') in errorChangePassword && (
-							<ErrorMessage
-								// message={JSON.stringify(errorChangePassword.data)}
-								withClassname={styles.result}
-							/>
-						)
+						// errorChangePassword &&
+						// ('status' && 'error') in errorChangePassword &&
+						<ErrorMessage
+							// message={JSON.stringify(errorChangePassword.data)}
+							withClassname={styles.result}
+						/>
 					)
 				) : null}
 				{isVisible && isSuccessChangePassword && (
@@ -232,6 +230,7 @@ export const Settings = () => {
 								)
 								.required(),
 						})}
+						validateOnBlur={false}
 						onSubmit={(imageData, { resetForm }) => handleChangeImage(imageData, resetForm)}>
 						<Form className={styles.form}>
 							<InputFile
@@ -241,12 +240,12 @@ export const Settings = () => {
 							/>
 							<div className={styles.buttonsWrapper}>
 								<button
-									className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+									className={`${common.button} ${common.button_deepSpaceSparkle}`}
 									type="submit">
 									Submit
 								</button>
 								<button
-									className={`${styles.submit} ${common.button} ${common.button_lightSteelBlue}`}
+									className={`${common.button} ${common.button_lightSteelBlue}`}
 									onClick={handleReturn}>
 									Return
 								</button>

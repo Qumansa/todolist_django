@@ -1,13 +1,15 @@
 @import url('@styles/variables.css');
+@import url('@styles/animations.css');
 
 .item {
     display: flex;
     column-gap: 3rem;
     justify-content: space-between;
-    padding: 1.5rem 0;
+    padding-bottom: 1.5rem;
 }
 
 .item:not(:first-child) {
+    padding-top: 1.5rem;
     border-top: 1px solid var(--little-boy-blue);
 }
 
@@ -40,22 +42,6 @@
     animation: fade-to-left 4s linear forwards;
 }
 
-@keyframes fade-to-left {
-    65% {
-        transform: translateX(0%);
-    }
-
-    75% {
-        transform: translateX(5%);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-}
-
 .buttons {
     display: flex;
     column-gap: 3rem;
@@ -67,16 +53,6 @@
     width: 3rem;
     height: 3rem;
     transition: transform 0.2s;
-}
-
-@media (width >=992px) {
-    .button:hover {
-        transform: scale(1.1);
-    }
-
-    .button:active {
-        opacity: 0.5;
-    }
 }
 
 .button_active .buttonImg_favourite path {
@@ -94,4 +70,30 @@
 
 .buttonImg_favourite path {
     fill: var(--eggshell);
+}
+
+@media (width >=992px) {
+    .button:hover {
+        transform: scale(1.1);
+    }
+
+    .button:active {
+        opacity: 0.5;
+    }
+}
+
+@media (width <=575px) {
+    .item {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .input {
+        width: 100%;
+    }
+
+    .buttonImg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
 }

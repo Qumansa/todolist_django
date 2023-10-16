@@ -1,0 +1,21 @@
+@keyframes spinner-anim {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fade-to-left {
+    65% {
+        transform: translateX(0%);
+    }
+
+    75% {
+        transform: translateX(5%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}

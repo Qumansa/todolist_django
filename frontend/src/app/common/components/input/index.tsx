@@ -5,7 +5,7 @@ import { ErrorMessage } from '@components/errorMessage';
 
 import { Props } from './types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 
 export const Input = ({ label, classNameForInput, optional, focusOnPageLoad, ...props }: Props) => {
 	const [field, meta] = useField(props.name);
@@ -18,7 +18,7 @@ export const Input = ({ label, classNameForInput, optional, focusOnPageLoad, ...
 	return (
 		<label className={common.label}>
 			{label}
-			{optional && <span className={common.italic}>&nbsp;(optional)</span>}
+			{!optional ? ':' : <span className={common.italic}>&nbsp;(optional):</span>}
 			<input
 				className={`${common.input} ${classNameForInput ? classNameForInput : ''}`}
 				{...props}

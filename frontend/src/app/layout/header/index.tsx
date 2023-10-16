@@ -10,11 +10,10 @@ import { Spinner } from '@components/spinner';
 
 import UserImg from './assets/img/mockup-user-picture.jpg';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const Header = () => {
-	// возможно, нужно делать один запрос и сохранять количество заданий в стейте
 	const {
 		data: toDoList = [],
 		isLoading: isLoadingToDoList,
@@ -39,11 +38,12 @@ export const Header = () => {
 	}, [token]);
 
 	return (
-		<header className={`${styles.header} ${common.container}`}>
-			<Link to={'/'}>
+		<header className={`${common.container} ${styles.container} `}>
+			<Link
+				to={'/'}
+				className={styles.logo}>
+				{/* возможно, можно вынести все svg-изображения в отдельный спрайт */}
 				<svg
-					width={85}
-					height={85}
 					viewBox="0 0 400 400.00001"
 					version="1.1">
 					<g transform="translate(0,-652.36216)">
@@ -53,40 +53,36 @@ export const Header = () => {
 					</g>
 				</svg>
 			</Link>
-			<div className={styles.header__user}>
+			<div className={styles.user}>
 				{(isLoadingToDoList || isLoadingUser) && <Spinner withModifier="spinner_extrasmall" />}
-				<span className={styles.header__userName}>
-					{(isSuccessUser && user?.username) || 'Not logged in'},&nbsp;
-				</span>
-				<div className={styles.header__tasksWrapper}>
+				<span className={styles.userName}>{(isSuccessUser && user?.username) || 'Not logged in'},&nbsp;</span>
+				<div className={styles.tasksWrapper}>
 					<Link
 						to={'/tasks'}
-						className={styles.header__tasks}>
+						className={styles.tasks}>
 						{isSuccessToDoList ? `${toDoList.length}` : 0}
 						&nbsp;
 						{isSuccessToDoList && toDoList.length === 1 ? 'task' : 'tasks'}
 					</Link>
 					{isErrorUser && 'status' in errorUser && errorUser.status !== 401 && (
 						<ErrorMessage
-							withClassname={styles.header__tasksError}
+							withClassname={styles.tasksError}
 							message="Could not load username."
 						/>
 					)}
 					{isErrorToDoList && 'status' in errorToDoList && errorToDoList.status !== 401 && (
 						<ErrorMessage
-							withClassname={styles.header__tasksError}
+							withClassname={styles.tasksError}
 							message="Could not load amount of tasks."
 						/>
 					)}
 				</div>
 				<Link
-					className={styles.header__userImgLink}
+					className={styles.userImgLink}
 					to={'/settings'}>
 					<img
-						className={styles.header__userImg}
+						className={styles.userImg}
 						src={UserImg}
-						width={50}
-						height={50}
 						alt="Profile Picture"
 					/>
 				</Link>

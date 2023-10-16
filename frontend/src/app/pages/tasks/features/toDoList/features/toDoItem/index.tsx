@@ -7,10 +7,10 @@ import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseA
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
 
-import { Timer } from '@types';
+import { IToDoItem, Timer } from '@types';
 import { Props } from './types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const ToDoItem = ({ id, index, description, favourite }: Props) => {
@@ -35,51 +35,54 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 		setBeingEdited(false);
 	};
 
-	const handleSave = async (id: string, currentDescription: string) => {
+	const handleSave = (id: IToDoItem['id'], currentDescription: IToDoItem['description']) => {
 		if (isVisible) return;
 
 		if (currentDescription.length === 0) {
 			setIsVisible(true);
 			setIsShortDescription(true);
 			setCurrentDescription(description);
-		} else if (description !== currentDescription) {
-			const result = await updateToDoItem({
+			setBeingEdited(false);
+		}
+
+		if (description !== currentDescription) {
+			updateToDoItem({
 				id,
 				description: currentDescription,
-			});
+			})
+				.unwrap()
+				.catch(() => {
+					setIsVisible(true);
+					setCurrentDescription(description);
+				})
+				.finally(() => {
+					setIsShortDescription(false);
+					setBeingEdited(false);
+				});
+		}
+	};
 
-			if ('error' in result) {
+	const handleDelete = (id: IToDoItem['id']) => {
+		if (isVisible) return;
+
+		deleteToDoItem(id)
+			.unwrap()
+			.catch(() => {
 				setIsVisible(true);
-				setCurrentDescription(description);
-			}
-
-			setIsShortDescription(false);
-		}
-
-		setBeingEdited(false);
+			});
 	};
 
-	const handleDelete = async (id: string) => {
+	const handleToggle = (id: IToDoItem['id'], favourite: IToDoItem['favourite']) => {
 		if (isVisible) return;
 
-		const result = await deleteToDoItem(id);
-
-		if ('error' in result) {
-			setIsVisible(true);
-		}
-	};
-
-	const handleToggle = async (id: string, favourite: boolean) => {
-		if (isVisible) return;
-
-		const result = await updateToDoItem({
+		updateToDoItem({
 			id,
 			favourite: !favourite,
-		});
-
-		if ('error' in result) {
-			setIsVisible(true);
-		}
+		})
+			.unwrap()
+			.catch(() => {
+				setIsVisible(true);
+			});
 	};
 
 	useEffect(() => {
@@ -95,7 +98,7 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 				{beingEdited ? (
 					<input
 						type="text"
-						className={common.input}
+						className={`${common.input} ${styles.input}`}
 						value={currentDescription}
 						ref={inputRef}
 						onChange={(e) => setCurrentDescription(e.target.value)}
@@ -153,8 +156,6 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 								onClick={handleClose}>
 								<svg
 									className={styles.buttonImg}
-									width="24px"
-									height="24px"
 									viewBox="0 0 24 24"
 									fill="none"
 									xmlns="http://www.w3.org/2000/svg">
