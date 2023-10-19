@@ -3,10 +3,18 @@ from django.shortcuts import render
 
 from account import serializers, models
 from django.contrib.auth import authenticate
-from rest_framework import exceptions as rest_exceptions, response, decorators as rest_decorators, permissions as rest_permissions
+from rest_framework import exceptions as rest_exceptions, response, decorators as rest_decorators, permissions as rest_permissions, status, viewsets
 from rest_framework_simplejwt import tokens, views as jwt_views, serializers as jwt_serializers, exceptions as jwt_exceptions
 from django.conf import settings
 from django.middleware import csrf
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth.hashers import make_password
+from rest_framework.generics import UpdateAPIView
+from django.contrib.auth import get_user_model
+from .serializers import AccountSerializer
+from rest_framework.permissions import IsAuthenticated
+
 
 def get_user_tokens(user):
     refresh = tokens.RefreshToken.for_user(user)
@@ -54,7 +62,7 @@ def registerView(request):
     user = serializer.save()
 
     if user is not None:
-        return response.Response("Regisered")
+        return response.Response("Registered")
     return rest_exceptions.AuthenticationFailed("Invalid credentials")
 
 @rest_decorators.api_view(["POST"])
@@ -109,3 +117,25 @@ def user(requset):
         return response.Response(status_code=404)
     serializer = serializers.AccountSerializer(user)
     return response.Response(serializer.data)
+
+class UpdatePasswordView(APIView):
+    def put(self, request):
+        user = request.user
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+        if new_password is None:
+            return Response({"new_password": ["New password is null."]}, status=status.HTTP_400_BAD_REQUEST)
+        if not user.check_password(old_password):
+            return Response({"old_password": [request.data.get("new_password")], }, status=status.HTTP_400_BAD_REQUEST)
+        
+        user.password = make_password(new_password)
+        user.save()
+        return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
+
+class UserUpdateView(UpdateAPIView):
+    queryset = get_user_model
+    serializer_class = AccountSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
