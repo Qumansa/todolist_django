@@ -1,34 +1,49 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '@redux/hooks';
 import { useGetToDoListQuery, useGetUserQuery } from '@redux/slices/api';
+import { selectToken } from '@redux/slices/auth/selectors';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
 
 import UserImg from './assets/img/mockup-user-picture.jpg';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
-// возможно, в хедере в правой части, если пользователь не авторизован, сделать вывод кнопок "sign up/sign in"
 export const Header = () => {
-	// возможно, нужно делать один запрос и сохранять количество заданий в стейте
 	const {
 		data: toDoList = [],
 		isLoading: isLoadingToDoList,
 		isError: isErrorToDoList,
+		isSuccess: isSuccessToDoList,
 		error: errorToDoList,
+		refetch: refetchToDoList,
 	} = useGetToDoListQuery();
-	const { data: user, isLoading: isLoadingUser, isError: isErrorUser, error: errorUser } = useGetUserQuery();
-	console.log('Делаем запросы в хедере', toDoList, user);
+	const {
+		data: user,
+		isLoading: isLoadingUser,
+		isError: isErrorUser,
+		isSuccess: isSuccessUser,
+		error: errorUser,
+		refetch: refetchUser,
+	} = useGetUserQuery();
+	const token = useAppSelector(selectToken);
+
+	useEffect(() => {
+		refetchUser();
+		refetchToDoList();
+	}, [token]);
 
 	return (
-		<header className={`${styles.header} ${common.container}`}>
-			<Link to={'/'}>
+		<header className={`${common.container} ${styles.container} `}>
+			<Link
+				to={'/'}
+				className={styles.logo}>
+				{/* возможно, можно вынести все svg-изображения в отдельный спрайт */}
 				<svg
-					width={85}
-					height={85}
 					viewBox="0 0 400 400.00001"
 					version="1.1">
 					<g transform="translate(0,-652.36216)">
@@ -38,32 +53,40 @@ export const Header = () => {
 					</g>
 				</svg>
 			</Link>
-			<span className={styles.header__userName}>{user?.username || 'Not logged in'},&nbsp;</span>
-			<div className={styles.header__tasksWrapper}>
+			<div className={styles.user}>
+				{(isLoadingToDoList || isLoadingUser) && <Spinner withModifier="spinner_extrasmall" />}
+				<span className={styles.userName}>{(isSuccessUser && user?.username) || 'Not logged in'},&nbsp;</span>
+				<div className={styles.tasksWrapper}>
+					<Link
+						to={'/tasks'}
+						className={styles.tasks}>
+						{isSuccessToDoList ? `${toDoList.length}` : 0}
+						&nbsp;
+						{isSuccessToDoList && toDoList.length === 1 ? 'task' : 'tasks'}
+					</Link>
+					{isErrorUser && 'status' in errorUser && errorUser.status !== 401 && (
+						<ErrorMessage
+							withClassname={styles.tasksError}
+							message="Could not load username."
+						/>
+					)}
+					{isErrorToDoList && 'status' in errorToDoList && errorToDoList.status !== 401 && (
+						<ErrorMessage
+							withClassname={styles.tasksError}
+							message="Could not load amount of tasks."
+						/>
+					)}
+				</div>
 				<Link
-					to={'/tasks'}
-					className={styles.header__tasks}>
-					{toDoList.length} {toDoList.length === 1 ? 'task' : 'tasks'}
-				</Link>
-				{isLoadingToDoList && <Spinner withModifier="spinner_extrasmall" />}
-				{isErrorToDoList && 'status' in errorToDoList && errorToDoList.status !== 401 ? (
-					<ErrorMessage
-						withClassname={styles.header__tasksError}
-						message="Could not load amount of tasks."
+					className={styles.userImgLink}
+					to={'/settings'}>
+					<img
+						className={styles.userImg}
+						src={UserImg}
+						alt="Profile Picture"
 					/>
-				) : null}
+				</Link>
 			</div>
-			<Link
-				className={styles.header__userImgLink}
-				to={'/settings'}>
-				<img
-					className={styles.header__userImg}
-					src={UserImg}
-					width={50}
-					height={50}
-					alt="Profile Picture"
-				/>
-			</Link>
 		</header>
 	);
 };

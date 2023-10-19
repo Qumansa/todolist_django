@@ -1,7 +1,5 @@
-import { User } from "@types";
+import { Token } from "@types";
 
 export interface authSliceState {
-    // user: User | null;
-    // создать общий тип для токена
-    token: string | null;
+    token: Token | null;
 }

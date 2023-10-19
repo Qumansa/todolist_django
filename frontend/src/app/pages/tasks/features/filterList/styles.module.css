@@ -1,5 +1,12 @@
 .filter {
     display: flex;
-    column-gap: 3rem;
+    flex-wrap: wrap;
+    gap: 3rem;
     align-items: center;
+}
+
+@media (width <=575px) {
+    .filter {
+        gap: 2rem;
+    }
 }

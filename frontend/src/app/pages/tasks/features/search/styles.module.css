@@ -1,0 +1,10 @@
+.label {
+    width: 50%;
+}
+
+
+@media (width <=575px) {
+    .label {
+        width: 100%;
+    }
+}

@@ -9,14 +9,14 @@ import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
 import { ToDoItem } from './features/toDoItem';
 
-import { IToDoItem } from '@types';
+import { IToDoItem, SearchValue } from '@types';
 
 export const ToDoList = () => {
 	const { data: toDoList = [], isLoading, isError } = useGetToDoListQuery();
 	const searchValue = useAppSelector(selectSearchValue);
 	const activeFilter = useAppSelector(selectActiveFilter);
 
-	const searchTask = (toDoList: IToDoItem[], searchValue: string) =>
+	const searchTask = (toDoList: IToDoItem[], searchValue: SearchValue) =>
 		searchValue.length === 0
 			? toDoList
 			: toDoList.filter((toDoItem) =>

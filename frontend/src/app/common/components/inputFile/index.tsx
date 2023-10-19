@@ -4,7 +4,7 @@ import { ErrorMessage } from '@components/errorMessage';
 
 import { InputProps } from '@types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 
 export const InputFile = ({ label, classNameForInput, optional, ...props }: InputProps) => {
 	const [field, meta, helpers] = useField(props.name);
@@ -13,7 +13,7 @@ export const InputFile = ({ label, classNameForInput, optional, ...props }: Inpu
 		<label className={common.label}>
 			<span>
 				{label}
-				{optional && <span className={common.italic}>&nbsp;(optional)</span>}
+				{!optional ? ':' : <span className={common.italic}>&nbsp;(optional):</span>}
 			</span>
 			<input
 				className={`${common.input} ${classNameForInput ? classNameForInput : ''}`}

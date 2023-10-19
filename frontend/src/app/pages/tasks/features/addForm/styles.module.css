@@ -1,0 +1,48 @@
+@import url('@styles/animations.css');
+
+.form {
+    display: flex;
+    column-gap: 5rem;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: start;
+
+    width: 100%;
+}
+
+.result {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    animation: fade-to-left 3.5s linear forwards;
+}
+
+.submit {
+    margin-top: 4.2rem;
+}
+
+@media (width <=575px) {
+    .container {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+
+    .form {
+        flex-direction: column;
+    }
+
+    .submit {
+        width: 100%;
+        margin-top: 2rem;
+    }
+
+    .result {
+        font-size: 1.4rem;
+        line-height: 2.1rem;
+    }
+}

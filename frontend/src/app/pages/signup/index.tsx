@@ -11,20 +11,18 @@ import { Spinner } from '@components/spinner';
 
 import { File, User } from '@types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const SignUp = () => {
-	const [signUp, { isLoading, isError, isSuccess }] = useSignUpMutation();
+	const [signUp, { isLoading, isError, error, isSuccess }] = useSignUpMutation();
 
 	const handleSubmit = ({ username, password, image }: User, resetForm: () => void) => {
 		signUp({ username, password, image })
 			.unwrap()
 			.then(() => {
 				resetForm();
-			})
-			// обработать ошибку
-			.catch((error) => console.log(error));
+			});
 	};
 
 	return (
@@ -67,14 +65,15 @@ export const SignUp = () => {
 							)
 							.notRequired(),
 					})}
+					validateOnBlur={false}
 					onSubmit={(signupData, { resetForm }) => handleSubmit(signupData, resetForm)}>
-					<Form className={styles.signup__form}>
+					<Form className={styles.form}>
 						<Input
 							label="Username"
 							name="username"
 							type="text"
 							placeholder="John Doe"
-							focusOnPageLoad
+							focusOnComponentLoad
 						/>
 						<Input
 							label="Password"
@@ -93,7 +92,7 @@ export const SignUp = () => {
 							classNameForInput={common.input_small}
 						/>
 						<button
-							className={`${styles.signup__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+							className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 							type="submit">
 							Create an account
 						</button>
@@ -101,7 +100,11 @@ export const SignUp = () => {
 				</Formik>
 			)}
 			{isLoading && <Spinner />}
-			{isError && <ErrorMessage />}
+			{error && 'status' in error && error.status === 400 ? (
+				<ErrorMessage message="This username has already been taken." />
+			) : (
+				isError && <ErrorMessage />
+			)}
 			{isSuccess && (
 				<>
 					<p className={styles.signup__success}>Account successfully created!</p>

@@ -2,9 +2,9 @@ import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/qu
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Mutex } from 'async-mutex';
 
-import { logOutFromState, setToken } from '../auth';
+import { removeToken, setToken } from '../auth';
 
-import { IToDoItem, User } from '@types';
+import { CreateToDoItemResponse, DeleteToDoItemResponse, IToDoItem, LogInData, LogInResponse, LogOutResponse, SignUpResponse, UpdateToDoItemResponse, User } from '@types';
 import type { RootState } from '../..';
 
 const mutex = new Mutex();
@@ -13,10 +13,10 @@ const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://127.0.0.1:8000/api/',
 	// baseUrl: 'api/',
 	credentials: 'include', // при любом запросе к апи, если у нас уже есть http-only cookie, в которых хранится refresh-token, то отправляем его на сервер,
-	prepareHeaders(headers, {getState}) { // при любом запросе к апи отправляем токен (скорее всего access-токен), если он есть
+	prepareHeaders(headers, { getState }) { // при любом запросе к апи отправляем токен (скорее всего access-токен), если он есть
 		const token = (getState() as RootState).auth.token;
-		
-		token && headers.set("authorization", `Bearer ${token}`); 
+
+		token && headers.set("authorization", `Bearer ${token}`);
 
 		return headers;
 	}
@@ -36,31 +36,31 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 				// попытка получения нового access-токена путем отправки refresh-токена
 				const refreshResult = await baseQuery(
 					{
-						url: '/auth/refresh-token/', 
+						url: '/auth/refresh-token/',
 						method: 'POST'
-					}, 
-					api, 
+					},
+					api,
 					extraOptions
 				);
-		
-				if (refreshResult?.data 
-					&& typeof refreshResult.data === 'object' 
-					&& 'access' in refreshResult.data 
+
+				if (refreshResult?.data
+					&& typeof refreshResult.data === 'object'
+					&& 'access' in refreshResult.data
 					&& typeof refreshResult.data.access === 'string') {
 					api.dispatch(setToken(refreshResult.data.access));
 					// повтор первоначального запроса
 					result = await baseQuery(args, api, extraOptions)
 				} else {
-					api.dispatch(logOutFromState());
+					api.dispatch(removeToken());
 				}
 			} finally {
 				release();
 			}
 		} else {
 			await mutex.waitForUnlock();
-      		result = await baseQuery(args, api, extraOptions);
+			result = await baseQuery(args, api, extraOptions);
 		}
-	} 
+	}
 
 	return result;
 }
@@ -70,53 +70,54 @@ export const apiSlice = createApi({
 	baseQuery: baseQueryWithReauth,
 	tagTypes: ['User', 'Todos'],
 	endpoints: (builder) => ({
-		// <ReturnValueHere, ArgumentTypeHere> If there is no argument, use void
-		// переписать все типы
-		signUp: builder.mutation({
-            query: (data) => ({
-                url: '/auth/register/',
-                method: 'POST',
-                body: data,
-            }),
-        }),
-		logIn: builder.mutation({
-            query: (data) => ({
-                url: '/auth/login/',
-                method: 'POST',
-                body: data
-            }),
+		signUp: builder.mutation<SignUpResponse, User>({
+			query: (data) => ({
+				url: '/auth/register/',
+				method: 'POST',
+				body: data,
+			}),
+		}),
+		logIn: builder.mutation<LogInResponse, LogInData>({
+			query: (data) => ({
+				url: '/auth/login/',
+				method: 'POST',
+				body: data
+			}),
 			invalidatesTags: ['User', 'Todos'],
-        }),
-		logOut: builder.mutation<void, void>({
-            query: () => ({
-                url: '/auth/logout/',
-                method: 'POST',
-            }),
-			invalidatesTags: ['User', 'Todos'],
-        }),
+		}),
+		logOut: builder.mutation<LogOutResponse, void>({
+			query: () => ({
+				url: '/auth/logout/',
+				method: 'POST',
+			}),
+		}),
 		getUser: builder.query<User, void>({
-			query: () => '/auth/user/',
+			query: () => ({
+				url: '/auth/user/'
+			}),
 			providesTags: ['User'],
 		}),
+		// добавить типизацию
 		changeUserPassword: builder.mutation({
-            query: (data) => ({
-                url: '/changepassword/',
-                method: 'POST',
-                body: data
-            }),
-        }),
+			query: (data) => ({
+				url: '/changepassword/',
+				method: 'POST',
+				body: data
+			}),
+		}),
+		// добавить типизацию
 		changeUserImage: builder.mutation({
-            query: (data) => ({
-                url: '/changeimage/',
-                method: 'POST',
-                body: data
-            }),
-        }),
+			query: (data) => ({
+				url: '/changeimage/',
+				method: 'POST',
+				body: data
+			}),
+		}),
 		getToDoList: builder.query<IToDoItem[], void>({
 			query: () => '/todos/',
 			providesTags: ['Todos'],
 		}),
-		createToDoItem: builder.mutation<IToDoItem, IToDoItem>({
+		createToDoItem: builder.mutation<CreateToDoItemResponse, IToDoItem>({
 			query: (data) => ({
 				url: '/todos/',
 				method: 'POST',
@@ -124,7 +125,7 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
-		updateToDoItem: builder.mutation<IToDoItem, Partial<IToDoItem>>({
+		updateToDoItem: builder.mutation<UpdateToDoItemResponse, Partial<IToDoItem>>({
 			query: (data) => ({
 				url: `/todos/${data.id}/`,
 				method: 'PATCH',
@@ -132,7 +133,7 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ['Todos'],
 		}),
-		deleteToDoItem: builder.mutation<IToDoItem, string>({
+		deleteToDoItem: builder.mutation<DeleteToDoItemResponse, IToDoItem['id']>({
 			query: (id) => ({
 				url: `/todos/${id}/`,
 				method: 'DELETE',
@@ -144,4 +145,4 @@ export const apiSlice = createApi({
 
 export const { useSignUpMutation, useLogInMutation, useGetUserQuery, useLogOutMutation, useChangeUserPasswordMutation, useChangeUserImageMutation, useGetToDoListQuery, useDeleteToDoItemMutation, useCreateToDoItemMutation, useUpdateToDoItemMutation } =
 	apiSlice;
-	
+

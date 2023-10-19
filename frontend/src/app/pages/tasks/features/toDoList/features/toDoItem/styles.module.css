@@ -1,23 +1,25 @@
 @import url('@styles/variables.css');
+@import url('@styles/animations.css');
 
-.toDoList__item {
+.item {
     display: flex;
     column-gap: 3rem;
     justify-content: space-between;
-    padding: 1.5rem 0;
+    padding-bottom: 1.5rem;
 }
 
-.toDoList__item:not(:first-child) {
+.item:not(:first-child) {
+    padding-top: 1.5rem;
     border-top: 1px solid var(--little-boy-blue);
 }
 
-.toDoList__task {
+.task {
     display: flex;
     column-gap: 1.5rem;
     width: 100%;
 }
 
-.toDoList__description {
+.description {
     cursor: unset;
     user-select: text;
 
@@ -27,71 +29,84 @@
     word-break: break-all;
 }
 
-.toDoList__descriptionWrapper {
+.descriptionWrapper {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     width: 100%;
 }
 
-.toDoList__descriptionNote {
+.descriptionNote {
     font-size: 1.6rem;
     line-height: 2.4rem;
     animation: fade-to-left 4s linear forwards;
 }
 
-@keyframes fade-to-left {
-    65% {
-        transform: translateX(0%);
-    }
-
-    75% {
-        transform: translateX(5%);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
+.form {
+    display: flex;
+    gap: 3rem;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.toDoList__buttons {
+.input {
+    width: 100%;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.buttons {
     display: flex;
     column-gap: 3rem;
     height: 3rem;
 }
 
-.toDoList__button {
+.button {
     will-change: transform;
     width: 3rem;
     height: 3rem;
     transition: transform 0.2s;
 }
 
-@media (width >=992px) {
-    .toDoList__button:hover {
-        transform: scale(1.1);
-    }
-
-    .toDoList__button:active {
-        opacity: 0.5;
-    }
-}
-
-.toDoList__button_active .toDoList__buttonImg_favourite path {
+.button_active .buttonImg_favourite path {
     fill: var(--little-boy-blue);
 }
 
-.toDoList__buttonImg {
+.buttonImg {
     width: 3rem;
     height: 3rem;
 }
 
-.toDoList__buttonImg_favourite {
+.buttonImg_favourite {
     stroke: #000;
 }
 
-.toDoList__buttonImg_favourite path {
+.buttonImg_favourite path {
     fill: var(--eggshell);
+}
+
+@media (width >=992px) {
+    .button:hover {
+        transform: scale(1.1);
+    }
+
+    .button:active {
+        opacity: 0.5;
+    }
+}
+
+@media (width <=575px) {
+    .item {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .buttonImg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
 }

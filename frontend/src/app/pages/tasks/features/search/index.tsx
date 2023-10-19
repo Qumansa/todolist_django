@@ -2,7 +2,8 @@ import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { searchChanged } from '@redux/slices/search';
 import { selectSearchValue } from '@redux/slices/search/selectors';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
+import styles from './styles.module.css';
 
 export const Search = () => {
 	const dispatch = useAppDispatch();
@@ -13,12 +14,14 @@ export const Search = () => {
 	};
 
 	return (
-		<input
-			type="text"
-			className={`${common.input} ${common.input_width50}`}
-			placeholder="Search a task"
-			value={searchValue}
-			onChange={handleChange}
-		/>
+		<label className={`${common.label} ${styles.label}`}>
+			Search a task:
+			<input
+				type="text"
+				className={common.input}
+				value={searchValue}
+				onChange={handleChange}
+			/>
+		</label>
 	);
 };

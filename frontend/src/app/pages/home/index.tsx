@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '@redux/hooks';
 import { selectToken } from '@redux/slices/auth/selectors';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const Home = () => {
@@ -11,14 +11,14 @@ export const Home = () => {
 
 	return (
 		<section className={`${common.section} ${common.container} ${common.container_withBackground}`}>
-			<p className={styles.home__descr}>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur natus maiores quam impedit velit
-				eum nihil beatae voluptates, maxime voluptatum vel quas aperiam possimus dolores, iusto amet porro
-				officiis! Odit? Aliquid delectus, id ipsum ut hic voluptatum pariatur eaque consectetur quis magnam
-				ducimus expedita placeat perferendis quisquam similique laboriosam! Cumque eligendi distinctio doloribus
-				officiis repudiandae eaque quasi facere aliquid illum.
+			<p className={styles.descr}>Welcome to our application!</p>
+			<p className={styles.descr}>
+				In it, you can create a task list that will remind you of things that need to be done. If necessary,
+				each task can be edited, marked as a favorite or deleted. There is also a convenient sorting option, as
+				well as a search field for the desired task.
 			</p>
-			<div className={styles.home__linksWrapper}>
+			<p className={styles.descr}>To use the app, you need to create an account and log in.</p>
+			<div className={styles.linksWrapper}>
 				{token ? (
 					<Link
 						className={`${common.button} ${common.button_deepSpaceSparkle} ${common.textCenter}`}

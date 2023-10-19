@@ -1,28 +1,30 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { Form, Formik } from 'formik';
+import { useRef, useState } from 'react';
+import * as Yup from 'yup';
 
 import { useDeleteToDoItemMutation, useUpdateToDoItemMutation } from '@redux/slices/api';
 
 import { useSetIsVisibleToFalseAfterDelay } from '@hooks/useSetIsVisibleToFalseAfterDelay';
 
 import { ErrorMessage } from '@components/errorMessage';
+import { Input } from '@components/input';
 import { Spinner } from '@components/spinner';
 
-import { Timer } from '@types';
-import { Props } from './types';
+import { IToDoItem, Timer } from '@types';
+import { Props, editTaskData } from './types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const ToDoItem = ({ id, index, description, favourite }: Props) => {
-	const [updateToDoItem, { isLoading: isUpdateLoading, isError: isUpdateError }] = useUpdateToDoItemMutation();
+	const [updateToDoItem, { isLoading: isUpdateLoading, isError: isUpdateError, isSuccess: isUpdateSuccess }] =
+		useUpdateToDoItemMutation();
 	const [deleteToDoItem, { isLoading: isDeleteLoading, isError: isDeleteError }] = useDeleteToDoItemMutation();
 	const [beingEdited, setBeingEdited] = useState(false);
 	const [currentDescription, setCurrentDescription] = useState(description);
-	const [isShortDescription, setIsShortDescription] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const timerRef = useRef<Timer>(null);
-	const inputRef = useRef(null) as RefObject<HTMLInputElement> | null;
-	const btnActiveClass = favourite ? `${styles.toDoList__button_active}` : '';
+	const btnActiveClass = favourite ? `${styles.button_active}` : '';
 
 	const handleEdit = () => {
 		if (isVisible) return;
@@ -35,106 +37,84 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 		setBeingEdited(false);
 	};
 
-	const handleSave = async (id: string, currentDescription: string) => {
+	const handleSave = (id: IToDoItem['id'], { description }: editTaskData) => {
 		if (isVisible) return;
 
-		if (currentDescription.length === 0) {
-			setIsVisible(true);
-			setIsShortDescription(true);
-			setCurrentDescription(description);
-		} else if (description !== currentDescription) {
-			const result = await updateToDoItem({
-				id,
-				description: currentDescription,
-			});
-
-			if ('error' in result) {
-				setIsVisible(true);
-				setCurrentDescription(description);
-			}
-
-			setIsShortDescription(false);
+		if (description !== currentDescription) {
+			updateToDoItem({ id, description })
+				.unwrap()
+				.then(() => {
+					setCurrentDescription(description);
+				})
+				.catch(() => {
+					setCurrentDescription(currentDescription);
+				})
+				.finally(() => {
+					setIsVisible(true);
+				});
 		}
 
 		setBeingEdited(false);
 	};
 
-	const handleDelete = async (id: string) => {
+	const handleDelete = (id: IToDoItem['id']) => {
 		if (isVisible) return;
 
-		const result = await deleteToDoItem(id);
-
-		if ('error' in result) {
-			setIsVisible(true);
-		}
+		deleteToDoItem(id)
+			.unwrap()
+			.catch(() => {
+				setIsVisible(true);
+			});
 	};
 
-	const handleToggle = async (id: string, favourite: boolean) => {
+	const handleToggle = (id: IToDoItem['id'], favourite: IToDoItem['favourite']) => {
 		if (isVisible) return;
 
-		const result = await updateToDoItem({
+		updateToDoItem({
 			id,
 			favourite: !favourite,
-		});
-
-		if ('error' in result) {
-			setIsVisible(true);
-		}
+		})
+			.unwrap()
+			.catch(() => {
+				setIsVisible(true);
+			});
 	};
-
-	useEffect(() => {
-		inputRef?.current?.focus();
-	}, [beingEdited]);
 
 	useSetIsVisibleToFalseAfterDelay({ isVisible, setIsVisible, timerRef, timerDuration: 4000 });
 
 	return (
-		<li className={styles.toDoList__item}>
-			<div className={styles.toDoList__task}>
+		<li className={styles.item}>
+			<div className={styles.task}>
 				<span>{index + 1})</span>
 				{beingEdited ? (
-					<input
-						type="text"
-						className={common.input}
-						value={currentDescription}
-						ref={inputRef}
-						onChange={(e) => setCurrentDescription(e.target.value)}
-						onKeyDown={(e) => e.key === 'Enter' && handleSave(id, currentDescription)}
-						minLength={1}
-						maxLength={255}
-					/>
-				) : (
-					<>
-						<div className={styles.toDoList__descriptionWrapper}>
-							<button
-								className={styles.toDoList__description}
-								onDoubleClick={handleEdit}>
-								{description}
-							</button>
-							{isVisible && isShortDescription && (
-								<ErrorMessage
-									message="The description is too short!"
-									withClassname={styles.toDoList__descriptionNote}
+					<Formik
+						initialValues={{
+							description: currentDescription,
+						}}
+						validationSchema={Yup.object({
+							description: Yup.string()
+								.trim()
+								.min(1, 'The length of the task must be from 1 to 255 characters.')
+								.max(255, 'The length of the task must be from 1 to 255 characters.')
+								.required('This field is required.'),
+						})}
+						validateOnBlur={false}
+						onSubmit={(editTaskData) => handleSave(id, editTaskData)}>
+						<Form className={styles.form}>
+							<div className={styles.inputWrapper}>
+								<Input
+									name="description"
+									type="text"
+									classNameForInput={styles.input}
+									focusOnComponentLoad
 								/>
-							)}
-							{isVisible && (isUpdateError || isDeleteError) && (
-								<ErrorMessage withClassname={styles.toDoList__descriptionNote} />
-							)}
-						</div>
-						{(isUpdateLoading || isDeleteLoading) && <Spinner withModifier="spinner_extrasmall" />}
-					</>
-				)}
-			</div>
-			<ul className={styles.toDoList__buttons}>
-				{beingEdited ? (
-					<>
-						<li>
+							</div>
 							<button
-								className={styles.toDoList__button}
-								aria-label="Save"
-								onClick={() => handleSave(id, currentDescription)}>
+								className={styles.button}
+								type="submit"
+								aria-label="Save">
 								<svg
-									className={styles.toDoList__buttonImg}
+									className={styles.buttonImg}
 									version="1.1"
 									xmlns="http://www.w3.org/2000/svg"
 									x="0px"
@@ -145,35 +125,54 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 									</g>
 								</svg>
 							</button>
-						</li>
-						<li>
+						</Form>
+					</Formik>
+				) : (
+					<>
+						<div className={styles.descriptionWrapper}>
 							<button
-								className={styles.toDoList__button}
-								aria-label="Close"
-								onClick={handleClose}>
-								<svg
-									className={styles.toDoList__buttonImg}
-									width="24px"
-									height="24px"
-									viewBox="0 0 24 24"
-									fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M6.22566 4.81096C5.83514 4.42044 5.20197 4.42044 4.81145 4.81096C4.42092 5.20148 4.42092 5.83465 4.81145 6.22517L10.5862 11.9999L4.81151 17.7746C4.42098 18.1651 4.42098 18.7983 4.81151 19.1888C5.20203 19.5793 5.8352 19.5793 6.22572 19.1888L12.0004 13.4141L17.7751 19.1888C18.1656 19.5793 18.7988 19.5793 19.1893 19.1888C19.5798 18.7983 19.5798 18.1651 19.1893 17.7746L13.4146 11.9999L19.1893 6.22517C19.5799 5.83465 19.5799 5.20148 19.1893 4.81096C18.7988 4.42044 18.1657 4.42044 17.7751 4.81096L12.0004 10.5857L6.22566 4.81096Z"
-										fill="black"
-									/>
-								</svg>
+								className={styles.description}
+								onDoubleClick={handleEdit}>
+								{description}
 							</button>
-						</li>
+							{isVisible && (isUpdateError || isDeleteError) && (
+								<ErrorMessage withClassname={styles.descriptionNote} />
+							)}
+							{isVisible && isUpdateSuccess && (
+								<span className={styles.descriptionNote}>The task is successfully saved!</span>
+							)}
+						</div>
+						{(isUpdateLoading || isDeleteLoading) && <Spinner withModifier="spinner_extrasmall" />}
 					</>
+				)}
+			</div>
+			<ul className={styles.buttons}>
+				{beingEdited ? (
+					<li>
+						<button
+							className={styles.button}
+							aria-label="Close"
+							onClick={handleClose}>
+							<svg
+								className={styles.buttonImg}
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M6.22566 4.81096C5.83514 4.42044 5.20197 4.42044 4.81145 4.81096C4.42092 5.20148 4.42092 5.83465 4.81145 6.22517L10.5862 11.9999L4.81151 17.7746C4.42098 18.1651 4.42098 18.7983 4.81151 19.1888C5.20203 19.5793 5.8352 19.5793 6.22572 19.1888L12.0004 13.4141L17.7751 19.1888C18.1656 19.5793 18.7988 19.5793 19.1893 19.1888C19.5798 18.7983 19.5798 18.1651 19.1893 17.7746L13.4146 11.9999L19.1893 6.22517C19.5799 5.83465 19.5799 5.20148 19.1893 4.81096C18.7988 4.42044 18.1657 4.42044 17.7751 4.81096L12.0004 10.5857L6.22566 4.81096Z"
+									fill="black"
+								/>
+							</svg>
+						</button>
+					</li>
 				) : (
 					<li>
 						<button
-							className={`${styles.toDoList__button} ${btnActiveClass}`}
+							className={`${styles.button} ${btnActiveClass}`}
 							aria-label="Edit"
 							onClick={handleEdit}>
 							<svg
-								className={styles.toDoList__buttonImg}
+								className={styles.buttonImg}
 								version="1.1"
 								xmlns="http://www.w3.org/2000/svg"
 								x="0px"
@@ -205,11 +204,11 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 				)}
 				<li>
 					<button
-						className={`${styles.toDoList__button} ${btnActiveClass}`}
+						className={`${styles.button} ${btnActiveClass}`}
 						aria-label="Favourite"
 						onClick={() => handleToggle(id, favourite)}>
 						<svg
-							className={`${styles.toDoList__buttonImg} ${styles.toDoList__buttonImg_favourite}`}
+							className={`${styles.buttonImg} ${styles.buttonImg_favourite}`}
 							viewBox="-1 0 18 15"
 							fill="white"
 							xmlns="http://www.w3.org/2000/svg">
@@ -221,11 +220,11 @@ export const ToDoItem = ({ id, index, description, favourite }: Props) => {
 				</li>
 				<li>
 					<button
-						className={styles.toDoList__button}
+						className={styles.button}
 						aria-label="Delete"
 						onClick={() => handleDelete(id)}>
 						<svg
-							className={styles.toDoList__buttonImg}
+							className={styles.buttonImg}
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 128 128">
 							<path d="M24,41h77v63c0,9.37-7.63,17-17,17H44c-9.37,0-17-7.63-17-17V52c0-1.66-1.34-3-3-3s-3,1.34-3,3v52c0,12.68,10.32,23,23,23 h40c12.68,0,23-10.32,23-23V40.64c5.72-1.36,10-6.5,10-12.64c0-7.17-5.83-13-13-13H24c-7.17,0-13,5.83-13,13S16.83,41,24,41z M24,21h80c3.86,0,7,3.14,7,7s-3.14,7-7,7H24c-3.86,0-7-3.14-7-7S20.14,21,24,21z" />

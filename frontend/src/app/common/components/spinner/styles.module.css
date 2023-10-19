@@ -1,4 +1,5 @@
 @import url('@styles/variables.css');
+@import url('@styles/animations.css');
 
 .spinner {
     position: relative;
@@ -11,8 +12,6 @@
 
     animation: spinner-anim 2s infinite linear;
 }
-
-/* добавить адаптив на мобилке */
 
 .spinner_small {
     width: 4rem;
@@ -40,8 +39,6 @@
     border-radius: 50%;
 }
 
-/* добавить адаптив на мобилке */
-
 .spinner_small::before {
     top: -0.6rem;
 }
@@ -53,25 +50,79 @@
     height: 0.5rem;
 }
 
-.spinnerWrapper {
+.wrapper {
     display: flex;
     justify-content: center;
-}
-
-@keyframes spinner-anim {
-    100% {
-        transform: rotate(360deg);
-    }
 }
 
 @media (width <=1439px) {
     .spinner {
         width: 4rem;
         height: 4rem;
-        border: 0.6rem solid var(--little-boy-blue);
+        border-width: 0.6rem;
+    }
+
+    .spinner_small {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-width: 0.6rem;
+    }
+
+    .spinner_extrasmall {
+        width: 3rem;
+        height: 3rem;
+        border-width: 0.5rem;
     }
 
     .spinner::before {
         top: -0.6rem;
+    }
+
+    .spinner_small::before {
+        top: -0.5rem;
+        left: 1.3rem;
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+
+    .spinner_extrasmall::before {
+        top: -0.4rem;
+    }
+}
+
+@media (width <=575px) {
+    .spinner {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-width: 0.6rem;
+    }
+
+    .spinner_small {
+        width: 3rem;
+        height: 3rem;
+        border-width: 0.5rem;
+    }
+
+    .spinner_extrasmall {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-width: 0.4rem;
+    }
+
+    .spinner::before {
+        top: -0.5rem;
+        left: 1.3rem;
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+
+    .spinner_small::before {
+        top: -0.4rem;
+    }
+
+    .spinner_extrasmall::before {
+        top: -0.2rem;
+        width: 0.4rem;
+        height: 0.4rem;
     }
 }

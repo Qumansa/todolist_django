@@ -1,10 +1,23 @@
-.home__descr {
+.descr {
     text-indent: 4rem;
 }
 
-.home__linksWrapper {
+.linksWrapper {
     display: flex;
+    row-gap: 2rem;
+    column-gap: 5rem;
     justify-content: center;
-    gap: 5rem;
+
     margin-top: 3rem;
+}
+
+@media (width <=575px) {
+    .descr {
+        text-indent: 2rem;
+    }
+
+    .linksWrapper {
+        flex-direction: column;
+        align-items: center;
+    }
 }

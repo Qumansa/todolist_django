@@ -11,9 +11,9 @@ import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
 import { Spinner } from '@components/spinner';
 
-import { LogInData, Token } from './types';
+import { LogInData, LogInResponse } from '@types';
 
-import common from '@common/common.module.css';
+import common from '@styles/common.module.css';
 import styles from './styles.module.css';
 
 export const Login = () => {
@@ -21,30 +21,22 @@ export const Login = () => {
 	const token = useAppSelector(selectToken);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [logIn, { error, isLoading }] = useLogInMutation();
+	const [logIn, { isError, error, isLoading }] = useLogInMutation();
 
 	const handleSubmit = ({ username, password }: LogInData, resetForm: () => void) => {
 		logIn({ username, password })
 			.unwrap()
-			.then((result: Token) => {
+			.then((result: LogInResponse) => {
 				dispatch(setToken(result.access_token));
 				resetForm();
-				navigate('/tasks');
+				// navigate('/tasks', { replace: true });
 			});
 	};
+	// location.state?.from?.pathname ? location.state.from.pathname : '/tasks'
 
-	// возможно, вместо
-	// 	<Navigate
-	// 		to="/tasks"
-	// 		state={{ from: location }}
-	// 		replace
-	// 	/>
-	// можно просто использовать
-	// 	navigate('/tasks');
-	// нужно посмотреть в документации
 	return token ? (
 		<Navigate
-			to="/tasks"
+			to={'/tasks'}
 			state={{ from: location }}
 			replace
 		/>
@@ -70,15 +62,16 @@ export const Login = () => {
 						)
 						.required('This field is required'),
 				})}
+				validateOnBlur={false}
 				onSubmit={(loginData, { resetForm }) => handleSubmit(loginData, resetForm)}>
-				<Form className={styles.login__form}>
+				<Form className={styles.form}>
 					<Input
 						label="Username"
 						name="username"
 						type="text"
 						placeholder="John Doe"
 						autoComplete="on"
-						focusOnPageLoad
+						focusOnComponentLoad
 					/>
 					<Input
 						label="Password"
@@ -86,7 +79,7 @@ export const Login = () => {
 						type="password"
 					/>
 					<button
-						className={`${styles.login__submit} ${common.button} ${common.button_deepSpaceSparkle}`}
+						className={`${styles.submit} ${common.button} ${common.button_deepSpaceSparkle}`}
 						type="submit">
 						Log in
 					</button>
@@ -94,10 +87,10 @@ export const Login = () => {
 			</Formik>
 			{isLoading && <Spinner />}
 			{error && 'status' in error && error.status === 401 ? (
-				<ErrorMessage message="Username and password don't match" />
-			) : error && ('status' && 'error') in error ? (
-				<ErrorMessage message={JSON.stringify(error.data)} />
-			) : null}
+				<ErrorMessage message="Username and password don't match." />
+			) : (
+				isError && <ErrorMessage />
+			)}
 		</section>
 	);
 };

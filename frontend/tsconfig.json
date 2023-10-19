@@ -17,10 +17,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"@components/*": ["src/app/common/components/*"],
-			"@common/*": ["src/app/common/*"],
+			"@styles/*": ["src/app/common/styles/*"],
 			"@hooks/*": ["src/app/common/hooks/*"],
 			"@redux/*": ["src/app/redux/*"],
-			"@styles/*": ["src/app/styles/*"],
 			"@types": ["src/app/common/types.ts"],
 		}
 	},
