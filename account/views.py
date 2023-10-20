@@ -126,7 +126,7 @@ class UpdatePasswordView(APIView):
         if new_password is None:
             return Response({"new_password": ["New password is null."]}, status=status.HTTP_400_BAD_REQUEST)
         if not user.check_password(old_password):
-            return Response({"old_password": [request.data.get("new_password")], }, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"old_password": ["Incorrect password"], }, status=status.HTTP_400_BAD_REQUEST)
         
         user.password = make_password(new_password)
         user.save()
