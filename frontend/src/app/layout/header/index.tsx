@@ -42,7 +42,6 @@ export const Header = () => {
 			<Link
 				to={'/'}
 				className={styles.logo}>
-				{/* возможно, можно вынести все svg-изображения в отдельный спрайт */}
 				<svg
 					viewBox="0 0 400 400.00001"
 					version="1.1">
@@ -83,6 +82,8 @@ export const Header = () => {
 					<img
 						className={styles.userImg}
 						src={UserImg}
+						// src={user?.img}
+						// src="http://127.0.0.1:8000/api/user.png"
 						alt="Profile Picture"
 					/>
 				</Link>

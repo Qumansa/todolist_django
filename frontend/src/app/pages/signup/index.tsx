@@ -17,8 +17,8 @@ import styles from './styles.module.css';
 export const SignUp = () => {
 	const [signUp, { isLoading, isError, error, isSuccess }] = useSignUpMutation();
 
-	const handleSubmit = ({ username, password, image }: User, resetForm: () => void) => {
-		signUp({ username, password, image })
+	const handleSubmit = ({ username, password, img }: User, resetForm: () => void) => {
+		signUp({ username, password, img })
 			.unwrap()
 			.then(() => {
 				resetForm();
@@ -34,7 +34,7 @@ export const SignUp = () => {
 						username: '',
 						password: '',
 						confirmPassword: '',
-						image: '',
+						img: '',
 					}}
 					validationSchema={Yup.object().shape({
 						username: Yup.string()

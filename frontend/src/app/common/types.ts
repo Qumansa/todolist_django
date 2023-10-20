@@ -14,7 +14,8 @@ export interface IToDoItem {
 export interface User {
     username: string;
     password: string;
-    image?: File | string | null;
+    img?: File | string | null;
+    // img?: string;
 }
 
 export interface File {
@@ -53,4 +54,13 @@ export interface UpdateToDoItemResponse {
 
 export interface DeleteToDoItemResponse {
     data: null;
+}
+
+export interface ChangePasswordData {
+    old_password: User["password"];
+    new_password: User["password"];
+};
+
+export interface ChangePasswordResponse {
+    message: string;
 }
