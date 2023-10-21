@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.2', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -228,3 +228,6 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'account.Account'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
