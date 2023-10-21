@@ -14,7 +14,7 @@ export interface IToDoItem {
 export interface User {
     username: string;
     password: string;
-    img?: File | string | null;
+    img?: File | string | null | any;
     // img?: string;
 }
 

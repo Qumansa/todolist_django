@@ -37,6 +37,8 @@ export const Header = () => {
 		refetchToDoList();
 	}, [token]);
 
+	console.log(user);
+
 	return (
 		<header className={`${common.container} ${styles.container} `}>
 			<Link

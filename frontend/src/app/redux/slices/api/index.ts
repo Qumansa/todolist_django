@@ -70,7 +70,8 @@ export const apiSlice = createApi({
 	baseQuery: baseQueryWithReauth,
 	tagTypes: ['User', 'Todos'],
 	endpoints: (builder) => ({
-		signUp: builder.mutation<SignUpResponse, User>({
+		// поменять типизацию
+		signUp: builder.mutation<SignUpResponse, any>({
 			query: (data) => ({
 				url: '/auth/register/',
 				method: 'POST',
