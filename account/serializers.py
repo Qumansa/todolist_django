@@ -5,8 +5,7 @@ from django.contrib.auth import get_user_model
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("username", "password")
-        optional_fields = ('img')
+        fields = ("username", "password", "img")
         extra_kwargs = {
             "password": {"write_only": True},
         }
