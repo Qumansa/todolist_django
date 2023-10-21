@@ -4,7 +4,7 @@ import { Mutex } from 'async-mutex';
 
 import { removeToken, setToken } from '../auth';
 
-import { CreateToDoItemResponse, DeleteToDoItemResponse, IToDoItem, LogInData, LogInResponse, LogOutResponse, SignUpResponse, UpdateToDoItemResponse, User } from '@types';
+import { ChangePasswordData, ChangePasswordResponse, CreateToDoItemResponse, DeleteToDoItemResponse, IToDoItem, LogInData, LogInResponse, LogOutResponse, SignUpResponse, UpdateToDoItemResponse, User } from '@types';
 import type { RootState } from '../..';
 
 const mutex = new Mutex();
@@ -97,11 +97,10 @@ export const apiSlice = createApi({
 			}),
 			providesTags: ['User'],
 		}),
-		// добавить типизацию
-		changeUserPassword: builder.mutation({
+		changeUserPassword: builder.mutation<ChangePasswordResponse, ChangePasswordData>({
 			query: (data) => ({
-				url: '/changepassword/',
-				method: 'POST',
+				url: '/auth/update-password/',
+				method: 'PUT',
 				body: data
 			}),
 		}),

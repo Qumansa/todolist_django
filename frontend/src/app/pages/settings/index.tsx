@@ -18,8 +18,7 @@ import { Input } from '@components/input';
 import { InputFile } from '@components/inputFile';
 import { Spinner } from '@components/spinner';
 
-import { File, Timer } from '@types';
-import { PasswordData } from './types';
+import { ChangePasswordData, File, Timer } from '@types';
 
 import common from '@styles/common.module.css';
 import styles from './styles.module.css';
@@ -46,14 +45,10 @@ export const Settings = () => {
 	const timerRef = useRef<Timer>(null);
 	const dispatch = useAppDispatch();
 
-	// выбрать один вариант, как делать запросы на сервер и обрабатывать ошибки, и применять только его
-	// 1) .unwrap.then.catch.finally
-	// 2) async...await, 'error' in result
-	// 3) error, isError, isSuccess
-	const handleChangePassword = ({ password }: PasswordData, resetForm: () => void) => {
+	const handleChangePassword = ({ old_password, new_password }: ChangePasswordData, resetForm: () => void) => {
 		if (isVisible) return;
 
-		changeUserPassword(password)
+		changeUserPassword({ old_password, new_password })
 			.unwrap()
 			.then(() => {
 				resetForm();
@@ -134,43 +129,45 @@ export const Settings = () => {
 				{passwordBeingEdited && (
 					<Formik
 						initialValues={{
-							password: '',
-							newPassword: '',
-							confirmNewPassword: '',
+							old_password: '',
+							new_password: '',
+							confirm_new_password: '',
 						}}
 						validationSchema={Yup.object().shape({
-							password: Yup.string()
+							old_password: Yup.string()
 								.matches(
 									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
 									'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
 								)
 								.required('This field is required'),
-							newPassword: Yup.string()
+							new_password: Yup.string()
 								.matches(
 									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
 									'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
 								)
 								.required('This field is required'),
-							confirmNewPassword: Yup.string()
-								.oneOf([Yup.ref('password')], 'Passwords must match')
+							confirm_new_password: Yup.string()
+								.oneOf([Yup.ref('new_password')], 'Passwords must match')
 								.required('This field is required'),
 						})}
 						validateOnBlur={false}
-						onSubmit={(passwordData, { resetForm }) => handleChangePassword(passwordData, resetForm)}>
+						onSubmit={(changePasswordData, { resetForm }) =>
+							handleChangePassword(changePasswordData, resetForm)
+						}>
 						<Form className={styles.form}>
 							<Input
 								label="Current password"
-								name="password"
+								name="old_password"
 								type="password"
 							/>
 							<Input
 								label="New password"
-								name="newPassword"
+								name="new_password"
 								type="password"
 							/>
 							<Input
 								label="Confirm password"
-								name="confirmNewPassword"
+								name="confirm_new_password"
 								type="password"
 							/>
 							<div className={styles.buttonsWrapper}>
@@ -189,22 +186,15 @@ export const Settings = () => {
 					</Formik>
 				)}
 				{isLoadingChangePassword && <Spinner withModifier="spinner_extrasmall" />}
-				{/* проверить работоспособность */}
-				{isVisible ? (
-					errorChangePassword && 'status' in errorChangePassword && errorChangePassword.status === 401 ? (
+				{isVisible &&
+					(errorChangePassword && 'status' in errorChangePassword && errorChangePassword.status === 400 ? (
 						<ErrorMessage
-							message="Username and password don't match"
+							message="Username and current password don't match."
 							withClassname={styles.result}
 						/>
 					) : (
-						// errorChangePassword &&
-						// ('status' && 'error') in errorChangePassword &&
-						<ErrorMessage
-							// message={JSON.stringify(errorChangePassword.data)}
-							withClassname={styles.result}
-						/>
-					)
-				) : null}
+						isErrorChangePassword && <ErrorMessage withClassname={styles.result} />
+					))}
 				{isVisible && isSuccessChangePassword && (
 					<p className={styles.result}>Password successfully changed!</p>
 				)}
