@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 
 class RegistrationSerializer(serializers.ModelSerializer):
+    img = serializers.ImageField(max_length=None, use_url=True)
     class Meta:
         model = get_user_model()
         fields = ("username", "password", "img")

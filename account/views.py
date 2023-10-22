@@ -14,6 +14,7 @@ from rest_framework.generics import UpdateAPIView
 from django.contrib.auth import get_user_model
 from .serializers import AccountSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
 
 
 def get_user_tokens(user):

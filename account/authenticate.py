@@ -14,7 +14,7 @@ def enforce_cstf(request):
 class CustomAuthentication(jwt_authenticate.JWTAuthentication):
     def authenticate(self, request):
         header = self.get_header(request)
-        raw_token = request.COOKIE.get(settings.SIMPLE_JWT['AUTH_COOKIE']) or None
+        raw_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE']) or None
 
         if header is None:
             return None

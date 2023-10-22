@@ -24,7 +24,7 @@ class AccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     username = models.CharField(max_length=20, blank=False, null=False, unique=True)
-    img = models.ImageField(upload_to='avatar/')
+    img = models.ImageField(upload_to='Avatar/', default='Avatar/user.png')
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
