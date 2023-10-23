@@ -1,3 +1,5 @@
+import { FormikErrors } from "formik";
+
 export type Timer = number | null;
 export type Token = string;
 export type SearchValue = string;
@@ -14,15 +16,7 @@ export interface IToDoItem {
 export interface User {
     username: string;
     password: string;
-    img?: File | string | null | any;
-    // img?: string;
-}
-
-export interface File {
-    name: string;
-    size: number;
-    type: string;
-    [key: string]: any;
+    img?: File;
 }
 
 export interface InputProps {

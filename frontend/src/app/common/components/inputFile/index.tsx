@@ -7,7 +7,7 @@ import { InputProps } from '@types';
 import common from '@styles/common.module.css';
 
 export const InputFile = ({ label, classNameForInput, optional, ...props }: InputProps) => {
-	const [field, meta, helpers] = useField(props.name);
+	const [field, meta, { setValue }] = useField(props.name);
 
 	return (
 		<label className={common.label}>
@@ -21,7 +21,7 @@ export const InputFile = ({ label, classNameForInput, optional, ...props }: Inpu
 				{...field}
 				type="file"
 				value={undefined}
-				onChange={(e) => helpers.setValue(e.currentTarget.files?.[0])}
+				onChange={(e) => setValue(e.currentTarget.files?.[0])}
 			/>
 			{meta.touched && meta.error && (
 				<ErrorMessage

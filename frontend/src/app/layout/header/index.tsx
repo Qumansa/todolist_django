@@ -37,8 +37,6 @@ export const Header = () => {
 		refetchToDoList();
 	}, [token]);
 
-	console.log(user);
-
 	return (
 		<header className={`${common.container} ${styles.container} `}>
 			<Link
@@ -56,7 +54,7 @@ export const Header = () => {
 			</Link>
 			<div className={styles.user}>
 				{(isLoadingToDoList || isLoadingUser) && <Spinner withModifier="spinner_extrasmall" />}
-				<span className={styles.userName}>{(isSuccessUser && user?.username) || 'Not logged in'},&nbsp;</span>
+				<span className={styles.userName}>{isSuccessUser ? user.username : 'Not logged in'},&nbsp;</span>
 				<div className={styles.tasksWrapper}>
 					<Link
 						to={'/tasks'}
@@ -83,9 +81,7 @@ export const Header = () => {
 					to={'/settings'}>
 					<img
 						className={styles.userImg}
-						src={UserImg}
-						// src={user?.img}
-						// src="http://127.0.0.1:8000/api/user.png"
+						src={isSuccessUser ? `http://127.0.0.1:8000${user.img}` : UserImg}
 						alt="Profile Picture"
 					/>
 				</Link>

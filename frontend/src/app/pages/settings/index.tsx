@@ -18,7 +18,7 @@ import { Input } from '@components/input';
 import { InputFile } from '@components/inputFile';
 import { Spinner } from '@components/spinner';
 
-import { ChangePasswordData, File, Timer } from '@types';
+import { ChangePasswordData, Timer } from '@types';
 
 import common from '@styles/common.module.css';
 import styles from './styles.module.css';

@@ -71,7 +71,7 @@ export const apiSlice = createApi({
 	tagTypes: ['User', 'Todos'],
 	endpoints: (builder) => ({
 		// поменять типизацию
-		signUp: builder.mutation<SignUpResponse, any>({
+		signUp: builder.mutation<SignUpResponse, FormData>({
 			query: (data) => ({
 				url: '/auth/register/',
 				method: 'POST',
@@ -90,7 +90,7 @@ export const apiSlice = createApi({
 			query: () => ({
 				url: '/auth/logout/',
 				method: 'POST',
-			}),
+			})
 		}),
 		getUser: builder.query<User, void>({
 			query: () => ({
