@@ -4,8 +4,9 @@ import { Mutex } from 'async-mutex';
 
 import { removeToken, setToken } from '../auth';
 
-import { ChangePasswordData, ChangePasswordResponse, CreateToDoItemResponse, DeleteToDoItemResponse, IToDoItem, LogInData, LogInResponse, LogOutResponse, SignUpResponse, UpdateToDoItemResponse, User } from '@types';
+import { ChangePasswordData, IToDoItem, LogInData, LogInResponse, User } from '@types';
 import type { RootState } from '../..';
+import { ChangeImageResponse, ChangePasswordResponse, CreateToDoItemResponse, DeleteToDoItemResponse, LogOutResponse, SignUpResponse, UpdateToDoItemResponse } from './types';
 
 const mutex = new Mutex();
 
@@ -70,7 +71,6 @@ export const apiSlice = createApi({
 	baseQuery: baseQueryWithReauth,
 	tagTypes: ['User', 'Todos'],
 	endpoints: (builder) => ({
-		// поменять типизацию
 		signUp: builder.mutation<SignUpResponse, FormData>({
 			query: (data) => ({
 				url: '/auth/register/',
@@ -105,13 +105,13 @@ export const apiSlice = createApi({
 				body: data
 			}),
 		}),
-		// добавить типизацию
-		changeUserImage: builder.mutation({
+		changeUserImage: builder.mutation<ChangeImageResponse, FormData>({
 			query: (data) => ({
-				url: '/changeimage/',
-				method: 'POST',
+				url: '/auth/user-update/',
+				method: 'PATCH',
 				body: data
 			}),
+			invalidatesTags: ['User'],
 		}),
 		getToDoList: builder.query<IToDoItem[], void>({
 			query: () => '/todos/',

@@ -49,13 +49,13 @@ export const SignUp = () => {
 								/^[a-zA-Z][a-zA-Z0-9-_]{2,20}$/,
 								'3 to 20 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.'
 							)
-							.required('This field is required'),
+							.required('This field is required.'),
 						password: Yup.string()
 							.matches(
 								/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
 								'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
 							)
-							.required('This field is required'),
+							.required('This field is required.'),
 						confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
 						img: Yup.mixed<File>()
 							.test(

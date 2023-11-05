@@ -8,7 +8,7 @@ import { selectToken } from '@redux/slices/auth/selectors';
 import { ErrorMessage } from '@components/errorMessage';
 import { Spinner } from '@components/spinner';
 
-import UserImg from './assets/img/mockup-user-picture.jpg';
+import NoAvatarImg from './assets/img/user.png';
 
 import common from '@styles/common.module.css';
 import styles from './styles.module.css';
@@ -81,7 +81,7 @@ export const Header = () => {
 					to={'/settings'}>
 					<img
 						className={styles.userImg}
-						src={isSuccessUser ? `http://127.0.0.1:8000${user.img}` : UserImg}
+						src={isSuccessUser ? `http://127.0.0.1:8000${user.img}` : NoAvatarImg}
 						alt="Profile Picture"
 					/>
 				</Link>

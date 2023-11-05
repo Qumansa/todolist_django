@@ -19,6 +19,7 @@ import { InputFile } from '@components/inputFile';
 import { Spinner } from '@components/spinner';
 
 import { ChangePasswordData, Timer } from '@types';
+import { ChangeImageData } from './types';
 
 import common from '@styles/common.module.css';
 import styles from './styles.module.css';
@@ -58,15 +59,14 @@ export const Settings = () => {
 			});
 	};
 
-	// поменять тип
-	const handleChangeImage = (image: any, resetForm: () => void) => {
+	const handleChangeImage = ({ img }: ChangeImageData) => {
 		if (isVisible) return;
 
-		changeUserImage(image)
+		const formData = new FormData();
+		img && formData.append('img', img);
+
+		changeUserImage(formData)
 			.unwrap()
-			.then(() => {
-				resetForm();
-			})
 			.finally(() => {
 				setIsVisible(true);
 			});
@@ -139,16 +139,16 @@ export const Settings = () => {
 									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
 									'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
 								)
-								.required('This field is required'),
+								.required('This field is required.'),
 							new_password: Yup.string()
 								.matches(
 									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,20}$/,
 									'6 to 20 characters. Must include uppercase and lowercase letters, a number and a special character(!@#$%).'
 								)
-								.required('This field is required'),
+								.required('This field is required.'),
 							confirm_new_password: Yup.string()
 								.oneOf([Yup.ref('new_password')], 'Passwords must match')
-								.required('This field is required'),
+								.required('This field is required.'),
 						})}
 						validateOnBlur={false}
 						onSubmit={(changePasswordData, { resetForm }) =>
@@ -195,37 +195,32 @@ export const Settings = () => {
 					) : (
 						isErrorChangePassword && <ErrorMessage withClassname={styles.result} />
 					))}
-				{isVisible && isSuccessChangePassword && (
-					<p className={styles.result}>Password successfully changed!</p>
-				)}
 
 				{imageBeingEdited && (
 					<Formik
 						initialValues={{
-							image: '',
+							img: null,
 						}}
 						validationSchema={Yup.object().shape({
-							image: Yup.mixed<File>()
+							img: Yup.mixed<File>()
 								.test(
 									'size',
-									'The size of image must be below 1mb',
-									(value) => !value || (value && value.size <= 1024 * 1024)
+									'The size of image must be below 1mb.',
+									(value) => value && value.size <= 1024 * 1024
 								)
 								.test(
 									'format',
-									'Accepted formats are .jpg, .jpeg, .png',
-									(value) =>
-										!value ||
-										(value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
+									'Accepted formats are ".jpg", ".jpeg", ".png".',
+									(value) => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
 								)
-								.required(),
+								.required('This field is required.'),
 						})}
 						validateOnBlur={false}
-						onSubmit={(imageData, { resetForm }) => handleChangeImage(imageData, resetForm)}>
+						onSubmit={(imageData) => handleChangeImage(imageData)}>
 						<Form className={styles.form}>
 							<InputFile
 								label="Profile image"
-								name="image"
+								name="img"
 								classNameForInput={common.input_small}
 							/>
 							<div className={styles.buttonsWrapper}>
@@ -245,8 +240,9 @@ export const Settings = () => {
 				)}
 				{isLoadingChangeImage && <Spinner withModifier="spinner_extrasmall" />}
 				{isVisible && isErrorChangeImage && <ErrorMessage withClassname={styles.result} />}
-				{isVisible && isSuccessChangeImage && (
-					<p className={styles.result}>Profile image successfully changed!</p>
+
+				{isVisible && (isSuccessChangePassword || isSuccessChangeImage) && (
+					<p className={styles.result}>Information successfully changed!</p>
 				)}
 
 				<button
