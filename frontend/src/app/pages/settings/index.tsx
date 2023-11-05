@@ -206,12 +206,14 @@ export const Settings = () => {
 								.test(
 									'size',
 									'The size of image must be below 1mb.',
-									(value) => value && value.size <= 1024 * 1024
+									(value) => !value || (value && value.size <= 1024 * 1024)
 								)
 								.test(
 									'format',
 									'Accepted formats are ".jpg", ".jpeg", ".png".',
-									(value) => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
+									(value) =>
+										!value ||
+										(value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 								)
 								.required('This field is required.'),
 						})}

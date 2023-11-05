@@ -81,7 +81,7 @@ export const Header = () => {
 					to={'/settings'}>
 					<img
 						className={styles.userImg}
-						src={isSuccessUser ? `http://127.0.0.1:8000${user.img}` : NoAvatarImg}
+						src={isSuccessUser ? `${user.img}` : `../..${NoAvatarImg}`}
 						alt="Profile Picture"
 					/>
 				</Link>

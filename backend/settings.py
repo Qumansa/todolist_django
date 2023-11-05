@@ -136,16 +136,18 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type("application/javascript", ".js", True)
 
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000', 'http://localhost:5173']
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.2:5173',
+                        'http://127.0.0.1:8000', 'http://localhost:5173']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.2:5173', 'http://127.0.0.1:8000', 'http://localhost:5173']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.2:5173',
+                        'http://127.0.0.1:8000', 'http://localhost:5173']
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SAMESITE = "Strict"
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SAMESITE = "Strict"
 SESSION_COOKIE_PATH = '/;HttpOnly'
 
 REST_FRAMEWORK = {
@@ -157,7 +159,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'account.authenticate.CustomAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES':[
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
     ],
 }

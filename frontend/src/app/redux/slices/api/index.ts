@@ -11,8 +11,8 @@ import { ChangeImageResponse, ChangePasswordResponse, CreateToDoItemResponse, De
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: 'http://127.0.0.1:8000/api/',
-	// baseUrl: 'api/',
+	// baseUrl: 'http://127.0.0.1:8000/api/',
+	baseUrl: 'api/',
 	credentials: 'include', // при любом запросе к апи, если у нас уже есть http-only cookie, в которых хранится refresh-token, то отправляем его на сервер,
 	prepareHeaders(headers, { getState }) { // при любом запросе к апи отправляем токен (скорее всего access-токен), если он есть
 		const token = (getState() as RootState).auth.token;
