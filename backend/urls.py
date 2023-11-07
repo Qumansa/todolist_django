@@ -11,5 +11,5 @@ urlpatterns = [
     path('api/todos/', include('main.urls')),
     path('api/auth/', include('account.urls')),
     path('', TemplateView.as_view(template_name='index.html')),
-    re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html'))
+    re_path('(^(?!(media)).*$)', TemplateView.as_view(template_name='index.html'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

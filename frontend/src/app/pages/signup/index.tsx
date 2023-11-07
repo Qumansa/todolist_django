@@ -2,9 +2,7 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useAppSelector } from '@redux/hooks';
 import { useSignUpMutation } from '@redux/slices/api';
-import { selectToken } from '@redux/slices/auth/selectors';
 
 import { ErrorMessage } from '@components/errorMessage';
 import { Input } from '@components/input';
