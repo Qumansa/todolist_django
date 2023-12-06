@@ -19,7 +19,6 @@ import styles from './styles.module.css';
 export const Login = () => {
 	const dispatch = useAppDispatch();
 	const token = useAppSelector(selectToken);
-	const navigate = useNavigate();
 	const location = useLocation();
 	const [logIn, { isError, error, isLoading }] = useLogInMutation();
 
@@ -29,10 +28,8 @@ export const Login = () => {
 			.then((result: LogInResponse) => {
 				dispatch(setToken(result.access_token));
 				resetForm();
-				// navigate('/tasks', { replace: true });
 			});
 	};
-	// location.state?.from?.pathname ? location.state.from.pathname : '/tasks'
 
 	return token ? (
 		<Navigate

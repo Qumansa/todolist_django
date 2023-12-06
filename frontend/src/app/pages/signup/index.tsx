@@ -42,7 +42,6 @@ export const SignUp = () => {
 					}}
 					validationSchema={Yup.object().shape({
 						username: Yup.string()
-							// Посмотреть в библиотеке Yup, если возможно сделать подсказки для того, что нужно вводить в input
 							.matches(
 								/^[a-zA-Z][a-zA-Z0-9-_]{2,20}$/,
 								'3 to 20 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.'

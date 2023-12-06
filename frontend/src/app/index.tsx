@@ -1,10 +1,4 @@
-import {
-	createBrowserRouter,
-	createHashRouter,
-	createRoutesFromElements,
-	Route,
-	RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 import { Layout } from './layout';
 import { Home, Login, Page404, Settings, SignUp, Tasks } from './pages';
